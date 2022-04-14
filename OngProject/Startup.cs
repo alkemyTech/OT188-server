@@ -13,6 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
+using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 
 namespace OngProject
 {
@@ -30,6 +34,15 @@ namespace OngProject
         {
             services.AddDbContext<OngProjectDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            
+            //Service
+            services.AddTransient<IOrganizationsBusiness, OrganizationsBusiness>();
+            
+            
+            //Repository
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            
+            //Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
