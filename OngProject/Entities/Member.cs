@@ -6,7 +6,6 @@ namespace OngProject.Entities
 {
     public class Member 
     {
-        public int Id { get; set; }
         [Required]
         [MaxLength(255)]
         public int Name { get; set; }
