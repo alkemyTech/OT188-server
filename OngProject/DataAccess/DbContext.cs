@@ -22,5 +22,6 @@ namespace OngProject.DataAccess
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Activity> Activity { get; set; }
         public DbSet<Contact> Contact { get; set; }
+        public DbSet<Slide> Slides { get; set; }
     }
 }
