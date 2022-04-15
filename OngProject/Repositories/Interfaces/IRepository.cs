@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OngProject.Entities;
 
 namespace OngProject.Repositories.Interfaces
 {
     public interface IRepository<T> where T : EntityBase
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(bool listEntity);
 
         Task<T> GetById(int id);
         

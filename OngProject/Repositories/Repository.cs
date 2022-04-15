@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OngProject.DataAccess;
+using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Repositories
@@ -19,42 +20,52 @@ namespace OngProject.Repositories
             _entities = context.Set<T>();
         }
         
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(bool listEntity)
         {
-            return await _entities.ToListAsync();
+            if (!listEntity)
+            {
+                return await _entities.Where(x => x.IsDeleted == true).ToListAsync();
+            }
+            
+            return await _entities.Where(x => x.IsDeleted == false).ToListAsync();
         }
 
         public async Task<T> GetById(int id)
         {
-            return await _entities.FindAsync(id);
+            var entity = await _entities.FindAsync(id);
+            
+            return entity.IsDeleted == false ? entity : null;
         }
 
         public async Task<T> GetById(int id, string include)
         {
-            return await _entities
+            var entity = await _entities
                 .Include(include)
                 .SingleOrDefaultAsync(x => x.Id == id);
+
+            return entity.IsDeleted == false ? entity : null;
         }
 
         public async Task<T> Add(T entity)
         {
             _entities.Add(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
         public async Task Update(T entity)
         {
             _entities.Update(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
             var entity = await GetById(id);
-            _entities.Remove(entity);
-            await _context.SaveChangesAsync();
+
+            if (entity != null)
+            {
+                entity.IsDeleted = true;
+                _entities.Update(entity);
+            }
         }
-    }
     }
 }
