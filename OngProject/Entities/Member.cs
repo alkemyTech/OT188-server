@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Entities
 {
-    public class Member 
+    public class Member : EntityBase
     {
         [Required]
         [MaxLength(255)]
