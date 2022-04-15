@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Models;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,9 @@ namespace OngProject.DataAccess
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<Organizations> Organizations { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<Activity> Activity { get; set; }
+        public DbSet<Contact> Contact { get; set; }
     }
 }

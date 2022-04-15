@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OngProject.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models
 {
-    public class Activity
+    public class Activity:EntityBase
     {
         [Required]
         public string Name { get; set; }

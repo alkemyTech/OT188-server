@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OngProject.DataAccess;
+using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +37,10 @@ namespace OngProject
             services.AddDbContext<OngProjectDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             
-            //Service
-            services.AddTransient<IOrganizationsBusiness, OrganizationsBusiness>();
-            
-            
-            //Repository
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             
-            //Swagger
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+          
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
