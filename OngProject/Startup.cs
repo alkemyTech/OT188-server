@@ -38,11 +38,7 @@ namespace OngProject
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
-            
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<UserDbContext>()
-                .AddDefaultTokenProviders();
-
+                        
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -59,8 +55,8 @@ namespace OngProject
                         ValidateAudience = true,
                         ValidIssuer = "https://localhost:5001",
                         ValidAudience = "https://localhost:5001",
-                        IssuerSigningKey = 
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperAuthorizationKey"))
+                        IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:DevelopmentJwtApiKey").Value))
                     };
                 });
         }
@@ -78,6 +74,8 @@ namespace OngProject
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
