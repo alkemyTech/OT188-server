@@ -45,6 +45,7 @@ namespace OngProject
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
           
+            services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
