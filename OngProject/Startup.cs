@@ -44,6 +44,7 @@ namespace OngProject
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IOrganizationsBusiness, OrganizationsBusiness>();
           
             services.AddSwaggerGen(c =>
             {
