@@ -47,17 +47,13 @@ namespace OngProject
 
             //Business
             services.AddScoped<IActivitiesService, ActivitiesService>();
-            
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IMembersService, MembersService>();
             services.AddScoped<IOrganizationsBusiness, OrganizationsBusiness>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<ITestimonialsService, TestimonialService>();
-
-
             services.AddScoped<IRolesBusiness, RolesBusiness>();
-            services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
+            services.AddScoped<IUsersBusiness, UsersBusiness>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
