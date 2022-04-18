@@ -51,8 +51,10 @@ namespace OngProject
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IMembersService, MembersService>();
             services.AddScoped<IOrganizationsBusiness, OrganizationsBusiness>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<ITestimonialsService, TestimonialService>();
 
-          
+
             services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddSwaggerGen(c =>
             {
