@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Entities
 {
-    public class Organizations : EntityBase
+    public class Organization : EntityBase
     {
         [Required]
         [DataType(DataType.Text)]

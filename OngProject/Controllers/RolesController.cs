@@ -45,7 +45,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] Organizations entity)
+        public async Task<ActionResult> Post([FromForm] Organization entity)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromForm] Organizations entity, int id)
+        public async Task<IActionResult> Put([FromForm] Organization entity, int id)
         {
             try
             {

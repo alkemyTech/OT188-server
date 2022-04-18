@@ -7,13 +7,13 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ActivityController : ControllerBase
+    public class MembersController : ControllerBase
     {
-        private readonly IActivitiesService _activitiesService;
+        private readonly IMembersBusiness _membersService;
 
-        public ActivityController(IActivitiesService activitiesService)
+        public MembersController(IMembersBusiness membersService)
         {
-            _activitiesService = activitiesService;
+            _membersService = membersService;
         }
 
         [HttpGet]

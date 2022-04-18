@@ -6,10 +6,10 @@ namespace OngProject.Core.Interfaces
 {
     public interface IRolesBusiness
     {
-        Task<IEnumerable<Roles>> GetRoles(bool listEntity);
-        Task<Roles> GetRol(int id);
-        Task<Roles> InsertRol(Roles entity);
-        Task UpdateRol(int id, Roles entity);
+        Task<IEnumerable<Rol>> GetRoles(bool listEntity);
+        Task<Rol> GetRol(int id);
+        Task<Rol> InsertRol(Rol entity);
+        Task UpdateRol(int id, Rol entity);
         Task DeleteRol(int id);
     }
 }

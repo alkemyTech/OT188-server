@@ -17,22 +17,22 @@ namespace OngProject.Core.Business
         }
 
 
-        public Task<IEnumerable<Organizations>> GetOrganizations(bool listEntity)
+        public Task<IEnumerable<Organization>> GetOrganizations(bool listEntity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Organizations> GetOrganization(int id)
+        public Task<Organization> GetOrganization(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Organizations> InsertOrganization(Organizations entity)
+        public Task<Organization> InsertOrganization(Organization entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateOrganization(int id, Organizations entity)
+        public Task UpdateOrganization(int id, Organization entity)
         {
             throw new NotImplementedException();
         }
