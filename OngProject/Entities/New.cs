@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OngProject.Entities
@@ -16,5 +17,7 @@ namespace OngProject.Entities
         public string Image { get; set; }
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }
