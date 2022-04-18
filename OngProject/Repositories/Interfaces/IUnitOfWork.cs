@@ -1,6 +1,4 @@
-﻿using OngProject.Core.Models;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using OngProject.Entities;
 
 namespace OngProject.Repositories.Interfaces
@@ -8,9 +6,8 @@ namespace OngProject.Repositories.Interfaces
     public interface IUnitOfWork
     {
         IRepository<Organizations> OrganizationsRepository { get; }
-
-   // {       
         IRepository<Roles> RolesRepository { get; }
+        IRepository<User> UserRepository { get; }
 
         void SaveChanges();
 

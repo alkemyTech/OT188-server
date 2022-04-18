@@ -12,7 +12,7 @@ namespace OngProject.Repositories
         private readonly OngProjectDbContext _context;
         private readonly IRepository<Organizations> _organizationsRepository;
         private readonly IRepository<Roles> _rolesRepository;
-
+        private readonly IRepository<User> _usersRepository;
         private readonly IRepository<Comment> _commentsRepository;
         private readonly IRepository<Testimonio> _testimonialsRepository;
 
@@ -25,15 +25,11 @@ namespace OngProject.Repositories
 
         public IRepository<Organizations> OrganizationsRepository =>
             _organizationsRepository ?? new Repository<Organizations>(_context);
-
         public IRepository<Roles> RolesRepository => _rolesRepository ?? new Repository<Roles>(_context);
-
+        public IRepository<User> UserRepository => _usersRepository ?? new Repository<User>(_context);
         public IRepository<Testimonio> TestimonialsRepository => _testimonialsRepository ?? new Repository<Testimonio>(_context);
-
         private IRepository<Comment> _commentRepository => _commentsRepository ?? new Repository<Comment>(_context);
-
-
-
+        
         public void SaveChanges()
         {
             _context.SaveChanges();
