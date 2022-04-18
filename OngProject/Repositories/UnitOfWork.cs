@@ -3,12 +3,15 @@ using OngProject.Core.Models;
 using OngProject.DataAccess;
 using System.Threading.Tasks;
 using System;
+using OngProject.Entities;
 
 namespace OngProject.Repositories
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly OngProjectDbContext _context;
+        private readonly IRepository<Organizations> _organizationsRepository;
+        private readonly IRepository<Roles> _rolesRepository;
 
         private bool disposed = false;
 
@@ -16,6 +19,12 @@ namespace OngProject.Repositories
         {
             _context = context;
         }
+
+        public IRepository<Organizations> OrganizationsRepository =>
+            _organizationsRepository ?? new Repository<Organizations>(_context);
+
+        public IRepository<Roles> RolesRepository => _rolesRepository ?? new Repository<Roles>(_context);
+
 
         public void SaveChanges()
         {
