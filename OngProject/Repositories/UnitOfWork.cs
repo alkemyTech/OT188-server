@@ -15,6 +15,7 @@ namespace OngProject.Repositories
         private readonly IRepository<User> _usersRepository;
         private readonly IRepository<Comment> _commentsRepository;
         private readonly IRepository<Testimonio> _testimonialsRepository;
+        private readonly IRepository<Slide> _slideRepository;
 
         private bool disposed = false;
 
@@ -29,6 +30,7 @@ namespace OngProject.Repositories
         public IRepository<User> UserRepository => _usersRepository ?? new Repository<User>(_context);
         public IRepository<Testimonio> TestimonialsRepository => _testimonialsRepository ?? new Repository<Testimonio>(_context);
         private IRepository<Comment> _commentRepository => _commentsRepository ?? new Repository<Comment>(_context);
+        public IRepository<Slide> SlideRepository  => _slideRepository ?? new Repository<Slide>(_context);
         
         public void SaveChanges()
         {

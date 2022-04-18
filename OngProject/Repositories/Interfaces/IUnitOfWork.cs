@@ -8,6 +8,7 @@ namespace OngProject.Repositories.Interfaces
         IRepository<Organizations> OrganizationsRepository { get; }
         IRepository<Roles> RolesRepository { get; }
         IRepository<User> UserRepository { get; }
+        IRepository<Slide> SlideRepository { get; }
 
         void SaveChanges();
 
