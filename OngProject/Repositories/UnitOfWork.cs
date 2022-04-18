@@ -11,6 +11,7 @@ namespace OngProject.Repositories
     {
         private readonly OngProjectDbContext _context;
         private readonly IRepository<Organizations> _organizationsRepository;
+        private readonly IRepository<Roles> _rolesRepository;
 
         private bool disposed = false;
 
@@ -21,6 +22,9 @@ namespace OngProject.Repositories
 
         public IRepository<Organizations> OrganizationsRepository =>
             _organizationsRepository ?? new Repository<Organizations>(_context);
+
+        public IRepository<Roles> RolesRepository => _rolesRepository ?? new Repository<Roles>(_context);
+
 
         public void SaveChanges()
         {
