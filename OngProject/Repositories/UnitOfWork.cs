@@ -13,6 +13,9 @@ namespace OngProject.Repositories
         private readonly IRepository<Organizations> _organizationsRepository;
         private readonly IRepository<Roles> _rolesRepository;
 
+        private readonly IRepository<Comment> _commentsRepository;
+        private readonly IRepository<Testimonio> _testimonialsRepository;
+
         private bool disposed = false;
 
         public UnitOfWork(OngProjectDbContext context)
@@ -24,6 +27,11 @@ namespace OngProject.Repositories
             _organizationsRepository ?? new Repository<Organizations>(_context);
 
         public IRepository<Roles> RolesRepository => _rolesRepository ?? new Repository<Roles>(_context);
+
+        public IRepository<Testimonio> TestimonialsRepository => _testimonialsRepository ?? new Repository<Testimonio>(_context);
+
+        private IRepository<Comment> _commentRepository => _commentsRepository ?? new Repository<Comment>(_context);
+
 
 
         public void SaveChanges()

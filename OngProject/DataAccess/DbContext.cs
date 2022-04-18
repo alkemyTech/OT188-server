@@ -28,5 +28,7 @@ namespace OngProject.DataAccess
 
         public DbSet<Testimonio> Testimonials { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+
     }
 }
