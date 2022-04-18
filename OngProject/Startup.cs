@@ -45,11 +45,11 @@ namespace OngProject
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             //Business
-            services.AddScoped<IActivitiesService, ActivitiesService>();
-            services.AddScoped<IMembersService, MembersService>();
+            services.AddScoped<IActivitiesBusiness, ActivitiesBusiness>();
+            services.AddScoped<IMembersBusiness, MembersBusiness>();
             services.AddScoped<IOrganizationsBusiness, OrganizationsBusiness>();
-            services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<ITestimonialsService, TestimonialService>();
+            services.AddScoped<ICommentsBusiness, CommentsBusiness>();
+            services.AddScoped<ITestimonialsBusiness, TestimonialsBusiness>();
             services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddScoped<IUsersBusiness, UsersBusiness>();
             

@@ -5,9 +5,14 @@ namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<Organizations> OrganizationsRepository { get; }
-        IRepository<Roles> RolesRepository { get; }
+        IRepository<Organization> OrganizationsRepository { get; }
+        IRepository<Rol> RolRepository { get; }
         IRepository<User> UserRepository { get; }
+        IRepository<Slide> SlideRepository { get; }
+        IRepository<Activity> ActivityRepository { get; }
+        IRepository<Testimony> TestimonyRepository { get; }
+        IRepository<Member> MemberRepository { get; }
+        IRepository<Comment> CommentRepository { get; }
 
         void SaveChanges();
 
