@@ -16,5 +16,8 @@ namespace OngProject.Entities
         [Required]
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
+
+         [Required]
+        public DateTime DeletedAt { get; set; }
     }
 }

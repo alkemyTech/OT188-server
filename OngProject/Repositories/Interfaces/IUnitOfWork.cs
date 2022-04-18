@@ -9,7 +9,7 @@ namespace OngProject.Repositories.Interfaces
     {
         IRepository<Organizations> OrganizationsRepository { get; }
 
-    {       
+   // {       
         IRepository<Roles> RolesRepository { get; }
 
         void SaveChanges();
