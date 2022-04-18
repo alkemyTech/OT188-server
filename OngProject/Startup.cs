@@ -53,6 +53,7 @@ namespace OngProject
             services.AddScoped<ITestimonialsService, TestimonialService>();
             services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddScoped<IUsersBusiness, UsersBusiness>();
+            services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
             
             services.AddSwaggerGen(c =>
             {
