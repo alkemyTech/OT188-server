@@ -23,6 +23,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Helper;
 
 namespace OngProject
 {
@@ -56,6 +57,7 @@ namespace OngProject
 
 
             services.AddScoped<IRolesBusiness, RolesBusiness>();
+            services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
