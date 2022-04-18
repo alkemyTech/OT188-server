@@ -40,12 +40,18 @@ namespace OngProject
         {
             services.AddDbContext<OngProjectDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
-            
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            //Business
+            services.AddScoped<IActivitiesService, ActivitiesService>();
             
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IMembersService, MembersService>();
             services.AddScoped<IOrganizationsBusiness, OrganizationsBusiness>();
+
           
             services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddSwaggerGen(c =>
