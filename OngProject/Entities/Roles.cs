@@ -13,6 +13,6 @@ namespace OngProject.Entities
         public string Name { get; set; }
         [StringLength(255)]
         public string? Description { get; set; }
-
+        public ICollection<User> Users { get; set; }
     }
 }
