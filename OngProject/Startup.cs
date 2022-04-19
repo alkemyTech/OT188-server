@@ -23,6 +23,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Helper;
 
 namespace OngProject
 {
@@ -52,6 +53,7 @@ namespace OngProject
             services.AddScoped<ITestimonialsService, TestimonialService>();
             services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddScoped<IUsersBusiness, UsersBusiness>();
+            services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
             
             services.AddSwaggerGen(c =>
             {
