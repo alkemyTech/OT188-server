@@ -1,20 +1,22 @@
 ﻿using OngProject.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace OngProject.Core.Models
+namespace OngProject.Entities
 {
     public class Contact:EntityBase
     {
         [Required]
-        [StringLength(255)]
+        [MaxLength(255)]
         public string Name { get; set; }
 
         [Required]
         [Phone]
+        [MaxLength(20)]
         public int Phone { get; set; }
 
         [Required]
         [EmailAddress]
+        [MaxLength(320)]
         public string Email { get; set; }
 
         [Required]
