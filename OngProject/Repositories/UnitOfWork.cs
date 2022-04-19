@@ -10,11 +10,14 @@ namespace OngProject.Repositories
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly OngProjectDbContext _context;
-        private readonly IRepository<Organizations> _organizationsRepository;
-        private readonly IRepository<Roles> _rolesRepository;
+        private readonly IRepository<Organization> _organizationsRepository;
+        private readonly IRepository<Rol> _rolRepository;
         private readonly IRepository<User> _usersRepository;
         private readonly IRepository<Comment> _commentsRepository;
-        private readonly IRepository<Testimonio> _testimonialsRepository;
+        private readonly IRepository<Testimony> _testimonialsRepository;
+        private readonly IRepository<Slide> _slideRepository;
+        private readonly IRepository<Activity> _activityRepository;
+        private readonly IRepository<Member> _memberRepository;
 
         private bool disposed = false;
 
@@ -23,12 +26,15 @@ namespace OngProject.Repositories
             _context = context;
         }
 
-        public IRepository<Organizations> OrganizationsRepository =>
-            _organizationsRepository ?? new Repository<Organizations>(_context);
-        public IRepository<Roles> RolesRepository => _rolesRepository ?? new Repository<Roles>(_context);
+        public IRepository<Organization> OrganizationsRepository =>
+            _organizationsRepository ?? new Repository<Organization>(_context);
+        public IRepository<Rol> RolRepository => _rolRepository ?? new Repository<Rol>(_context);
         public IRepository<User> UserRepository => _usersRepository ?? new Repository<User>(_context);
-        public IRepository<Testimonio> TestimonialsRepository => _testimonialsRepository ?? new Repository<Testimonio>(_context);
-        private IRepository<Comment> _commentRepository => _commentsRepository ?? new Repository<Comment>(_context);
+        public IRepository<Testimony> TestimonyRepository => _testimonialsRepository ?? new Repository<Testimony>(_context);
+        public IRepository<Comment> CommentRepository => _commentsRepository ?? new Repository<Comment>(_context);
+        public IRepository<Slide> SlideRepository => _slideRepository ?? new Repository<Slide>(_context);
+        public IRepository<Activity> ActivityRepository => _activityRepository ?? new Repository<Activity>(_context);
+        public IRepository<Member> MemberRepository => _memberRepository ?? new Repository<Member>(_context);
         
         public void SaveChanges()
         {

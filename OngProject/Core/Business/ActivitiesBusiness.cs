@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class MembersService : IMembersService
+    public class ActivitiesBusiness : IActivitiesBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public MembersService(IUnitOfWork unitOfWork)
+        public ActivitiesBusiness(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-        }
+            _unitOfWork = unitOfWork;            
+        }         
     }
 }

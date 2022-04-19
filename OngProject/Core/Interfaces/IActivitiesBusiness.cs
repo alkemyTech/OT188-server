@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
-    public interface IMembersService
+    public interface IActivitiesBusiness
     {
 
     }

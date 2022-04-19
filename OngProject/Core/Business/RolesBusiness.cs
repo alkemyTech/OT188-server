@@ -16,22 +16,22 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
         
-        public Task<IEnumerable<Roles>> GetRoles(bool listEntity)
+        public Task<IEnumerable<Rol>> GetRoles(bool listEntity)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Roles> GetRol(int id)
+        public Task<Rol> GetRol(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Roles> InsertRol(Roles entity)
+        public Task<Rol> InsertRol(Rol entity)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task UpdateRol(int id, Roles entity)
+        public Task UpdateRol(int id, Rol entity)
         {
             throw new System.NotImplementedException();
         }

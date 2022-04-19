@@ -19,15 +19,13 @@ namespace OngProject.DataAccess
         public DbSet<New> News { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Member> Members { get; set; }
-        public DbSet<Organizations> Organizations { get; set; }
-        public DbSet<Roles> Roles { get; set; }
-        public DbSet<Activity> Activity { get; set; }
-        public DbSet<Contact> Contact { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Slide> Slides { get; set; }
-        public DbSet<User> User { get;set; }
-
-        public DbSet<Testimonio> Testimonials { get; set; }
-
+        public DbSet<User> Users { get;set; }
+        public DbSet<Testimony> Testimonials { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
     }

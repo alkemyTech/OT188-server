@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
-    public interface ICommentService
+    public interface ICommentsBusiness
     {
 
         Task<IEnumerable<Comment>> GetTestimonials(bool listEntity);

@@ -7,10 +7,10 @@ namespace OngProject.Core.Interfaces
     public interface IOrganizationsBusiness
     {
         
-        Task<IEnumerable<Organizations>> GetOrganizations(bool listEntity);
-        Task<Organizations> GetOrganization(int id);
-        Task<Organizations> InsertOrganization(Organizations entity);
-        Task UpdateOrganization(int id, Organizations entity);
+        Task<IEnumerable<Organization>> GetOrganizations(bool listEntity);
+        Task<Organization> GetOrganization(int id);
+        Task<Organization> InsertOrganization(Organization entity);
+        Task UpdateOrganization(int id, Organization entity);
         Task DeleteOrganization(int id);
         
     }

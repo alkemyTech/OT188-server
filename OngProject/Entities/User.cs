@@ -27,8 +27,8 @@ namespace OngProject.Entities
         [StringLength(255)]
         public string? Photo { get; set; }
         [Required]
-        public int RolesId { get; set; }
         [ForeignKey("RolesId")]
-        public Roles Roles { get; set; }
+        public int RolesId { get; set; }
+        public Rol Roles { get; set; }
     }
 }

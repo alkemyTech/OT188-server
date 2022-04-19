@@ -5,29 +5,29 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class TestimonialService : ITestimonialsService
+    public class CommentsBusiness : ICommentsBusiness
     {
-        Task ITestimonialsService.DeleteTestimonial(int id)
+        public Task DeleteTestimonial(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<Testimonio> ITestimonialsService.GetTestimonial(int id)
+        public Task<Comment> GetTestimonial(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<IEnumerable<Testimonio>> ITestimonialsService.GetTestimonials(bool listEntity)
+        public Task<IEnumerable<Comment>> GetTestimonials(bool listEntity)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<Testimonio> ITestimonialsService.InsertTestimonial(Testimonio entity)
+        public Task<Comment> InsertTestimonial(Comment entity)
         {
             throw new System.NotImplementedException();
         }
 
-        Task ITestimonialsService.UpdateTestimonial(int id, Testimonio entity)
+        public Task UpdateTestimonial(int id, Comment entity)
         {
             throw new System.NotImplementedException();
         }

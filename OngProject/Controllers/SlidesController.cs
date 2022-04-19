@@ -7,7 +7,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlideController : ControllerBase
+    public class SlidesController : ControllerBase
     {
         [HttpGet]
         public IActionResult All()

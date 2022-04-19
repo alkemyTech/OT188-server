@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Entities
 {
-    public class Testimonio: EntityBase
+    public class Testimony: EntityBase
     {
         [Required]
         [DataType(DataType.Text)]
