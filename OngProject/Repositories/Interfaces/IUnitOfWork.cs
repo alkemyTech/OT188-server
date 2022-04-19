@@ -13,6 +13,8 @@ namespace OngProject.Repositories.Interfaces
         IRepository<Testimony> TestimonyRepository { get; }
         IRepository<Member> MemberRepository { get; }
         IRepository<Comment> CommentRepository { get; }
+        IRepository<Category> CategoryRepository { get; }
+        IRepository<New> NewRepository { get; }
 
         void SaveChanges();
 
