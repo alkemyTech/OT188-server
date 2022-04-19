@@ -23,6 +23,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
+using Amazon.S3;
 using OngProject.Core.Helper;
 
 namespace OngProject
@@ -53,7 +54,13 @@ namespace OngProject
             services.AddScoped<ITestimonialsService, TestimonialService>();
             services.AddScoped<IRolesBusiness, RolesBusiness>();
             services.AddScoped<IUsersBusiness, UsersBusiness>();
+
+
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
+
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
+
             
             services.AddSwaggerGen(c =>
             {
