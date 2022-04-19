@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace OngProject.Entities
         [StringLength(255)]
         public string? Photo { get; set; }
         [Required]
+        [ForeignKey("RolesId")]
         public int RolesId { get; set; }
         public Rol Roles { get; set; }
     }

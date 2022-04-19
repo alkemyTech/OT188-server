@@ -16,28 +16,27 @@ namespace OngProject.Core.Helper
     public class JwtTokenProvider : IJwtTokenProvider
     {
 
-        private readonly UserManager<User> _userManager;
+        private readonly IRolesBusiness _rolesBusiness;
 
-        public JwtTokenProvider(IConfiguration configuration , UserManager<User> usermanager)
+        public JwtTokenProvider(IConfiguration configuration , IRolesBusiness rolesBusiness)
         {
             Configuration = configuration;
-            _userManager = usermanager;
+            _rolesBusiness = rolesBusiness;
         }
 
         public IConfiguration Configuration { get; }
 
         public async Task<string> CreateJwtToken(User user)
         {
-            var userRoles = await _userManager.GetRolesAsync(user);
+            var userRoles = await _rolesBusiness.GetRol(user.RolesId);
             
             var authClaims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, userRoles.Name) 
             };
-
-            authClaims.AddRange(userRoles.Select(x => new Claim(ClaimTypes.Role, x)));
 
             var authSigningKey = 
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
