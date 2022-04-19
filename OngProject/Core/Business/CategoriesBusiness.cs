@@ -1,41 +1,41 @@
-﻿using OngProject.Core.Interfaces;
-using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OngProject.Core.Interfaces;
+using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Core.Business
 {
-    public class TestimonialsBusiness : ITestimonialsBusiness
+    public class CategoriesBusiness : ICategoriesBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        public TestimonialsBusiness(IUnitOfWork unitOfWork)
+        public CategoriesBusiness(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        
-        Task ITestimonialsBusiness.DeleteTestimonial(int id)
+
+        public Task<IEnumerable<Category>> GetCategories(bool listEntity)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<Testimony> ITestimonialsBusiness.GetTestimonial(int id)
+        public Task<Category> GetCategory(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<IEnumerable<Testimony>> ITestimonialsBusiness.GetTestimonials(bool listEntity)
+        public Task<Category> InsertCategory(Category entity)
         {
             throw new System.NotImplementedException();
         }
 
-        Task<Testimony> ITestimonialsBusiness.InsertTestimonial(Testimony entity)
+        public Task UpdateCategory(int id, Category entity)
         {
             throw new System.NotImplementedException();
         }
 
-        Task ITestimonialsBusiness.UpdateTestimonial(int id, Testimony entity)
+        public Task DeleteCategory(int id)
         {
             throw new System.NotImplementedException();
         }
