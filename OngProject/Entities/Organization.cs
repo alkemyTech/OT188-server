@@ -32,5 +32,14 @@ namespace OngProject.Entities
         [StringLength(2000)]
         [DataType(DataType.MultilineText)]
         public string? AboutUsText { get; set; }
+        [StringLength(255)]
+        [DataType(DataType.Url)]
+        public string? FacebookUrl { get; set; }
+        [StringLength(255)]
+        [DataType(DataType.Url)]
+        public string? InstagramUrl { get; set; }
+        [StringLength(255)]
+        [DataType(DataType.Url)]
+        public string? LinkedinUrl { get; set; }
     }
 }
