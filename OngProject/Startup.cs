@@ -15,6 +15,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using Amazon.S3;
 using OngProject.Core.Helper;
+using OngProject.Core.Mapper;
 
 namespace OngProject
 {
@@ -34,6 +35,7 @@ namespace OngProject
             services.AddControllers();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IEntityMapper, EntityMapper>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             //Business
