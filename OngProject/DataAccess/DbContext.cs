@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Models;
-using OngProject.Core.SeedsData;
+using OngProject.DataAccess.SeedsData;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,8 @@ namespace OngProject.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SeedActivities());
+
+            modelBuilder.ApplyConfiguration(new SeedTestimonials());
         }
 
     }
