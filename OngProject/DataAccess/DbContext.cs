@@ -32,6 +32,7 @@ namespace OngProject.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SeedActivities());
+            modelBuilder.ApplyConfiguration(new SeedNews());
             modelBuilder.ApplyConfiguration(new SeedUsers());
             modelBuilder.ApplyConfiguration(new SeedRol());
             modelBuilder.ApplyConfiguration(new SeedTestimonials());
