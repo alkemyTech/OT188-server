@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
@@ -12,25 +13,29 @@ namespace OngProject.Controllers
     public class OrganizationsController : ControllerBase
     {
         private readonly IOrganizationsBusiness _business;
+        private readonly IEntityMapper _entityMapper;
 
-        public OrganizationsController(IOrganizationsBusiness business)
+        public OrganizationsController(IOrganizationsBusiness business, IEntityMapper entityMapper)
         {
             _business = business;
+            _entityMapper = entityMapper;
         }
 
         [HttpGet]
         [Route("public")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(bool listEntity = false)
         {
             try
             {
-                return Ok();
+                var organizationList = await _business.GetOrganizations(listEntity);
+                var result = _entityMapper.ConvertToOrganizationDTO(organizationList.SingleOrDefault());            
+
+                return Ok(result);
             }
             catch (Exception e)
             {
-                return NoContent();
-            }
-            
+                return StatusCode(500, e.Message);
+            }            
         }
 
         [HttpGet("{id}")]
