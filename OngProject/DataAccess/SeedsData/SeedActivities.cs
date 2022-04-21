@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Entities;
 
-namespace OngProject.Core.SeedsData
+namespace OngProject.DataAccess.SeedsData
+
 {
-    public class SeedActivities : IEntityTypeConfiguration<Activity>
+	public class SeedActivities : IEntityTypeConfiguration<Activity>
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Activity> builder)
         {
