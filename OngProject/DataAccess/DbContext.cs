@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Models;
+using OngProject.Core.SeedsData;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,13 @@ namespace OngProject.DataAccess
 {
     public class OngProjectDbContext : DbContext
     {
-        public OngProjectDbContext() { }
+        readonly ModelBuilder _modelBuilder;
+        public OngProjectDbContext( ModelBuilder modelBuilder) {
+            _modelBuilder=modelBuilder;
+        }
 
         public OngProjectDbContext(DbContextOptions options) : base(options)
-        { 
-
+        {          
         }
         public DbSet<New> News { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -27,5 +30,12 @@ namespace OngProject.DataAccess
         public DbSet<User> Users { get;set; }
         public DbSet<Testimony> Testimonials { get; set; }
         public DbSet<Comment> Comments { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new SeedActivities());
+        }
+
     }
 }

@@ -15,7 +15,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using Amazon.S3;
 using OngProject.Core.Helper;
-using OngProject.Core.Mapper;
+using OngProject.Core.SeedsData;
 
 namespace OngProject
 {
@@ -35,7 +35,6 @@ namespace OngProject
             services.AddControllers();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IEntityMapper, EntityMapper>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             //Business
@@ -57,12 +56,12 @@ namespace OngProject
 
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
-                        
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -107,6 +106,10 @@ namespace OngProject
             {
                 endpoints.MapControllers();
             });
+
+           
+           
+
         }
     }
 }
