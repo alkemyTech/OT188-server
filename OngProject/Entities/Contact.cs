@@ -21,6 +21,6 @@ namespace OngProject.Entities
 
         [Required]
         [StringLength(500)]
-        public string Messege { get; set; }
+        public string Message { get; set; }
     }
 }
