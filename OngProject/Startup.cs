@@ -48,6 +48,9 @@ namespace OngProject
             services.AddScoped<ICategoriesBusiness, CategoriesBusiness>();
             services.AddScoped<INewsBusiness, NewsBusiness>();
 
+            //Email
+            services.AddTransient<IEmailServices, SendgridEmailServices>();
+
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
 
