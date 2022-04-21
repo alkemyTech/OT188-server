@@ -2,10 +2,7 @@
 using OngProject.Core.Models;
 using OngProject.DataAccess.SeedsData;
 using OngProject.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using OngProject.DataAccess.SeedsData;
 
 namespace OngProject.DataAccess
 {
@@ -35,8 +32,10 @@ namespace OngProject.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SeedActivities());
-
+            modelBuilder.ApplyConfiguration(new SeedUsers());
+            modelBuilder.ApplyConfiguration(new SeedRol());
             modelBuilder.ApplyConfiguration(new SeedTestimonials());
+
         }
 
     }
