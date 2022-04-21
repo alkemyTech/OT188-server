@@ -6,6 +6,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface IEntityMapper
     {
-        public Task<OrganizationDTO> ConvertToOrganizationDTO(Organization organization);
+        public OrganizationDTO ConvertToOrganizationDTO(Organization item);
     }
 }
