@@ -104,8 +104,8 @@ namespace OngProject
                 endpoints.MapControllers();
             });
 
-            //ActivitiesDbInitializer.Seed(app);
-            ActivitiesDbInitializer.Seed(app);
+           
+           
 
         }
     }
