@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Models;
+using OngProject.DataAccess.SeedsData;
 using OngProject.Entities;
 using OngProject.DataAccess.SeedsData;
 
@@ -32,6 +34,8 @@ namespace OngProject.DataAccess
             modelBuilder.ApplyConfiguration(new SeedActivities());
             modelBuilder.ApplyConfiguration(new SeedUsers());
             modelBuilder.ApplyConfiguration(new SeedRol());
+            modelBuilder.ApplyConfiguration(new SeedTestimonials());
+
         }
 
     }
