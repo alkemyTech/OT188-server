@@ -18,8 +18,8 @@ namespace OngProject.Controllers
             _slidesBusiness = slidesBusiness;
         }
 
-
-        [HttpGet]
+        
+        [HttpGet("/Slides")]
         public async Task<IActionResult> All()
         {
             try
