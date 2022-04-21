@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -9,12 +11,21 @@ namespace OngProject.Controllers
     [ApiController]
     public class SlidesController : ControllerBase
     {
+
+        private readonly ISlidesBusiness _slidesBusiness;
+        public SlidesController(ISlidesBusiness slidesBusiness)
+        {
+            _slidesBusiness = slidesBusiness;
+        }
+
+
         [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
             try
             {
-                return Ok(new List<Slide>());
+                var listSlides = await _slidesBusiness.GetSlides(true);
+                return Ok(listSlides);
             }
             catch (System.Exception e)
             {
