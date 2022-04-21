@@ -6,7 +6,7 @@ using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("organization")]
     [ApiController]
     
     public class OrganizationsController : ControllerBase
@@ -19,6 +19,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
+        [Route("public")]
         public async Task<IActionResult> GetAll()
         {
             try
