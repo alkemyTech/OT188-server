@@ -23,7 +23,7 @@ namespace OngProject.Controllers
 
         [HttpGet]
         [Route("public")]
-        public async Task<IActionResult> GetAll(bool listEntity = false)
+        public async Task<IActionResult> GetAll(bool listEntity = true)
         {
             try
             {
