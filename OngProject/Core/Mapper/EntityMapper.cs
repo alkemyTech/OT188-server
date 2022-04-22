@@ -15,7 +15,7 @@ namespace OngProject.Core.Mapper
             {
                 ImageUrl = slide.ImageUrl,
                 Order = slide.Order
-           };  
+            };
             return slideDTO;
         }
 
@@ -41,4 +41,5 @@ namespace OngProject.Core.Mapper
             };
             return organizationDTO;
         }
+    }
 }
