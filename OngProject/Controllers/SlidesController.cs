@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -18,7 +19,7 @@ namespace OngProject.Controllers
             _slidesBusiness = slidesBusiness;
         }
 
-        
+        [Authorize(Roles = "Administrator")]
         [HttpGet("/Slides")]
         public async Task<IActionResult> All()
         {
