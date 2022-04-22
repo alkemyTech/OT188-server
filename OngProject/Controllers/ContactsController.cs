@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -10,15 +12,31 @@ namespace OngProject.Controllers
 
     public class ContactsController : ControllerBase
     {
-        public ContactsController()
-        {
+        private readonly IContactsBusiness _contactsBusiness;
 
+        public ContactsController(IContactsBusiness contactsBusiness)
+        {
+            _contactsBusiness = contactsBusiness;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            try
+            {
+                var contactsList = await _contactsBusiness.GetContacts(true);
+
+                if (contactsList == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(contactsList);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [Route("{id}")]
