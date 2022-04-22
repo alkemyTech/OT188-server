@@ -8,7 +8,7 @@ namespace OngProject.Entities
     {
         [Required]
         [MaxLength(255)]
-        public int Name { get; set; }
+        public string Name { get; set; }
         [MaxLength(255)]
         public string FacebookUrl { get; set; }
         [MaxLength(255)]
