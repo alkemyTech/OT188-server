@@ -9,39 +9,26 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper : IEntityMapper
     {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public OrganizationDTO ConvertToOrganizationDTO(Organization item)
+        public SlideDTO SlidetoSlideDTO(Slide slide)
         {
-            var organizationDTO = new OrganizationDTO
+            var slideDTO = new SlideDTO()
             {
-                Name = item.Name,
-                ImageUrl = item.Image,
-                Phone = item.Phone,
-                Address = item.Address
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order
+           };  
+            return slideDTO;
+        }
+
+        public ContactDto ContactToContactDto(Contact contact)
+        {
+            var contactDtoItem = new ContactDto
+            {
+                Name = contact.Name,
+                Email = contact.Email
             };
-            return organizationDTO;
+
+            return contactDtoItem;
+
         }
     }
 }
