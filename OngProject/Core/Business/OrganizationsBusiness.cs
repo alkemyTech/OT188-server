@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
@@ -10,16 +12,27 @@ namespace OngProject.Core.Business
     public class OrganizationsBusiness : IOrganizationsBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEntityMapper _entityMapper;
         
-        public OrganizationsBusiness(IUnitOfWork unitOfWork)
+        public OrganizationsBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
         {
             _unitOfWork = unitOfWork;
+            _entityMapper = entityMapper;
         }
 
 
-        public Task<IEnumerable<Organization>> GetOrganizations(bool listEntity)
+        public async Task<IEnumerable<OrganizationDTO>> GetOrganizations(bool listEntity)
         {
-            throw new NotImplementedException();
+            var organizationsList = await _unitOfWork.OrganizationsRepository.GetAll(listEntity);
+
+            if (organizationsList == null)
+            {
+                return null;
+            }
+            var organizationDTOList = new List<OrganizationDTO>();
+            organizationDTOList.Add(_entityMapper.ConvertToOrganizationDTO(organizationsList.SingleOrDefault()));
+
+            return organizationDTOList;
         }
 
         public Task<Organization> GetOrganization(int id)
