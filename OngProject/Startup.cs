@@ -35,6 +35,7 @@ namespace OngProject
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IEntityMapper, EntityMapper>();
 
             //Business
             services.AddScoped<IActivitiesBusiness, ActivitiesBusiness>();
