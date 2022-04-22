@@ -5,6 +5,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface IEntityMapper
     {
-        
+        public AuthUserDto UserToAuthUserDto(User user, string token);
     }
 }

@@ -15,6 +15,7 @@ namespace OngProject.Repositories.Interfaces
         IRepository<Comment> CommentRepository { get; }
         IRepository<Category> CategoryRepository { get; }
         IRepository<New> NewRepository { get; }
+        IRepositoryAuth RepositoryAuth { get; }
 
         void SaveChanges();
 
