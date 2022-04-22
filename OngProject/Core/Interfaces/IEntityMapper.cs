@@ -8,13 +8,6 @@ namespace OngProject.Core.Interfaces
     {
 
 
-
-
-
-
-
-
-
-        public OrganizationDTO ConvertToOrganizationDTO(Organization item);
+        OrganizationDTO ConvertToOrganizationDTO(Organization item);
     }
 }
