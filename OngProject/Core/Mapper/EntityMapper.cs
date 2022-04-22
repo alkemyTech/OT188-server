@@ -9,6 +9,29 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper : IEntityMapper
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public OrganizationDTO ConvertToOrganizationDTO(Organization item)
         {
             var organizationDTO = new OrganizationDTO

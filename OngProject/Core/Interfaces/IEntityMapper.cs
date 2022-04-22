@@ -6,6 +6,15 @@ namespace OngProject.Core.Interfaces
 {
     public interface IEntityMapper
     {
+
+
+
+
+
+
+
+
+
         public OrganizationDTO ConvertToOrganizationDTO(Organization item);
     }
 }
