@@ -47,6 +47,7 @@ namespace OngProject
             services.AddScoped<IUsersBusiness, UsersBusiness>();
             services.AddScoped<ICategoriesBusiness, CategoriesBusiness>();
             services.AddScoped<INewsBusiness, NewsBusiness>();
+            services.AddScoped<IContactsBusiness, ContactsBusiness>();
 
             //Email
             services.AddTransient<IEmailServices, SendgridEmailServices>();
