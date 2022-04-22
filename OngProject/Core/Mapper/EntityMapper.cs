@@ -10,6 +10,15 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper : IEntityMapper
     {
+        public ContactDto ContactToContactDto(Contact contact)
+        {
+            var contactDtoItem = new ContactDto
+            {
+                Name = contact.Name,
+                Email = contact.Email
+            };
 
+            return contactDtoItem;
+        }
     }
 }
