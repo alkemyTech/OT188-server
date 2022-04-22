@@ -20,7 +20,7 @@ namespace OngProject.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        [HttpGet("/Slides")]
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             try
