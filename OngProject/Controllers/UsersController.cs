@@ -6,7 +6,7 @@ using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -22,11 +22,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                return Ok();
+                var listUser = await _usersBusiness.GetUsers(true);
+                return Ok(listUser);
             }
             catch (Exception e)
             {
-                return NoContent();
+                return StatusCode(500, e.Message);
             }
             
         }

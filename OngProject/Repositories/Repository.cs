@@ -30,6 +30,16 @@ namespace OngProject.Repositories
             return await _entities.Where(x => x.IsDeleted == false).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAll(bool listEntity, string include)
+        {
+            if (!listEntity)
+            {
+                return await _entities.Where(x => x.IsDeleted == true).Include(include).ToListAsync();
+            }
+            
+            return await _entities.Where(x => x.IsDeleted == false).Include(include).ToListAsync();
+        }
+
         public async Task<T> GetById(int id)
         {
             var entity = await _entities.FindAsync(id);

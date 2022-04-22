@@ -9,6 +9,8 @@ namespace OngProject.Repositories.Interfaces
     public interface IRepository<T> where T : EntityBase
     {
         Task<IEnumerable<T>> GetAll(bool listEntity);
+        
+        Task<IEnumerable<T>> GetAll(bool listEntity, string include);
 
         Task<T> GetById(int id);
         
