@@ -6,5 +6,6 @@ namespace OngProject.Core.Interfaces
     public interface IEntityMapper
     {
         SlideDTO SlidetoSlideDTO(Slide slide);
+        ContactDto ContactToContactDto(Contact contact);
     }
 }
