@@ -13,23 +13,23 @@ namespace OngProject.Controllers
     public class OrganizationsController : ControllerBase
     {
         private readonly IOrganizationsBusiness _business;
-        private readonly IEntityMapper _entityMapper;
 
-        public OrganizationsController(IOrganizationsBusiness business, IEntityMapper entityMapper)
+        public OrganizationsController(IOrganizationsBusiness business)
         {
             _business = business;
-            _entityMapper = entityMapper;
         }
 
         [HttpGet]
         [Route("public")]
-        public async Task<IActionResult> GetAll(bool listEntity = true)
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var organizationList = await _business.GetOrganizations(listEntity);
-                var result = _entityMapper.ConvertToOrganizationDTO(organizationList.SingleOrDefault());            
-
+                var result = await _business.GetOrganizations(true);
+                if (result == null)
+                {
+                    return NotFound();
+                }
                 return Ok(result);
             }
             catch (Exception e)
