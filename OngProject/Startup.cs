@@ -15,7 +15,6 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using Amazon.S3;
 using OngProject.Core.Helper;
-using OngProject.Core.SeedsData;
 
 namespace OngProject
 {
@@ -47,6 +46,7 @@ namespace OngProject
             services.AddScoped<IUsersBusiness, UsersBusiness>();
             services.AddScoped<ICategoriesBusiness, CategoriesBusiness>();
             services.AddScoped<INewsBusiness, NewsBusiness>();
+            services.AddScoped<IContactsBusiness, ContactsBusiness>();
 
             //Email
             services.AddTransient<IEmailServices, SendgridEmailServices>();
