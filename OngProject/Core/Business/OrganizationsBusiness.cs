@@ -30,7 +30,7 @@ namespace OngProject.Core.Business
                 return null;
             }
             var organizationDTOList = new List<OrganizationDTO>();
-            organizationDTOList.Add(_entityMapper.ConvertToOrganizationDTO(organizationsList.SingleOrDefault()));
+            organizationDTOList.Add(_entityMapper.OrganizationToOrganizationDTO(organizationsList.SingleOrDefault()));
 
             return organizationDTOList;
         }

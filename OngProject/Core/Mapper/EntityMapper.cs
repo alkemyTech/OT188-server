@@ -30,5 +30,15 @@ namespace OngProject.Core.Mapper
             return contactDtoItem;
 
         }
-    }
+        public OrganizationDTO OrganizationToOrganizationDTO(Organization organization)
+        {
+            var organizationDTO = new OrganizationDTO
+            {
+                Name = organization.Name,
+                ImageUrl = organization.Image,
+                Phone = organization.Phone,
+                Address = organization.Address
+            };
+            return organizationDTO;
+        }
 }
