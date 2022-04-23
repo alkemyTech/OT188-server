@@ -31,5 +31,15 @@ namespace OngProject.Core.Mapper
             return contactDtoItem;
 
         }
+
+        public CommentDto CommentToCommentDto(Comment comment)
+        {
+            var commentDtoItem = new CommentDto
+            {
+                Body = comment.Body,               
+            };
+
+            return commentDtoItem;
+        }
     }
 }
