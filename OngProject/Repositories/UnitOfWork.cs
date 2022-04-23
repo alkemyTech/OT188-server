@@ -21,6 +21,7 @@ namespace OngProject.Repositories
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<New> _newRepository;
         private readonly IRepository<Contact> _contactRepository;
+        private readonly IRepositoryAuth _authRepository;
 
         private bool disposed = false;
 
@@ -41,6 +42,7 @@ namespace OngProject.Repositories
         public IRepository<Activity> ActivityRepository => _activityRepository ?? new Repository<Activity>(_context);
         public IRepository<Member> MemberRepository => _memberRepository ?? new Repository<Member>(_context);
         public IRepository<Contact> ContactRepository => _contactRepository ?? new Repository<Contact>(_context);
+        public IRepositoryAuth RepositoryAuth => _authRepository ?? new RepositoryAuth(_context);
 
         public void SaveChanges()
         {

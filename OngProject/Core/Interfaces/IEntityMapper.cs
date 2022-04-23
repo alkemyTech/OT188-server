@@ -7,5 +7,6 @@ namespace OngProject.Core.Interfaces
     {
         SlideDTO SlidetoSlideDTO(Slide slide);
         ContactDto ContactToContactDto(Contact contact);
+        AuthUserDto UserToAuthUserDto(User user, string token);
     }
 }

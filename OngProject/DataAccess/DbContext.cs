@@ -2,7 +2,6 @@
 using OngProject.Core.Models;
 using OngProject.DataAccess.SeedsData;
 using OngProject.Entities;
-using OngProject.DataAccess.SeedsData;
 
 namespace OngProject.DataAccess
 {

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OngProject.Core.Helper;
 using OngProject.Entities;
 
 namespace OngProject.DataAccess.SeedsData
@@ -23,7 +24,7 @@ namespace OngProject.DataAccess.SeedsData
                         FirstName = "User # " + i,
                         LastName = type,
                         Email = $"User{type}{i}@gmail.com",
-                        Password = $"admin{i}",
+                        Password = EncryptSha256.Encrypt($"admin{i}"),
                         Photo = $"user photo #{i}",
                         RolesId = rol,
                         ModifiedAt = DateTime.Now,

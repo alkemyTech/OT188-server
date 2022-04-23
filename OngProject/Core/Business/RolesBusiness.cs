@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
@@ -23,7 +24,12 @@ namespace OngProject.Core.Business
 
         public Task<Rol> GetRol(int id)
         {
-            throw new System.NotImplementedException();
+            var rol = _unitOfWork.RolRepository.GetById(id);
+            if (rol.Result != null)
+            {
+                return rol;
+            }
+            throw new Exception("Rol null");
         }
 
         public Task<Rol> InsertRol(Rol entity)

@@ -31,5 +31,16 @@ namespace OngProject.Core.Mapper
             return contactDtoItem;
 
         }
+        public AuthUserDto UserToAuthUserDto(User user, string token)
+        {
+            var _authUserDto = new AuthUserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Token = token
+            };
+            return _authUserDto;
+        }
     }
 }

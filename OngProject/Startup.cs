@@ -15,6 +15,7 @@ using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using Amazon.S3;
 using OngProject.Core.Helper;
+using OngProject.Core.Mapper;
 
 namespace OngProject
 {
@@ -47,7 +48,7 @@ namespace OngProject
             services.AddScoped<IUsersBusiness, UsersBusiness>();
             services.AddScoped<ICategoriesBusiness, CategoriesBusiness>();
             services.AddScoped<INewsBusiness, NewsBusiness>();
-
+            services.AddScoped<IAuthBusiness, AuthBusiness>();
             services.AddScoped<ISlidesBusiness, SlidesBusiness>();
 
             services.AddScoped<IContactsBusiness, ContactsBusiness>();
