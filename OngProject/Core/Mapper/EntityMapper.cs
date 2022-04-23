@@ -31,5 +31,12 @@ namespace OngProject.Core.Mapper
             return contactDtoItem;
 
         }
+        public CategoriesNameDTO CategoriesNameDTO(Category category)
+        {
+            return new CategoriesNameDTO
+            {
+                Name = category.Name
+            };
+        }
     }
 }
