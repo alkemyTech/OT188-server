@@ -17,7 +17,8 @@ namespace OngProject.DataAccess.SeedsData
 						Name = "Categoria " + i,
 						Description = "descripcion de categoria " + i,
 						Image = "Imágenes de categoria " + i,
-
+						ModifiedAt = System.DateTime.Now,
+						IsDeleted = false
 					}
 				);
 			}
