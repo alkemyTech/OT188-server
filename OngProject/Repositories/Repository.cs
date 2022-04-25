@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Helper;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -28,6 +30,15 @@ namespace OngProject.Repositories
             }
             
             return await _entities.Where(x => x.IsDeleted == false).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] include)
+        {
+            if (predicate == null)
+            {
+                return await _entities.IncludeMultiple(include).ToListAsync();
+            }
+            return await _entities.Where(predicate).IncludeMultiple(include).ToListAsync();
         }
 
         public async Task<T> GetById(int id)

@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersBusiness _usersBusiness;
@@ -22,11 +24,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                return Ok();
+                var listUser = await _usersBusiness.GetUsers(true);
+                return Ok(listUser);
             }
             catch (Exception e)
             {
-                return NoContent();
+                return StatusCode(500, e.Message);
             }
             
         }

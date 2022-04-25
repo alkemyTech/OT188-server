@@ -31,13 +31,25 @@ namespace OngProject.Core.Mapper
 
         }
 
+        public UserDto UserToUserDto(User user)
+        {
+            var userDto = new UserDto
+
         public AuthUserDto UserToAuthUserDto(User user, string token)
         {
             var _authUserDto = new AuthUserDto
+
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+
+                Photo = user.Photo,
+                Rol = user.Roles.Name
+            };
+            
+            return userDto;
+
                 Token = token
             };
             return _authUserDto;
@@ -60,6 +72,7 @@ namespace OngProject.Core.Mapper
                 Address = organization.Address
             };
             return organizationDTO;
+
 
 
         }
