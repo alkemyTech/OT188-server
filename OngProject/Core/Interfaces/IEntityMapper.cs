@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
@@ -7,6 +8,10 @@ namespace OngProject.Core.Interfaces
     {
         SlideDTO SlidetoSlideDTO(Slide slide);
         ContactDto ContactToContactDto(Contact contact);
+
         CategoriesNameDTO CategoriesNameDTO(Category category);
+
+        OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
+
     }
 }
