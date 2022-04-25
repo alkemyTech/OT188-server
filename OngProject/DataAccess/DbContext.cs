@@ -35,7 +35,7 @@ namespace OngProject.DataAccess
             modelBuilder.ApplyConfiguration(new SeedUsers());
             modelBuilder.ApplyConfiguration(new SeedRol());
             modelBuilder.ApplyConfiguration(new SeedTestimonials());
-
+            modelBuilder.ApplyConfiguration(new SeedOrganizations());
             modelBuilder.ApplyConfiguration(new SeedCategories());
 
             modelBuilder.ApplyConfiguration(new SeedMembers());
