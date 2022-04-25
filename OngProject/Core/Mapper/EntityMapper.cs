@@ -31,6 +31,18 @@ namespace OngProject.Core.Mapper
 
         }
 
+        public AuthUserDto UserToAuthUserDto(User user, string token)
+        {
+            var _authUserDto = new AuthUserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Token = token
+            };
+            return _authUserDto;
+
+
         public CategoriesNameDTO CategoriesNameDTO(Category category)
         {
             return new CategoriesNameDTO
@@ -48,6 +60,7 @@ namespace OngProject.Core.Mapper
                 Address = organization.Address
             };
             return organizationDTO;
+
 
         }
     }
