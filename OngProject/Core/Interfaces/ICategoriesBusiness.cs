@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Core.Interfaces
@@ -11,5 +12,6 @@ namespace OngProject.Core.Interfaces
         Task<Category> InsertCategory(Category entity);
         Task UpdateCategory(int id, Category entity);
         Task DeleteCategory(int id);
+        Task<IEnumerable<CategoriesNameDTO>> GetNameList();
     }
 }

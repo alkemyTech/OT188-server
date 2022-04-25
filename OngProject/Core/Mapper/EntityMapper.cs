@@ -4,7 +4,6 @@ using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OngProject.Core.Mapper
 {
@@ -16,7 +15,7 @@ namespace OngProject.Core.Mapper
             {
                 ImageUrl = slide.ImageUrl,
                 Order = slide.Order
-           };  
+            };
             return slideDTO;
         }
 
@@ -35,15 +34,47 @@ namespace OngProject.Core.Mapper
         public UserDto UserToUserDto(User user)
         {
             var userDto = new UserDto
+
+        public AuthUserDto UserToAuthUserDto(User user, string token)
+        {
+            var _authUserDto = new AuthUserDto
+
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+
                 Photo = user.Photo,
                 Rol = user.Roles.Name
             };
             
             return userDto;
+
+                Token = token
+            };
+            return _authUserDto;
+
+
+        public CategoriesNameDTO CategoriesNameDTO(Category category)
+        {
+            return new CategoriesNameDTO
+            {
+                Name = category.Name
+            };
+
+        public OrganizationDTO OrganizationToOrganizationDTO(Organization organization)
+        {
+            var organizationDTO = new OrganizationDTO
+            {
+                Name = organization.Name,
+                ImageUrl = organization.Image,
+                Phone = organization.Phone,
+                Address = organization.Address
+            };
+            return organizationDTO;
+
+
+
         }
     }
 }

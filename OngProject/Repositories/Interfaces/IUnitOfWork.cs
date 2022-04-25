@@ -16,6 +16,7 @@ namespace OngProject.Repositories.Interfaces
         IRepository<Category> CategoryRepository { get; }
         IRepository<New> NewRepository { get; }
         IRepository<Contact> ContactRepository { get; }
+        IRepositoryAuth RepositoryAuth { get; }
 
         void SaveChanges();
 

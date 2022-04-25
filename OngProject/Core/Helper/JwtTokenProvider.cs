@@ -40,7 +40,7 @@ namespace OngProject.Core.Helper
 
             var authSigningKey = 
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                    Configuration.GetSection("AppSettings:DevelopmentApiKey").Value));
+                    Configuration.GetSection("AppSettings:DevelopmentJwtApiKey").Value));
 
             var tPayLoad = new JwtSecurityToken(
 
