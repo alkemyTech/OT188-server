@@ -24,9 +24,16 @@ namespace OngProject.Core.Business
         {
             try
             {
-                var listUser =  await _unitOfWork.UserRepository.GetAll(listEntity, "Roles");
-
-                return listUser.Select(user => _mapper.UserToUserDto(user)).ToList();
+                if (!listEntity)
+                {
+                    var listUserAll = await _unitOfWork.UserRepository.GetAll(null);
+                    
+                    return listUserAll.Select(user => _mapper.UserToUserDto(user)).ToList();
+                }
+                
+                var listUserFilter = await _unitOfWork.UserRepository.GetAll(x => x.IsDeleted == false, x => x.Roles);
+                
+                return listUserFilter.Select(user => _mapper.UserToUserDto(user)).ToList();
             }
             catch (Exception e)
             {
