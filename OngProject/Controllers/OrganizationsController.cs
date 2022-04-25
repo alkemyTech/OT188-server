@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
@@ -6,7 +7,7 @@ using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("organization")]
     [ApiController]
     
     public class OrganizationsController : ControllerBase
@@ -19,17 +20,22 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
+        [Route("public")]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                return Ok();
+                var result = await _business.GetOrganizations(true);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
             }
             catch (Exception e)
             {
-                return NoContent();
-            }
-            
+                return StatusCode(500, e.Message);
+            }            
         }
 
         [HttpGet("{id}")]
