@@ -19,6 +19,17 @@ namespace OngProject.Core.Mapper
             return slideDTO;
         }
 
+        public MemberDTO MemberToMemberDTO(Member member)
+        {
+            var memberDTO = new MemberDTO()
+            {
+                Name = member.Name,
+                Image = member.Image,
+                Description = member.Description
+            };
+            return memberDTO;
+        }
+
         public ContactDto ContactToContactDto(Contact contact)
         {
             var contactDtoItem = new ContactDto

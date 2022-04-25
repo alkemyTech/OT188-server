@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using System.Threading.Tasks;
@@ -9,17 +10,29 @@ namespace OngProject.Controllers
     [ApiController]
     public class MembersController : ControllerBase
     {
-        private readonly IMembersBusiness _membersService;
+        private readonly IMembersBusiness _membersBusiness;
 
-        public MembersController(IMembersBusiness membersService)
+        public MembersController(IMembersBusiness membersBusiness)
         {
-            _membersService = membersService;
+            _membersBusiness = membersBusiness;
         }
 
+
+        [Authorize(Roles="Administrator")]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            try
+            {
+                var listMembers = await _membersBusiness.GetMembers(true);
+                return Ok(listMembers);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         [Route("{id}")]
