@@ -14,5 +14,6 @@ namespace OngProject.Entities
         public int Order { get; set; }
         [Required]
         public int OrganizationId { get; set; }
+        public Organization Organization { get; set; }
     }
 }

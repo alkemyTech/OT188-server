@@ -41,5 +41,7 @@ namespace OngProject.Entities
         [StringLength(255)]
         [DataType(DataType.Url)]
         public string? LinkedinUrl { get; set; }
+
+        public IEnumerable<Slide> Slides{ get; set; }
     }
 }

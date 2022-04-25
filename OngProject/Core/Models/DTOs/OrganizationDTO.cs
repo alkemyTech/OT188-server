@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -13,5 +14,6 @@ namespace OngProject.Core.Models.DTOs
         [StringLength(20)]
         public string? Phone { get; set; }
         public string? Address { get; set; }
+        public IEnumerable<PublicSlideDTO> Slides { get; set; }
     }
 }
