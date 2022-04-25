@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 
@@ -8,6 +9,7 @@ namespace OngProject.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersBusiness _usersBusiness;
