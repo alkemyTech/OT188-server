@@ -30,6 +30,14 @@ namespace OngProject.Core.Mapper
             return contactDtoItem;
 
         }
+
+        public CategoriesNameDTO CategoriesNameDTO(Category category)
+        {
+            return new CategoriesNameDTO
+            {
+                Name = category.Name
+            };
+
         public OrganizationDTO OrganizationToOrganizationDTO(Organization organization)
         {
             var organizationDTO = new OrganizationDTO
@@ -40,6 +48,7 @@ namespace OngProject.Core.Mapper
                 Address = organization.Address
             };
             return organizationDTO;
+
         }
     }
 }

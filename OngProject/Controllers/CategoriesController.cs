@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -17,17 +18,18 @@ namespace OngProject.Controllers
         {
             _business = business;
         }
-        
+
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllNames()
         {
             try
             {
-                return Ok();
+                return Ok(await _business.GetNameList());
             }
             catch (Exception e)
             {
-                return NoContent();
+                return StatusCode(500, e.Message);
             }
             
         }
