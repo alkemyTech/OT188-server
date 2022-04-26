@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<UserDto>> GetUsers(bool listEntity);
         Task<User> GetUser(int id);
-        Task<UserDto> InsertUser(RegisterDto registerDto);
+        Task<string> InsertUser(RegisterDto registerDto);
         Task UpdateUser(int id, User entity);
         Task DeleteUser(int id);
     }

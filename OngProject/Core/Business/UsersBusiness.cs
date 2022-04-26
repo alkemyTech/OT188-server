@@ -16,11 +16,13 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _mapper;
+        private readonly IJwtTokenProvider _jwtToken;
         
-        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper)
+        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper, IJwtTokenProvider jwtToken)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _jwtToken = jwtToken;
         }
         
         public async Task<IEnumerable<UserDto>> GetUsers(bool listEntity)
@@ -49,7 +51,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<UserDto> InsertUser(RegisterDto registerDto)
+        public async Task<string> InsertUser(RegisterDto registerDto)
         {
             var ListUsers = _unitOfWork.UserRepository.GetAll(true).Result;
             if(ListUsers != null)
@@ -62,7 +64,8 @@ namespace OngProject.Core.Business
                     var entity = await _unitOfWork.UserRepository.Add(registeredUser);
                     await _unitOfWork.SaveChangesAsync();
                     var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
-                    return _mapper.UserToUserDto(user);
+                    var token = _jwtToken.CreateJwtToken(user);
+                    return await Task.FromResult(token.Result);
                 }
                 throw new Exception("Ya existe un usuario con ese email.");
             }
