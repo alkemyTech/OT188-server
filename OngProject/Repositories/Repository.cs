@@ -62,6 +62,12 @@ namespace OngProject.Repositories
             return entity;
         }
 
+        public async Task<T> AddAsync(T entity)
+        {
+            await _entities.AddAsync(entity);
+            return entity;
+        }
+
         public async Task Update(T entity)
         {
             _entities.Update(entity);

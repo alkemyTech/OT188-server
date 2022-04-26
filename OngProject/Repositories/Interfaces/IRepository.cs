@@ -18,7 +18,9 @@ namespace OngProject.Repositories.Interfaces
         Task<T> GetById(int id, string include);
         
         Task<T> Add(T entity);
-        
+        Task<T> AddAsync(T entity);
+
+
         Task Update(T entity);
         
         Task Delete(int id);
