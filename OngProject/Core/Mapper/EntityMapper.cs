@@ -82,9 +82,19 @@ namespace OngProject.Core.Mapper
                 Name = organization.Name,
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
-                Address = organization.Address
+                Address = organization.Address,
+                Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
+        }
+        public PublicSlideDTO PublicSlideDTO(Slide slide)
+        {
+            return new PublicSlideDTO
+            {
+                Text = slide.Text,
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order
+            };
         }
     }
 }

@@ -21,6 +21,6 @@ namespace OngProject.Core.Interfaces
 
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 
-
+        PublicSlideDTO PublicSlideDTO(Slide slide);
     }
 }
