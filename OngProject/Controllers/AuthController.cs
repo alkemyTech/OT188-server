@@ -14,9 +14,11 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
-        public AuthController(IAuthBusiness authBusiness)
+        private readonly IUsersBusiness _usersBusiness;
+        public AuthController(IAuthBusiness authBusiness, IUsersBusiness usersBusiness)
         {
             _authBusiness = authBusiness;
+            _usersBusiness = usersBusiness;
         }
         [HttpPost]
         [Route("login")]
@@ -29,6 +31,20 @@ namespace OngProject.Controllers
             catch (Exception ex)
             {
                 return BadRequest("Ok:False - " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Post(RegisterDto registerDto)
+        {
+            try
+            {
+                return Ok(await _usersBusiness.InsertUser(registerDto));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
     }
