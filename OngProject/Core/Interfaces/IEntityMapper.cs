@@ -9,18 +9,17 @@ namespace OngProject.Core.Interfaces
         SlideDTO SlidetoSlideDTO(Slide slide);
 
         MemberDTO MemberToMemberDTO(Member member);
+
         ContactDto ContactToContactDto(Contact contact);
 
         UserDto UserToUserDto(User user);
 
-
         AuthUserDto UserToAuthUserDto(User user, string token);
-
 
         CategoriesNameDTO CategoriesNameDTO(Category category);
 
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 
-
+        User RegisterDtoToUser(RegisterDto registerDto);
     }
 }

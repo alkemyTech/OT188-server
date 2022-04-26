@@ -6,6 +6,8 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Helper;
+using OngProject.Core.Models.Enums;
 
 namespace OngProject.Core.Business
 {
@@ -46,9 +48,16 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<User> InsertUser(User entity)
+        public async Task<UserDto> InsertUser(RegisterDto registerDto)
         {
-            throw new NotImplementedException();
+            var registeredUser = _mapper.RegisterDtoToUser(registerDto);
+            registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
+            registeredUser.RolesId = RoleTypes.Regular; 
+            var entity = await _unitOfWork.UserRepository.Add(registeredUser);
+            await _unitOfWork.SaveChangesAsync();
+            var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
+
+            return _mapper.UserToUserDto(user);
         }
 
         public Task UpdateUser(int id, User entity)

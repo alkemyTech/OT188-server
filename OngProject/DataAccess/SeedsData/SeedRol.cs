@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OngProject.Core.Models.Enums;
 using OngProject.Entities;
 
 namespace OngProject.DataAccess.SeedsData
@@ -9,9 +10,9 @@ namespace OngProject.DataAccess.SeedsData
     {
         public void Configure(EntityTypeBuilder<Rol> builder)
         {
-            CreateSeed(builder, "Administrator", 1);
-            CreateSeed(builder, "Standard",2);
-            CreateSeed(builder, "Regular", 3);
+            CreateSeed(builder, "Administrator", RoleTypes.Administrator);
+            CreateSeed(builder, "Standard", RoleTypes.Standard);
+            CreateSeed(builder, "Regular", RoleTypes.Regular);
         }
         private static void CreateSeed(EntityTypeBuilder<Rol> builder, string type, int value)
         {

@@ -49,7 +49,6 @@ namespace OngProject.Core.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-
                 Photo = user.Photo,
                 Rol = user.Roles.Name
             };
@@ -57,7 +56,7 @@ namespace OngProject.Core.Mapper
             return userDto;
         }
         public AuthUserDto UserToAuthUserDto(User user, string token)
-            {
+        {
             var _authUserDto = new AuthUserDto
             {
                 FirstName = user.FirstName,
@@ -65,8 +64,20 @@ namespace OngProject.Core.Mapper
                 Email = user.Email,
                 Token = token
             };
+
             return _authUserDto;
 
+        }
+        public User RegisterDtoToUser(RegisterDto registerDto)
+        {
+            var user = new User
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                Password = registerDto.Password
+            };
+            return user;
         }
         public CategoriesNameDTO CategoriesNameDTO(Category category)
         {
