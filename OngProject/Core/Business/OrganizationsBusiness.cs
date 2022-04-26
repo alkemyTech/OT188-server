@@ -23,7 +23,7 @@ namespace OngProject.Core.Business
 
         public async Task<IEnumerable<OrganizationDTO>> GetOrganizations(bool listEntity)
         {
-            var organizationsList = await _unitOfWork.OrganizationsRepository.GetAll(listEntity);
+            var organizationsList = await _unitOfWork.OrganizationsRepository.GetAll(org => org.IsDeleted == false, org => org.Slides.OrderBy(sl => sl.Order));
 
             if (organizationsList == null)
             {
