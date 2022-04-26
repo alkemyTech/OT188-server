@@ -9,6 +9,7 @@ using OngProject.Repositories.Interfaces;
 using OngProject.Core.Helper;
 using OngProject.Core.Models.Enums;
 using OngProject.Repositories;
+using Microsoft.Extensions.Configuration;
 
 namespace OngProject.Core.Business
 {
@@ -16,13 +17,18 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _mapper;
-        
-        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper)
+        private readonly IEmailServices _emailService;
+        private readonly IConfiguration _configuration;
+
+        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper, IEmailServices emailService, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailService = emailService;
+            _configuration = configuration;
         }
-        
+
+
         public async Task<IEnumerable<UserDto>> GetUsers(bool listEntity)
         {
             try
@@ -57,13 +63,34 @@ namespace OngProject.Core.Business
                 if (!Exist(ListUsers, registerDto.Email))
                 {
                     var registeredUser = _mapper.RegisterDtoToUser(registerDto);
+
                     registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
+
                     registeredUser.RolesId = RoleTypes.Regular;
-                    var entity = await _unitOfWork.UserRepository.Add(registeredUser);
-                    await _unitOfWork.SaveChangesAsync();
-                    var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
-                    return _mapper.UserToUserDto(user);
+
+                    try
+                    {
+                        var entity = await _unitOfWork.UserRepository.AddAsync(registeredUser);
+
+                        await _unitOfWork.SaveChangesAsync();
+
+                        var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
+
+                        var subject = "Confirmación de registro";
+
+                        var body = $"Bienvenido {user.FirstName} {user.LastName}";
+                        
+                        await _emailService.Send(user.Email, _configuration.GetSection("emailContacto").Value, subject, body);
+
+                        return _mapper.UserToUserDto(user);
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw;
+                    }                    
                 }
+
                 throw new Exception("Ya existe un usuario con ese email.");
             }
 
