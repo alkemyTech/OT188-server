@@ -19,5 +19,10 @@ namespace OngProject.Repositories
         {
             return await _entities.FirstOrDefaultAsync(x => x.Email == login.Email && x.IsDeleted == false);
         }
+
+        public async Task<User> GetUserByEmailOrDefault(string email)
+        {
+            return await _entities.FirstOrDefaultAsync(x => x.Email == email);
+        }
     }
 }

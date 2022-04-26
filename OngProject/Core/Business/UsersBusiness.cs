@@ -8,6 +8,7 @@ using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using OngProject.Core.Helper;
 using OngProject.Core.Models.Enums;
+using OngProject.Repositories;
 
 namespace OngProject.Core.Business
 {
@@ -50,24 +51,42 @@ namespace OngProject.Core.Business
 
         public async Task<UserDto> InsertUser(RegisterDto registerDto)
         {
-            var registeredUser = _mapper.RegisterDtoToUser(registerDto);
-            registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
-            registeredUser.RolesId = RoleTypes.Regular; 
-            var entity = await _unitOfWork.UserRepository.Add(registeredUser);
-            await _unitOfWork.SaveChangesAsync();
-            var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
+            var ListUsers = _unitOfWork.UserRepository.GetAll(true).Result;
+            if(ListUsers != null)
+            {
+                if (!Exist(ListUsers, registerDto.Email))
+                {
+                    var registeredUser = _mapper.RegisterDtoToUser(registerDto);
+                    registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
+                    registeredUser.RolesId = RoleTypes.Regular;
+                    var entity = await _unitOfWork.UserRepository.Add(registeredUser);
+                    await _unitOfWork.SaveChangesAsync();
+                    var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
+                    return _mapper.UserToUserDto(user);
+                }
+                throw new Exception("Ya existe un usuario con ese email.");
+            }
 
-            return _mapper.UserToUserDto(user);
+            throw new Exception("El campo email no puede quedar vacio.");
         }
-
+               
         public Task UpdateUser(int id, User entity)
         {
             throw new NotImplementedException();
         }
-
         public Task DeleteUser(int id)
         {
             throw new NotImplementedException();
+        }
+        public bool Exist(IEnumerable<User> users, string email)
+        {
+            var exist = users.Where(user => user.Email == email).FirstOrDefault();
+            if (exist != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
