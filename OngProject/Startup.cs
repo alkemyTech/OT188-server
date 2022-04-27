@@ -56,9 +56,11 @@ namespace OngProject
 
             //Email
             services.AddTransient<IEmailServices, SendgridEmailServices>();
-
+            //AWS
+            services.AddSingleton<IAWSConfiguration, AWSConfiguration>();
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
+            
 
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 
