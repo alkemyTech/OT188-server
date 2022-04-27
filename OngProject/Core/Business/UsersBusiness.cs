@@ -19,13 +19,15 @@ namespace OngProject.Core.Business
         private readonly IEntityMapper _mapper;
         private readonly IEmailServices _emailService;
         private readonly IConfiguration _configuration;
+        private readonly IJwtTokenProvider _jwtToken;
 
-        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper, IEmailServices emailService, IConfiguration configuration)
+        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper, IEmailServices emailService, IConfiguration configuration, IJwtTokenProvider jwtToken)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailService = emailService;
-            _configuration = configuration;
+            _configuration = configuration;            
+            _jwtToken = jwtToken;
         }
 
 
@@ -55,7 +57,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<UserDto> InsertUser(RegisterDto registerDto)
+        public async Task<string> InsertUser(RegisterDto registerDto)
         {
             var ListUsers = _unitOfWork.UserRepository.GetAll(true).Result;
             if(ListUsers != null)
@@ -67,7 +69,7 @@ namespace OngProject.Core.Business
                     registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
 
                     registeredUser.RolesId = RoleTypes.Regular;
-
+                    
                     try
                     {
                         var entity = await _unitOfWork.UserRepository.AddAsync(registeredUser);
@@ -81,14 +83,16 @@ namespace OngProject.Core.Business
                         var body = $"Bienvenido {user.FirstName} {user.LastName}";
                         
                         await _emailService.Send(user.Email, _configuration.GetSection("emailContacto").Value, subject, body);
-
-                        return _mapper.UserToUserDto(user);
+                        
+                        var token = _jwtToken.CreateJwtToken(user);
+                        
+                        return await Task.FromResult(token.Result);
                     }
                     catch (Exception e)
                     {
 
                         throw;
-                    }                    
+                    }
                 }
 
                 throw new Exception("Ya existe un usuario con ese email.");
