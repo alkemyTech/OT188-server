@@ -15,15 +15,24 @@ namespace OngProject.Core.Helper
             _configuration = configuration;
         }
 
-        public async Task Send(string email, string subject, string htmlContent)
+        public async Task Send(string fromEmail, string toEmail, string subject, string body)
         {
             var apiKey = _configuration.GetValue<string>("SENDGRID_API_KEY");
 
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress(email, "test");
-            var to = new EmailAddress(email);
-            var messageTextPlain = Regex.Replace(htmlContent, "<[^>]*>", "");
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, messageTextPlain, htmlContent);
+
+            var bodyFromLocal = System.IO.File.ReadAllText(@"..\OngProject\Templates\htmlpage.html");
+
+            bodyFromLocal = bodyFromLocal.Replace("@correoContacto", fromEmail)
+                                         .Replace("@bodyEmail", body)
+                                         .Replace("@titulo", subject);
+
+            var from = new EmailAddress(fromEmail);
+
+            var to = new EmailAddress(toEmail); 
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, body, bodyFromLocal);
+
             var response = await client.SendEmailAsync(msg);
          }
     }
