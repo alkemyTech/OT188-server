@@ -45,7 +45,7 @@ namespace OngProject.Repositories
         {
             var entity = await _entities.FindAsync(id);
             
-            return entity.IsDeleted == false ? entity : null;
+            return entity?.IsDeleted == false ? entity : null;
         }       
         public async Task<T> GetById(int id, string include)
         {
