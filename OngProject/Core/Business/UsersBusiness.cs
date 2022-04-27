@@ -105,9 +105,17 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
-        public Task DeleteUser(int id)
+        public async Task DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _unitOfWork.UserRepository.GetById(id);
+                
+            if (entity.Id != id && entity.IsDeleted != false )
+            {
+                throw new Exception("Usuario no encontrado.");
+            }
+
+            await _unitOfWork.UserRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
         public bool Exist(IEnumerable<User> users, string email)
         {
