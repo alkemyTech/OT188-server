@@ -54,7 +54,8 @@ namespace OngProject.Core.Helper
                         InputStream = newMemoryStream,
                         Key = file.FileName,
                         BucketName = _bucketName,
-                        ContentType = file.ContentType
+                        ContentType = file.ContentType,
+                        CannedACL = new S3CannedACL("public-read")
                     };
 
                     var fileTransferUtility = new TransferUtility(_awsS3Client);
@@ -62,8 +63,8 @@ namespace OngProject.Core.Helper
                     await fileTransferUtility.UploadAsync(uploadRequest);
 
                     
-                        string url = string.Format("http://{0}.s3.amazonaws.com/{1}",_bucketName,file.FileName);
-                        return url;
+                    string url = string.Format("http://{0}.s3.amazonaws.com/{1}",_bucketName,file.FileName);
+                    return url;
                 }
             }
             catch (Exception)

@@ -38,15 +38,15 @@ namespace OngProject.Controllers
         //    }
         //}
         [HttpPost]
-        public IActionResult UploadDocumentToS3(IFormFile file)
+        public async Task<IActionResult> UploadDocumentToS3(IFormFile file)
         {
             try
             {
                 _amazonS3Helper = new AmazonS3Helper(_AWSConfiguration.AwsAccessKey, _AWSConfiguration.AwsSecretAccessKey, _AWSConfiguration.Region, _AWSConfiguration.BucketName);
 
-                var result = _amazonS3Helper.UploadFileAsync(file);
+                var result = await _amazonS3Helper.UploadFileAsync(file);
 
-                return Ok(file.FileName);
+                return Ok(result);
             }
             catch (Exception ex)
             {

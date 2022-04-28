@@ -11,7 +11,7 @@ namespace OngProject.Core.Helper
 		public AWSConfiguration()
 		{
 			BucketName = "cohorte-abril-98a56bb4";
-			Region = "sa-east-1";
+			Region = "us-east-1";
 			AwsAccessKey = "AKIAS2JWQJCDI4WQ6EIF";
 			AwsSecretAccessKey = "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";
 			AwsSessionToken = "";
