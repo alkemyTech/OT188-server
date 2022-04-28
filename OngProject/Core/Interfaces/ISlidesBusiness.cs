@@ -8,6 +8,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<SlideDTO>> GetSlides(bool listEntity);
 
+        Task<DetailSlideDTO> GetDetailSlide(int id);
         Task Delete(int id);
     }
 }

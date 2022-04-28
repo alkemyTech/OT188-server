@@ -33,12 +33,18 @@ namespace OngProject.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             try
             {
-                return Ok(new Slide());
+                var detailSlide = await _slidesBusiness.GetDetailSlide(id);
+                if(detailSlide == null)
+                {
+                    return NotFound();
+                }
+                return Ok(detailSlide);
             }
             catch (System.Exception e)
             {
