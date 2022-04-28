@@ -8,6 +8,6 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<SlideDTO>> GetSlides(bool listEntity);
 
-
+        Task Delete(int id);
     }
 }

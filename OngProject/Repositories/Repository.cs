@@ -77,11 +77,11 @@ namespace OngProject.Repositories
         {
             var entity = await GetById(id);
 
-            if (entity != null)
-            {
-                entity.IsDeleted = true;
-                _entities.Update(entity);
-            }
+            if (entity == null)
+                throw new InvalidOperationException("Entity doesn't exist");
+
+            entity.IsDeleted = true;
+            _entities.Update(entity);
         }
     }
 }

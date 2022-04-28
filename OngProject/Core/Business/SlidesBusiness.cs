@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -38,5 +39,10 @@ namespace OngProject.Core.Business
             }
             
         }
+        public async Task Delete(int id)
+        {
+            await _unitOfWork.SlideRepository.Delete(id);
+            _unitOfWork.SaveChanges();
+        } 
     }
 }

@@ -70,14 +70,18 @@ namespace OngProject.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
+                await _slidesBusiness.Delete(id);
                 return Ok("Succes");
             }
             catch (System.Exception e)
             {
+                if (e.Message == "Entity doesn't exist")
+                    return NotFound(e.Message);
+
                 return StatusCode(500, e.Message);
             }
         }
