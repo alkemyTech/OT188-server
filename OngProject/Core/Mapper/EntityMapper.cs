@@ -107,5 +107,16 @@ namespace OngProject.Core.Mapper
                 Order = slide.Order
             };
         }
+        public DetailSlideDTO DetailSlideDTO(Slide slide)
+        {
+            return new DetailSlideDTO
+            {
+                Id = slide.Id,
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order,
+                OrganizationId = slide.OrganizationId,
+                Text = slide.Text
+            };
+        }
     }
 }

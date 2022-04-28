@@ -38,5 +38,16 @@ namespace OngProject.Core.Business
             }
             
         }
+        public async Task<DetailSlideDTO> GetDetailSlide(int id)
+        {
+            var slide = await _unitOfWork.SlideRepository.GetById(id);
+            
+            if(slide == null)
+            {
+                return null;
+            }
+
+            return _entityMapper.DetailSlideDTO(slide);
+        }
     }
 }
