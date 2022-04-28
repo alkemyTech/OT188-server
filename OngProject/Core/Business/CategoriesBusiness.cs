@@ -5,6 +5,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System.Linq;
+using System;
 
 namespace OngProject.Core.Business
 {
@@ -24,9 +25,15 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task<Category> GetCategory(int id)
+        public async Task<Category> GetCategory(int id)
         {
-            throw new System.NotImplementedException();
+            var category = new Category();
+            category = (Category)await _unitOfWork.CategoryRepository.GetById(id);
+            if(category != null)
+            {
+                return category;
+            }
+            throw new Exception();
         }
 
         public Task<Category> InsertCategory(Category entity)
