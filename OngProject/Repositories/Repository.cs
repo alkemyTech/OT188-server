@@ -43,9 +43,9 @@ namespace OngProject.Repositories
 
         public async Task<T> GetById(int id)
         {
-            var entity = await _entities.FindAsync(id);
-            
-            return entity?.IsDeleted == false ? entity : null;
+            var entity = await _entities.SingleOrDefaultAsync(x => x.Id == id);
+
+            return entity;
         }       
         public async Task<T> GetById(int id, string include)
         {
