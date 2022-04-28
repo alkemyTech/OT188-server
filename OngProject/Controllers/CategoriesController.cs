@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -35,15 +36,17 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                return Ok();
+                return Ok(await _business.GetCategory(id));
             }
             catch (Exception e)
             {
-                return NoContent();
+                return StatusCode(404, "Not Found");
             }
         }
 
