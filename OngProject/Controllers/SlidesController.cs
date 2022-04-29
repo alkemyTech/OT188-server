@@ -80,17 +80,17 @@ namespace OngProject.Controllers
         {
             try
             {
-                await _slidesBusiness.Delete(id);
-                return Ok("Succes");
+                var result = await _slidesBusiness.Delete(id);
+
+                if (result.Succeeded == false)
+                    return StatusCode(403, result);
+
+                return Ok(result);
             }
             catch (System.Exception e)
             {
-                if (e.Message == "Entity doesn't exist")
-                    return NotFound(e.Message);
-
                 return StatusCode(500, e.Message);
             }
         }
-
     }
 }
