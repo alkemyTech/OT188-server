@@ -8,6 +8,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface IActivitiesBusiness
     {
-        Task<Response<ActivityDto>> InsertActivity(ActivityDto entity);
+        Task<Response<NewActivityDto>> InsertActivity(NewActivityDto entity);
     }
 }

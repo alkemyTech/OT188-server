@@ -2,7 +2,7 @@
 
 namespace OngProject.Core.Models.DTOs
 {
-    public class ActivityDto
+    public class NewActivityDto
     {
         [Required(ErrorMessage = "\"Name\" field is required")]
         [MaxLength(255)]

@@ -24,6 +24,6 @@ namespace OngProject.Core.Interfaces
         PublicSlideDTO PublicSlideDTO(Slide slide);
         DetailSlideDTO DetailSlideDTO(Slide slide);
 
-        Activity ActivityDtoToActivity(ActivityDto activityDto);
+        Activity ActivityDtoToActivity(NewActivityDto activityDto);
     }
 }

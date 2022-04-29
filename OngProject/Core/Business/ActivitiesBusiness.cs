@@ -20,21 +20,26 @@ namespace OngProject.Core.Business
             _entityMapper = entityMapper;
         }
 
-        public async Task<Response<ActivityDto>> InsertActivity(ActivityDto entity)
+        public async Task<Response<NewActivityDto>> InsertActivity(NewActivityDto entity)
         {
-            if (entity == null)
-            {
-                var result = new Response<ActivityDto>(entity, false, message: "Error");
-                result.Errors[0] = "Status Code: 400 Bad Request";
-                return result;
+            var result = new Response<NewActivityDto>();
+            try
+            {                
+                var activity = _entityMapper.ActivityDtoToActivity(entity);
+                await _unitOfWork.ActivityRepository.AddAsync(activity);
+                await _unitOfWork.SaveChangesAsync();
+                result.Data = entity;
+                result.Succeeded = true;
+                result.Message = $"The [{entity.Name}] activity has been created";
             }
-            var activity = _entityMapper.ActivityDtoToActivity(entity);
-            activity.DeletedAt = new DateTime();//DateTime vacío.
-
-            await _unitOfWork.ActivityRepository.AddAsync(activity);
-            await _unitOfWork.SaveChangesAsync();
-
-            return new Response<ActivityDto>(entity, message: $"The \"{entity.Name}\" activity has been created");
+            catch (InvalidOperationException e)
+            {                 
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace.ToString();
+                return new Response<NewActivityDto> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors };
+            }
+            return result;
         }
     }
 }

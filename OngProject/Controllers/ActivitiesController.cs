@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
+using System;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("activities")]
     [ApiController]
     public class ActivitiesController : ControllerBase
     {
@@ -30,9 +33,18 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert()
+        public async Task<IActionResult> Insert(NewActivityDto activityDto)
         {
-            return Ok();
+            try
+            {
+                var response = await _activitiesService.InsertActivity(activityDto);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                var listErrors = new string[2] { e.Message, e.StackTrace };
+                return StatusCode(500, new Response<NewActivityDto> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors });
+            }
         }
 
         [Route("{id}")]
