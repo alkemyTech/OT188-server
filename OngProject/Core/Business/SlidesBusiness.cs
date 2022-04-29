@@ -1,4 +1,6 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -41,13 +43,24 @@ namespace OngProject.Core.Business
         public async Task<DetailSlideDTO> GetDetailSlide(int id)
         {
             var slide = await _unitOfWork.SlideRepository.GetById(id);
-            
             if(slide == null)
             {
                 return null;
             }
-
             return _entityMapper.DetailSlideDTO(slide);
+        }
+        public async Task<Response<string>> Delete(int id)
+        {
+            try
+            {
+                await _unitOfWork.SlideRepository.Delete(id);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                return new Response<string>("Error", succeeded: false, message:e.Message);
+            }
+            _unitOfWork.SaveChanges();
+            return new Response<string>("Succes", message:"Entity Deleted");
         }
     }
 }
