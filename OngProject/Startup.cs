@@ -32,6 +32,13 @@ namespace OngProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<OngProjectDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //AWS
+            services.AddSingleton<IAWSConfiguration,AWSConfiguration> ();
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
+            services.AddTransient<IAmazonS3Helper,AmazonS3Helper>();
+
+
             services.AddControllers();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -57,8 +64,6 @@ namespace OngProject
             //Email
             services.AddTransient<IEmailServices, SendgridEmailServices>();
 
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonS3>();
 
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 
