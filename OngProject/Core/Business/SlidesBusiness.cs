@@ -60,7 +60,7 @@ namespace OngProject.Core.Business
                 return new Response<string>("Error", succeeded: false, message:e.Message);
             }
             _unitOfWork.SaveChanges();
-            return new Response<string>("Succes", message:"Entity Delet");
+            return new Response<string>("Succes", message:"Entity Deleted");
         }
     }
 }
