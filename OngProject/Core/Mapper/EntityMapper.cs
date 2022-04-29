@@ -118,5 +118,16 @@ namespace OngProject.Core.Mapper
                 Text = slide.Text
             };
         }
+        public Activity ActivityDtoToActivity(ActivityDto activityDto)
+        {
+            var activity = new Activity
+            {
+                Name = activityDto.Name,
+                Content = activityDto.Content,
+                Image = activityDto.Image,
+                ModifiedAt = DateTime.Now
+            };
+            return activity;
+        } 
     }
 }
