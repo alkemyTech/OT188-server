@@ -77,7 +77,7 @@ namespace OngProject.Repositories
         {
             var entity = await GetById(id);
 
-            if (entity == null)
+            if (entity == null || entity.IsDeleted == true)
                 throw new InvalidOperationException("Entity not found");
 
             entity.IsDeleted = true;
