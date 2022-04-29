@@ -5,6 +5,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace OngProject.Core.Business
 {
@@ -13,6 +14,7 @@ namespace OngProject.Core.Business
 
         private readonly IEntityMapper _entityMapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAmazonS3Helper _amazonS3Helper;
 
         public SlidesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
         {
@@ -61,6 +63,16 @@ namespace OngProject.Core.Business
             }
             _unitOfWork.SaveChanges();
             return new Response<string>("Succes", message:"Entity Deleted");
+        }
+
+        public async Task<Response<string>> Add(AddSlideDTO add)
+        {
+            if(add.Order == null)
+            {
+                add.Order = await _unitOfWork.SlideRepository.GetLastOrder() + 1;
+            }
+            //upload s3
+            return new Response<string>("Succes");
         }
     }
 }
