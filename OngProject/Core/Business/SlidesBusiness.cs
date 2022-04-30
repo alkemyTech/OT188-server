@@ -71,7 +71,11 @@ namespace OngProject.Core.Business
             {
                 add.Order = await _unitOfWork.SlideRepository.GetLastOrder() + 1;
             }
-            //upload s3
+
+            var url = await _amazonS3Helper.UploadFileAsync(add.Image);
+            await _unitOfWork.SlideRepository.Add(_entityMapper.Slide(add, url));
+            _unitOfWork.SaveChanges();
+
             return new Response<string>("Succes");
         }
     }

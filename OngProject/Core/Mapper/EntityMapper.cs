@@ -118,5 +118,16 @@ namespace OngProject.Core.Mapper
                 Text = slide.Text
             };
         }
+
+        public Slide Slide(AddSlideDTO add, string url)
+        {
+            return new Slide()
+            {
+                ImageUrl = url,
+                Order = (int)add.Order,
+                Text = add.Text,
+                OrganizationId = add.OrganizationId,
+            };
+        }
     }
 }
