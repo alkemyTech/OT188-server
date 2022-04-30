@@ -15,7 +15,7 @@ namespace OngProject.Repositories
         }
         public async Task<int> GetLastOrder()
         {
-            return await _entities.MaxAsync(sl => sl.Order);
+           return await _entities.MaxAsync(sl => sl.Order);
         }
     }
 }

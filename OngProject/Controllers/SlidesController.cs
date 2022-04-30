@@ -53,12 +53,12 @@ namespace OngProject.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Create([FromBody] AddSlideDTO slide)
+        public async Task<IActionResult> Create([FromForm] AddSlideDTO add)
         {
             try
             {
-
-                return Ok("Succes");
+                var result = await _slidesBusiness.Add(add);
+                return StatusCode(200, result);
             }
             catch (System.Exception e)
             {

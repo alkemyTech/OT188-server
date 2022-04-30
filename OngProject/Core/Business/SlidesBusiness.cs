@@ -16,10 +16,11 @@ namespace OngProject.Core.Business
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAmazonS3Helper _amazonS3Helper;
 
-        public SlidesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
+        public SlidesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper, IAmazonS3Helper amazonS3Helper)
         {
             _entityMapper = entityMapper;
             _unitOfWork = unitOfWork;
+            _amazonS3Helper = amazonS3Helper;
         }
 
         public async Task<IEnumerable<SlideDTO>> GetSlides(bool listEntity)
@@ -67,15 +68,19 @@ namespace OngProject.Core.Business
 
         public async Task<Response<string>> Add(AddSlideDTO add)
         {
+            //set order
             if(add.Order == null)
             {
                 add.Order = await _unitOfWork.SlideRepository.GetLastOrder() + 1;
             }
-
-            var url = await _amazonS3Helper.UploadFileAsync(add.Image);
-            await _unitOfWork.SlideRepository.Add(_entityMapper.Slide(add, url));
+            //set organization id
+            add.OrganizationId = (await _unitOfWork.OrganizationsRepository.GetAll(true)).FirstOrDefault().Id;
+            //upload image and set url access
+            add.ImageUrl = await _amazonS3Helper.UploadFileAsync(add.Image);
+            //save slide
+            await _unitOfWork.SlideRepository.Add(_entityMapper.Slide(add));
             _unitOfWork.SaveChanges();
-
+            //succes
             return new Response<string>("Succes");
         }
     }

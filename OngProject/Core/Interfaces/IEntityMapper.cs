@@ -23,6 +23,6 @@ namespace OngProject.Core.Interfaces
         User RegisterDtoToUser(RegisterDto registerDto);
         PublicSlideDTO PublicSlideDTO(Slide slide);
         DetailSlideDTO DetailSlideDTO(Slide slide);
-        Slide Slide(AddSlideDTO add, string url);
+        Slide Slide(AddSlideDTO add);
     }
 }

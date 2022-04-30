@@ -119,14 +119,14 @@ namespace OngProject.Core.Mapper
             };
         }
 
-        public Slide Slide(AddSlideDTO add, string url)
+        public Slide Slide(AddSlideDTO add)
         {
             return new Slide()
             {
-                ImageUrl = url,
+                ImageUrl = add.ImageUrl,
                 Order = (int)add.Order,
                 Text = add.Text,
-                OrganizationId = add.OrganizationId,
+                OrganizationId = add.OrganizationId
             };
         }
     }
