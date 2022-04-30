@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using System;
 using System.Threading.Tasks;
 
@@ -47,9 +48,11 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert()
+        public async Task<IActionResult> Post([FromForm] RegisterContactDto dto)
         {
-            return Ok();
+            var response = await _contactsBusiness.InsertAsync(dto);
+
+            return response.Errors == null ? Ok(response) : StatusCode(500, response);                    
         }
 
         [Route("{id}")]
