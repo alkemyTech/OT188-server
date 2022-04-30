@@ -76,17 +76,21 @@ namespace OngProject.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                return Ok("Succes");
+                var result = await _slidesBusiness.Delete(id);
+
+                if (result.Succeeded == false)
+                    return StatusCode(403, result);
+
+                return Ok(result);
             }
             catch (System.Exception e)
             {
                 return StatusCode(500, e.Message);
             }
         }
-
     }
 }
