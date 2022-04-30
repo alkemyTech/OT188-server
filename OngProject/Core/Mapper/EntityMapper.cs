@@ -118,5 +118,25 @@ namespace OngProject.Core.Mapper
                 Text = slide.Text
             };
         }
+
+        public Contact RegisterContactDtoToContact(RegisterContactDto dto)
+        {
+            return new Contact
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                Message = dto.Message
+            };
+        }
+
+        public RegisterContactDto ContactToRegisterContactDto(Contact contact)
+        {
+            return new RegisterContactDto
+            {
+                Name = contact.Name,
+                Email = contact.Email,
+                Message = contact.Message
+            };            
+        }
     }
 }
