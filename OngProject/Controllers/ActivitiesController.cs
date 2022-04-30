@@ -34,7 +34,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Insert(NewActivityDto activityDto)
         {
             var response = await _activitiesService.InsertActivity(activityDto);
