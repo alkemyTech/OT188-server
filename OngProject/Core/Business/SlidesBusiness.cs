@@ -81,7 +81,7 @@ namespace OngProject.Core.Business
             await _unitOfWork.SlideRepository.Add(_entityMapper.Slide(add));
             _unitOfWork.SaveChanges();
             //succes
-            return new Response<string>("Succes");
+            return new Response<string>("Succes", message:"Slide Agregado");
         }
     }
 }
