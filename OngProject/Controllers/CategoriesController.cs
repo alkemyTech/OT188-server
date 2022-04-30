@@ -76,18 +76,26 @@ namespace OngProject.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                return Ok();
+                var result = await _business.DeleteCategory(id);
+
+                if (result.Succeeded == false)
+                    return StatusCode(403, result);
+
+                return Ok(result);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                return NoContent();
+                return StatusCode(500, e.Message);
             }
         }
-        
+
     }
 }
