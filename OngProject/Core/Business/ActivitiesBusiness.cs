@@ -32,12 +32,13 @@ namespace OngProject.Core.Business
                 result.Succeeded = true;
                 result.Message = $"The [{entity.Name}] activity has been created";
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {                 
                 var listErrors = new string[2];
                 listErrors[0] = e.Message;
                 listErrors[1] = e.StackTrace.ToString();
                 return new Response<NewActivityDto> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors };
+
             }
             return result;
         }

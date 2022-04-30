@@ -35,16 +35,8 @@ namespace OngProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(NewActivityDto activityDto)
         {
-            try
-            {
-                var response = await _activitiesService.InsertActivity(activityDto);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                var listErrors = new string[2] { e.Message, e.StackTrace };
-                return StatusCode(500, new Response<NewActivityDto> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors });
-            }
+            var response = await _activitiesService.InsertActivity(activityDto);
+            return response.Errors == null ? Ok(response) : StatusCode(500, response);
         }
 
         [Route("{id}")]
