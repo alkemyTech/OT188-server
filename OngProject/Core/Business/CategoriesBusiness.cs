@@ -6,6 +6,7 @@ using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System.Linq;
 using System;
+using OngProject.Core.Models;
 
 namespace OngProject.Core.Business
 {
@@ -36,9 +37,32 @@ namespace OngProject.Core.Business
             throw new Exception();
         }
 
-        public Task<Category> InsertCategory(Category entity)
+        public async Task<Response<NewCategoryDTO>> InsertCategory(NewCategoryDTO categoriesNewsDTO)
         {
-            throw new System.NotImplementedException();
+            var response = new Response<NewCategoryDTO>();
+            try
+            {   
+                if((categoriesNewsDTO.Name is String) == true) 
+                {
+                    var categoriesNews = _entityMapper.CategoryToCategoryNewsDTO(categoriesNewsDTO);
+                    var category = await _unitOfWork.CategoryRepository.AddAsync(categoriesNews);
+                    await _unitOfWork.SaveChangesAsync();
+                    response.Data = categoriesNewsDTO;
+                    response.Succeeded = true;
+                    response.Message = "Categoria creada correctamente";
+                }
+                else
+                {
+                    response.Succeeded = false;
+                response.Message = "Datos incorrectos";
+                }
+            }
+            catch (Exception e)
+            {
+                var listErrors = new string[] {e.Message, e.StackTrace};
+                response.Errors = listErrors;
+            }
+            return response;
         }
 
         public Task UpdateCategory(int id, Category entity)

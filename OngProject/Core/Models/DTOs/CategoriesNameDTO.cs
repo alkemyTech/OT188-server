@@ -1,4 +1,6 @@
-﻿namespace OngProject.Core.Models.DTOs
+﻿using System;
+
+namespace OngProject.Core.Models.DTOs
 {
     public class CategoriesNameDTO
     {
