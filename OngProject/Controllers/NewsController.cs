@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -31,17 +32,13 @@ namespace OngProject.Controllers
             
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
+            var response = await _business.GetNew(id);
+            
+            return response.Errors == null ? Ok(response) : StatusCode(500, response);
+            
         }
 
         [HttpPost]
