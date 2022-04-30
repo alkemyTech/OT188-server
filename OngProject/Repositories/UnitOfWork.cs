@@ -15,7 +15,7 @@ namespace OngProject.Repositories
         private readonly IRepository<User> _usersRepository;
         private readonly IRepository<Comment> _commentsRepository;
         private readonly IRepository<Testimony> _testimonialsRepository;
-        private readonly IRepository<Slide> _slideRepository;
+        private readonly ISlideRepository _slideRepository;
         private readonly IRepository<Activity> _activityRepository;
         private readonly IRepository<Member> _memberRepository;
         private readonly IRepository<Category> _categoryRepository;
@@ -38,7 +38,7 @@ namespace OngProject.Repositories
         public IRepository<Comment> CommentRepository => _commentsRepository ?? new Repository<Comment>(_context);
         public IRepository<Category> CategoryRepository => _categoryRepository ?? new Repository<Category>(_context);
         public IRepository<New> NewRepository => _newRepository ?? new Repository<New>(_context);
-        public IRepository<Slide> SlideRepository => _slideRepository ?? new Repository<Slide>(_context);
+        public ISlideRepository SlideRepository => _slideRepository ?? new SlideRepository(_context);
         public IRepository<Activity> ActivityRepository => _activityRepository ?? new Repository<Activity>(_context);
         public IRepository<Member> MemberRepository => _memberRepository ?? new Repository<Member>(_context);
         public IRepository<Contact> ContactRepository => _contactRepository ?? new Repository<Contact>(_context);
