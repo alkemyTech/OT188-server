@@ -10,7 +10,6 @@ namespace OngProject.Core.Models.DTOs
         [Required(ErrorMessage = "\"Content\" field is required")]
         [MaxLength(65535)]
         public string Content { get; set; }
-        //[Required]
         [MaxLength(255)]
         public string? Image { get; set; }
     }
