@@ -5,6 +5,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace OngProject.Core.Business
 {
@@ -13,11 +14,13 @@ namespace OngProject.Core.Business
 
         private readonly IEntityMapper _entityMapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAmazonS3Helper _amazonS3Helper;
 
-        public SlidesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
+        public SlidesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper, IAmazonS3Helper amazonS3Helper)
         {
             _entityMapper = entityMapper;
             _unitOfWork = unitOfWork;
+            _amazonS3Helper = amazonS3Helper;
         }
 
         public async Task<IEnumerable<SlideDTO>> GetSlides(bool listEntity)
@@ -61,6 +64,24 @@ namespace OngProject.Core.Business
             }
             _unitOfWork.SaveChanges();
             return new Response<string>("Succes", message:"Entity Deleted");
+        }
+
+        public async Task<Response<string>> Add(AddSlideDTO add)
+        {
+            //set order
+            if(add.Order == null)
+            {
+                add.Order = await _unitOfWork.SlideRepository.GetLastOrder() + 1;
+            }
+            //set organization id
+            add.OrganizationId = (await _unitOfWork.OrganizationsRepository.GetAll(true)).FirstOrDefault().Id;
+            //upload image and set url access
+            add.ImageUrl = await _amazonS3Helper.UploadFileAsync(add.Image);
+            //save slide
+            await _unitOfWork.SlideRepository.Add(_entityMapper.Slide(add));
+            _unitOfWork.SaveChanges();
+            //succes
+            return new Response<string>("Succes", message:"Slide Agregado");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace OngProject.Repositories.Interfaces
         IRepository<Organization> OrganizationsRepository { get; }
         IRepository<Rol> RolRepository { get; }
         IRepository<User> UserRepository { get; }
-        IRepository<Slide> SlideRepository { get; }
+        ISlideRepository SlideRepository { get; }
         IRepository<Activity> ActivityRepository { get; }
         IRepository<Testimony> TestimonyRepository { get; }
         IRepository<Member> MemberRepository { get; }
