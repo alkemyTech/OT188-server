@@ -78,12 +78,13 @@ namespace OngProject.Controllers
         {
             try
             {
-                await _usersBusiness.DeleteUser(id);
-                return Ok(new {Message = "Usuario Eliminado"});
+                var response = await _usersBusiness.DeleteUser(id);
+                
+                return response.Succeeded == false ? StatusCode(403, response) : Ok(response);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, e.Message);
             }
         }
     }

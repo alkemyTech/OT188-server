@@ -10,6 +10,8 @@ using OngProject.Core.Helper;
 using OngProject.Core.Models.Enums;
 using OngProject.Repositories;
 using Microsoft.Extensions.Configuration;
+using OngProject.Core.Models;
+using Swashbuckle.Swagger;
 
 namespace OngProject.Core.Business
 {
@@ -105,17 +107,18 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
-        public async Task DeleteUser(int id)
+        public async Task<Response<string>> DeleteUser(int id)
         {
-            var entity = await _unitOfWork.UserRepository.GetById(id);
-                
-            if (entity.Id != id && entity.IsDeleted != false )
+            try
             {
-                throw new Exception("Usuario no encontrado.");
+                await _unitOfWork.UserRepository.Delete(id);
             }
-
-            await _unitOfWork.UserRepository.Delete(id);
+            catch (InvalidOperationException e)
+            {
+                return new Response<string>("Error", succeeded: false, message: e.Message);
+            }
             await _unitOfWork.SaveChangesAsync();
+            return new Response<string>("Succes", message: "Entity Deleted");
         }
         public bool Exist(IEnumerable<User> users, string email)
         {
