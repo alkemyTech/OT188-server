@@ -105,7 +105,7 @@ namespace OngProject.Core.Mapper
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
                 Address = organization.Address,
-                Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+               // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
         }
@@ -129,7 +129,6 @@ namespace OngProject.Core.Mapper
                 Text = slide.Text
             };
         }
-
 
         public NewDTO NewToNewDTO(New newEntity)
         {
