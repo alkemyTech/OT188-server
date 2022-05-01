@@ -11,5 +11,6 @@ namespace OngProject.Core.Interfaces
 
         Task<DetailSlideDTO> GetDetailSlide(int id);
         Task<Response<string>> Delete(int id);
+        Task<Response<string>> Add(AddSlideDTO addSlideDTO); 
     }
 }
