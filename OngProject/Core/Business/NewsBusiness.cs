@@ -30,32 +30,16 @@ namespace OngProject.Core.Business
 
         public async Task<Response<NewDto>> GetNew(int id)
         {
-            var response = new Response<NewDto>();
             try
             {
                 var entity = await _unitOfWork.NewRepository.GetById(id, "Comments");
-
-                if (entity == null)
-                {
-                    response.Data = null;
-                    response.Succeeded = false;
-                    response.Message = "Datos incorrectos";
-                }
-                else
-                {
-                    response.Data = _entityMapper.NewToNewDto(entity);
-                    response.Succeeded = true;
-                    response.Message = "Correcto";
-                }
+                var result = _entityMapper.NewToNewDto(entity);
+                return new Response<NewDto>(result,succeeded:true);
             }
-            catch (Exception e)
+            catch (NullReferenceException e)
             {
-                var listErrors = new string[] {e.Message, e.StackTrace};
-                response.Errors = listErrors;
-                response.Message = "ocurrio un error!!";
+                return new Response<NewDto>(data: null, succeeded: false, message: "Entity not found");
             }
-
-            return response;
         }
 
         public Task<New> InsertNew(New entity)

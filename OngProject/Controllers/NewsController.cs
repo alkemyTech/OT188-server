@@ -35,10 +35,16 @@ namespace OngProject.Controllers
         [HttpGet("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Get(int id)
         {
-            var response = await _business.GetNew(id);
-            
-            return response.Errors == null ? Ok(response) : StatusCode(500, response);
-            
+            try
+            {
+                var response = await _business.GetNew(id);
+
+                return response.Succeeded == false ? StatusCode(403, response) : Ok(response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPost]
