@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -51,15 +52,16 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] Category entity)
+        public async Task<ActionResult> Post([FromForm]NewCategoryDTO categoriesNewsDTO)
         {
             try
             {
-                return Ok();
+                var response = await _business.InsertCategory(categoriesNewsDTO);
+                return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return NoContent();
+                return StatusCode(500, ex);
             }
         }
 

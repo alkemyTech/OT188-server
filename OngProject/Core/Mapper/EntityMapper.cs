@@ -79,6 +79,17 @@ namespace OngProject.Core.Mapper
             };
             return user;
         }
+        public Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO)
+        {
+            var category = new Category
+            {
+                Name = categoriesNewsDTO.Name,
+                Description = categoriesNewsDTO.Description,
+                Image = categoriesNewsDTO.Image
+            };
+            return category;
+        }
+
         public CategoriesNameDTO CategoriesNameDTO(Category category)
         {
             return new CategoriesNameDTO
@@ -116,6 +127,17 @@ namespace OngProject.Core.Mapper
                 Order = slide.Order,
                 OrganizationId = slide.OrganizationId,
                 Text = slide.Text
+            };
+        }
+
+        public Slide Slide(AddSlideDTO add)
+        {
+            return new Slide()
+            {
+                ImageUrl = add.ImageUrl,
+                Order = (int)add.Order,
+                Text = add.Text,
+                OrganizationId = add.OrganizationId
             };
         }
     }
