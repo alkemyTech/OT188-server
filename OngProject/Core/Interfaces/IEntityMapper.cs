@@ -23,5 +23,10 @@ namespace OngProject.Core.Interfaces
         User RegisterDtoToUser(RegisterDto registerDto);
         PublicSlideDTO PublicSlideDTO(Slide slide);
         DetailSlideDTO DetailSlideDTO(Slide slide);
+
+        NewDTO NewToNewDTO(New newEntity);
+        New NewDTOToNew(NewDTO newEntity);
+
+
     }
 }

@@ -118,5 +118,32 @@ namespace OngProject.Core.Mapper
                 Text = slide.Text
             };
         }
+
+
+        public NewDTO NewToNewDTO(New newEntity)
+        {
+            var _newDTO = new NewDTO
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _newDTO;
+        }
+
+
+        public New NewDTOToNew(NewDTO newEntity)
+        {
+            var _new = new New
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _new;
+        }
+
     }
 }
