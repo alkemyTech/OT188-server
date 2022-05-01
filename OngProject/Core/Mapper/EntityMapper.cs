@@ -130,6 +130,19 @@ namespace OngProject.Core.Mapper
             };
         }
 
+        public Activity ActivityDtoToActivity(NewActivityDto activityDto)
+        {
+            var activity = new Activity
+            {
+                Name = activityDto.Name,
+                Content = activityDto.Content,
+                Image = activityDto.Image,
+                ModifiedAt = DateTime.Now
+            };
+            return activity;
+        } 
+
+
         public Slide Slide(AddSlideDTO add)
         {
             return new Slide()
@@ -140,5 +153,6 @@ namespace OngProject.Core.Mapper
                 OrganizationId = add.OrganizationId
             };
         }
+
     }
 }
