@@ -50,9 +50,16 @@ namespace OngProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] RegisterContactDto dto)
         {
-            var response = await _contactsBusiness.InsertAsync(dto);
+            try
+            {
+                var response = await _contactsBusiness.InsertAsync(dto);
 
-            return response.Errors == null ? Ok(response) : StatusCode(500, response);                    
+                return response.Succeeded ? Ok(response) : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [Route("{id}")]
