@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -51,15 +52,16 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] Category entity)
+        public async Task<ActionResult> Post([FromForm]NewCategoryDTO categoriesNewsDTO)
         {
             try
             {
-                return Ok();
+                var response = await _business.InsertCategory(categoriesNewsDTO);
+                return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return NoContent();
+                return StatusCode(500, ex);
             }
         }
 
@@ -76,18 +78,26 @@ namespace OngProject.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                return Ok();
+                var result = await _business.DeleteCategory(id);
+
+                if (result.Succeeded == false)
+                    return StatusCode(403, result);
+
+                return Ok(result);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                return NoContent();
+                return StatusCode(500, e.Message);
             }
         }
-        
+
     }
 }
