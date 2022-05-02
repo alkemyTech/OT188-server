@@ -34,11 +34,11 @@ namespace OngProject.Core.Business
             }
             catch (Exception e)
             {                 
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace.ToString();
-                return new Response<NewActivityDto> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors };
-
+                //var listErrors = new string[2];
+                //listErrors[0] = e.Message;
+                //listErrors[1] = e.StackTrace.ToString();
+                //return new Response<NewActivityDto> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors };
+                throw;
             }
             return result;
         }
