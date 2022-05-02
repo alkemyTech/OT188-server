@@ -20,6 +20,20 @@ namespace OngProject.Core.Business
             _entityMapper = entityMapper;
         }
 
+        public async Task<Response<string>> DeleteMember(int id)
+        {
+            try
+            {
+                 await _unitOfWork.MemberRepository.Delete(id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return new Response<string>("Error", succeeded: false, message: e.Message);
+            }
+            await _unitOfWork.SaveChangesAsync();
+            return new Response<string>("Succes", message: "Entity Deleted");
+        }
+
         public async Task<IEnumerable<MemberDTO>> GetMembers(bool listEntity)
         {
             try
@@ -66,6 +80,12 @@ namespace OngProject.Core.Business
             }
             return result;
         }
+
+
+       
+       
+
+       
     }
 }
 
