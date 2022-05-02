@@ -46,19 +46,23 @@ namespace OngProject.Core.Business
             var result = new Response<NewMemberDTO>();
             try
             {
-                var activity = _entityMapper.NewMemberDtoToMember(entity);
-                await _unitOfWork.MemberRepository.AddAsync(activity);
+                var member = _entityMapper.NewMemberDtoToMember(entity);
+                await _unitOfWork.MemberRepository.AddAsync(member);
                 await _unitOfWork.SaveChangesAsync();
                 result.Data = entity;
                 result.Succeeded = true;
-                result.Message = $"The [{entity.Name}] member has been created";
+                result.Message = "The member has been created";
             }
             catch (Exception e)
             {
                 var listErrors = new string[2];
                 listErrors[0] = e.Message;
                 listErrors[1] = e.StackTrace.ToString();
-                return new Response<NewMemberDTO> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors };
+                return new Response<NewMemberDTO> { 
+                    Data = null, 
+                    Message = "Error",
+                    Succeeded = false, 
+                    Errors = listErrors };
             }
             return result;
         }
