@@ -105,7 +105,7 @@ namespace OngProject.Core.Mapper
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
                 Address = organization.Address,
-                Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+               // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
         }
@@ -130,6 +130,30 @@ namespace OngProject.Core.Mapper
             };
         }
 
+        public NewDTO NewToNewDTO(New newEntity)
+        {
+            var _newDTO = new NewDTO
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _newDTO;
+        }
+
+
+        public New NewDTOToNew(NewDTO newEntity)
+        {
+            var _new = new New
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _new;
+        }
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)
         {
             var activity = new Activity

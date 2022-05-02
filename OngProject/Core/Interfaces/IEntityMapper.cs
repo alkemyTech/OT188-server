@@ -33,5 +33,10 @@ namespace OngProject.Core.Interfaces
 
 
         Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);
+
+        NewDTO NewToNewDTO(New newEntity);
+        New NewDTOToNew(NewDTO newEntity);
+
+
     }
 }
