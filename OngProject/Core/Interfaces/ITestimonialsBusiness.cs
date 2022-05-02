@@ -1,4 +1,6 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         Task<IEnumerable<Testimony>> GetTestimonials(bool listEntity);
         Task<Testimony> GetTestimonial(int id);
-        Task<Testimony> InsertTestimonial(Testimony entity);
+        Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto entity);
         Task UpdateTestimonial(int id, Testimony entity);
         Task DeleteTestimonial(int id);
 

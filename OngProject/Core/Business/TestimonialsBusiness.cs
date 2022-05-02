@@ -3,6 +3,9 @@ using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
+using System;
 
 namespace OngProject.Core.Business
 {
@@ -30,9 +33,19 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        Task<Testimony> ITestimonialsBusiness.InsertTestimonial(Testimony entity)
+        public async Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto entity)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                
+
+                return new Response<NewTestimonyDto>();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         Task ITestimonialsBusiness.UpdateTestimonial(int id, Testimony entity)
