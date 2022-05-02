@@ -105,7 +105,7 @@ namespace OngProject.Core.Mapper
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
                 Address = organization.Address,
-                Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+               // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
         }
@@ -128,6 +128,54 @@ namespace OngProject.Core.Mapper
                 OrganizationId = slide.OrganizationId,
                 Text = slide.Text
             };
+        }
+
+
+        public NewDto NewToNewDto(New newEntity)
+        {
+            return new NewDto()
+            {
+                Name = newEntity.Name,
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Comments = newEntity.Comments.Select(x => this.CommentToCommentDto(x)).ToList()
+            };
+        }
+
+        public CommentDto CommentToCommentDto(Comment comment)
+        {
+            return new CommentDto
+            {
+                Body = comment.Body,
+                IdUser = comment.IdUser
+            };
+        }
+        
+
+        public NewDTO NewToNewDTO(New newEntity)
+        {
+            var _newDTO = new NewDTO
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _newDTO;
+        }
+
+
+        public New NewDTOToNew(NewDTO newEntity)
+        {
+            var _new = new New
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _new;
         }
 
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)

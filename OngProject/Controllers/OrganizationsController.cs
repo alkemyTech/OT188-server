@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -13,10 +14,11 @@ namespace OngProject.Controllers
     public class OrganizationsController : ControllerBase
     {
         private readonly IOrganizationsBusiness _business;
+        private readonly IOrganizationsBusiness _organizationsBusiness;
 
-        public OrganizationsController(IOrganizationsBusiness business)
+        public OrganizationsController(IOrganizationsBusiness organizationsBusiness)
         {
-            _business = business;
+            _organizationsBusiness = organizationsBusiness;
         }
 
         [HttpGet]
@@ -39,15 +41,22 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<OrganizationDTO>> Get(int id)
         {
             try
+            {                
+                var organization = await _organizationsBusiness.GetOrganization(id);
+
+                if (organization == null)
+                {
+                    return NotFound(organization);
+                }
+
+                return Ok(organization);
+            }           
+            catch (Exception ex)
             {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
+                return StatusCode(500, ex.Message);
             }
         }
 
