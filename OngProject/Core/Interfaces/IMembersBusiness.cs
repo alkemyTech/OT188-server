@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<MemberDTO>> GetMembers(bool listEntity);
 
+        Task<Response<NewMemberDTO>>InsertMember(NewMemberDTO entity);
     }
 }

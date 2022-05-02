@@ -118,5 +118,20 @@ namespace OngProject.Core.Mapper
                 Text = slide.Text
             };
         }
+
+        public Member NewMemberDtoToMember(NewMemberDTO newMemberDTO)
+        {
+            var member = new Member
+            {
+                Name = newMemberDTO.Name,
+                FacebookUrl = newMemberDTO.FacebookUrl,
+                InstagramUrl = newMemberDTO.InstagramUrl,
+                LinkedinUrl = newMemberDTO.LinkedinUrl,
+                Image = newMemberDTO.Image,
+                Description = newMemberDTO.Description,
+                ModifiedAt = DateTime.Now
+            };
+            return member;
+        }
     }
 }
