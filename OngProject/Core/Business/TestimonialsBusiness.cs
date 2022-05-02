@@ -12,10 +12,12 @@ namespace OngProject.Core.Business
     public class TestimonialsBusiness : ITestimonialsBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
-        
-        public TestimonialsBusiness(IUnitOfWork unitOfWork)
+        private readonly IEntityMapper _entityMapper;
+
+        public TestimonialsBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
         {
             _unitOfWork = unitOfWork;
+            _entityMapper = entityMapper;
         }
         
         Task ITestimonialsBusiness.DeleteTestimonial(int id)
@@ -33,19 +35,23 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto entity)
+        public async Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto newEntity)
         {
+            var response = new Response<NewTestimonyDto>();
             try
             {
-                
-
-                return new Response<NewTestimonyDto>();
+                var testimony = _entityMapper.NewTestimonyDtoToTestimonyDto(newEntity);
+                await _unitOfWork.TestimonyRepository.AddAsync(testimony);
+                await _unitOfWork.SaveChangesAsync();
+                response.Data = newEntity;
+                response.Succeeded = true;
+                response.Message = "The Testimony has been created";
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
                 throw;
             }
+            return response;
         }
 
         Task ITestimonialsBusiness.UpdateTestimonial(int id, Testimony entity)
