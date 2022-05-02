@@ -30,7 +30,7 @@ namespace OngProject.Core.Business
                 await _unitOfWork.SaveChangesAsync();
                 result.Data = entity;
                 result.Succeeded = true;
-                result.Message = $"The [{entity.Name}] activity has been created";
+                result.Message = $"The activity has been created";
             }
             catch (Exception e)
             {                 
