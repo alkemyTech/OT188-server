@@ -32,13 +32,10 @@ namespace OngProject.Core.Interfaces
         Contact RegisterContactDtoToContact(RegisterContactDto dto);
       
         RegisterContactDto ContactToRegisterContactDto(Contact contact);
-      
-        NewDto NewToNewDto(New newEntity);
 
 
         NewOutDto NewToNewOUtDto(New newEntity);
-
-
+        
         CommentOutDto CommentToCommentOutDto(Comment comment);
 
         Activity ActivityDtoToActivity(NewActivityDto activityDto);
