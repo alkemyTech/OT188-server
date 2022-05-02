@@ -1,4 +1,5 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -39,5 +40,28 @@ namespace OngProject.Core.Business
                 throw;
             }
         }
+
+        public async Task<Response<NewMemberDTO>> InsertMember(NewMemberDTO entity)
+        {
+            var result = new Response<NewMemberDTO>();
+            try
+            {
+                var activity = _entityMapper.NewMemberDtoToMember(entity);
+                await _unitOfWork.MemberRepository.AddAsync(activity);
+                await _unitOfWork.SaveChangesAsync();
+                result.Data = entity;
+                result.Succeeded = true;
+                result.Message = $"The [{entity.Name}] member has been created";
+            }
+            catch (Exception e)
+            {
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace.ToString();
+                return new Response<NewMemberDTO> { Data = null, Message = "Error", Succeeded = false, Errors = listErrors };
+            }
+            return result;
+        }
     }
 }
+

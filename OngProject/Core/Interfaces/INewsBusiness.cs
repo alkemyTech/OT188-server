@@ -11,6 +11,8 @@ namespace OngProject.Core.Interfaces
         Task<IEnumerable<New>> GetNews(bool listEntity);
         Task<Response<NewDto>> GetNew(int id);
         Task<New> InsertNew(New entity);
+        Task<New> GetNew(int id);
+        Task<Response<NewDTO>> InsertNew(NewDTO entity);
         Task UpdateNew(int id, New entity);
         Task DeleteNew(int id);
     }

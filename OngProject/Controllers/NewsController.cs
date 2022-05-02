@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -48,15 +49,17 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] New entity)
+        public async Task<ActionResult> Post([FromForm] NewDTO entity)
         {
             try
-            {
-                return Ok();
-            }
-            catch (Exception e)
+            {              
+                var response = await _business.InsertNew(entity);
+                return Ok(response);
+            }            
+            catch (Exception ex)
             {
                 return NoContent();
+                return StatusCode(500, ex);
             }
         }
 
