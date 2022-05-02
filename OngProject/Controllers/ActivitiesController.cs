@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
-using OngProject.Core.Models;
-using OngProject.Core.Models.DTOs;
-using System;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("activities")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ActivitiesController : ControllerBase
     {
@@ -34,11 +30,9 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Insert(NewActivityDto activityDto)
+        public async Task<IActionResult> Insert()
         {
-            var response = await _activitiesService.InsertActivity(activityDto);
-            return response.Errors == null ? Ok(response) : StatusCode(500, response);
+            return Ok();
         }
 
         [Route("{id}")]

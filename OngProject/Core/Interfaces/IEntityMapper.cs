@@ -23,18 +23,27 @@ namespace OngProject.Core.Interfaces
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 
         User RegisterDtoToUser(RegisterDto registerDto);
+      
         PublicSlideDTO PublicSlideDTO(Slide slide);
+      
         DetailSlideDTO DetailSlideDTO(Slide slide);
-
+      
         Contact RegisterContactDtoToContact(RegisterContactDto dto);
+      
         RegisterContactDto ContactToRegisterContactDto(Contact contact);
+      
+        NewDto NewToNewDto(New newEntity);
 
-
+        CommentDto CommentToCommentDto(Comment comment);
 
         Activity ActivityDtoToActivity(NewActivityDto activityDto);
 
         Slide Slide(AddSlideDTO add);
 
+        Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);
 
+        NewDTO NewToNewDTO(New newEntity);
+      
+        New NewDTOToNew(NewDTO newEntity);
     }
 }

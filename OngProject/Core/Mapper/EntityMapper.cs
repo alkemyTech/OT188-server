@@ -39,7 +39,6 @@ namespace OngProject.Core.Mapper
             };
 
             return contactDtoItem;
-
         }
 
         public UserDto UserToUserDto(User user)
@@ -55,6 +54,7 @@ namespace OngProject.Core.Mapper
 
             return userDto;
         }
+        
         public AuthUserDto UserToAuthUserDto(User user, string token)
         {
             var _authUserDto = new AuthUserDto
@@ -66,8 +66,8 @@ namespace OngProject.Core.Mapper
             };
 
             return _authUserDto;
-
         }
+        
         public User RegisterDtoToUser(RegisterDto registerDto)
         {
             var user = new User
@@ -79,6 +79,7 @@ namespace OngProject.Core.Mapper
             };
             return user;
         }
+        
         public Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO)
         {
             var category = new Category
@@ -97,6 +98,7 @@ namespace OngProject.Core.Mapper
                 Name = category.Name
             };
         }
+        
         public OrganizationDTO OrganizationToOrganizationDTO(Organization organization)
         {
             var organizationDTO = new OrganizationDTO
@@ -105,10 +107,11 @@ namespace OngProject.Core.Mapper
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
                 Address = organization.Address,
-                Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+               // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
         }
+        
         public PublicSlideDTO PublicSlideDTO(Slide slide)
         {
             return new PublicSlideDTO
@@ -118,6 +121,7 @@ namespace OngProject.Core.Mapper
                 Order = slide.Order
             };
         }
+        
         public DetailSlideDTO DetailSlideDTO(Slide slide)
         {
             return new DetailSlideDTO
@@ -150,6 +154,51 @@ namespace OngProject.Core.Mapper
             };            
         }
 
+        public NewDto NewToNewDto(New newEntity)
+        {
+            return new NewDto()
+            {
+                Name = newEntity.Name,
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Comments = newEntity.Comments.Select(x => this.CommentToCommentDto(x)).ToList()
+            };
+        }
+
+        public CommentDto CommentToCommentDto(Comment comment)
+        {
+            return new CommentDto
+            {
+                Body = comment.Body,
+                IdUser = comment.IdUser
+            };
+        }        
+
+        public NewDTO NewToNewDTO(New newEntity)
+        {
+            var _newDTO = new NewDTO
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _newDTO;
+        }
+
+        public New NewDTOToNew(NewDTO newEntity)
+        {
+            var _new = new New
+            {
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Name = newEntity.Name,
+            };
+            return _new;
+        }
+
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)
         {
             var activity = new Activity
@@ -174,6 +223,19 @@ namespace OngProject.Core.Mapper
             };
         }
 
-
+        public Member NewMemberDtoToMember(NewMemberDTO newMemberDTO)
+        {
+            var member = new Member
+            {
+                Name = newMemberDTO.Name,
+                FacebookUrl = newMemberDTO.FacebookUrl,
+                InstagramUrl = newMemberDTO.InstagramUrl,
+                LinkedinUrl = newMemberDTO.LinkedinUrl,
+                Image = newMemberDTO.Image,
+                Description = newMemberDTO.Description,
+                ModifiedAt = DateTime.Now
+            };
+            return member;
+        }
     }
 }
