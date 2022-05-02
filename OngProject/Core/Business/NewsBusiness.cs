@@ -17,13 +17,7 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
-
         
-        public NewsBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _entityMapper = mapper;
-
         public NewsBusiness(IUnitOfWork unitOfWork,IEntityMapper entityMapper)
         {
             _unitOfWork = unitOfWork;
@@ -35,17 +29,17 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task<Response<NewDto>> GetNew(int id)
+        public async Task<Response<NewOutDto>> GetNew(int id)
         {
             try
             {
                 var entity = await _unitOfWork.NewRepository.GetById(id, "Comments");
-                var result = _entityMapper.NewToNewDto(entity);
-                return new Response<NewDto>(result,succeeded:true);
+                var result = _entityMapper.NewToNewOUtDto(entity);
+                return new Response<NewOutDto>(result,succeeded:true);
             }
             catch (NullReferenceException e)
             {
-                return new Response<NewDto>(data: null, succeeded: false, message: "Entity not found");
+                return new Response<NewOutDto>(data: null, succeeded: false, message: "Entity not found");
             }
         }
 

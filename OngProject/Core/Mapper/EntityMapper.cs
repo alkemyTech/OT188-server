@@ -154,21 +154,21 @@ namespace OngProject.Core.Mapper
             };            
         }
 
-        public NewDto NewToNewDto(New newEntity)
+        public NewOutDto NewToNewOUtDto(New newEntity)
         {
-            return new NewDto()
+            return new NewOutDto()
             {
                 Name = newEntity.Name,
                 Content = newEntity.Content,
                 Image = newEntity.Image,
                 CategoryId = newEntity.CategoryId,
-                Comments = newEntity.Comments.Select(x => this.CommentToCommentDto(x)).ToList()
+                Comments = newEntity.Comments.Select(x => this.CommentToCommentOutDto(x)).ToList()
             };
         }
 
-        public CommentDto CommentToCommentDto(Comment comment)
+        public CommentOutDto CommentToCommentOutDto(Comment comment)
         {
-            return new CommentDto
+            return new CommentOutDto()
             {
                 Body = comment.Body,
                 IdUser = comment.IdUser

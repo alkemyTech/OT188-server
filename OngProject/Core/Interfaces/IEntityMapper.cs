@@ -27,6 +27,7 @@ namespace OngProject.Core.Interfaces
         PublicSlideDTO PublicSlideDTO(Slide slide);
       
         DetailSlideDTO DetailSlideDTO(Slide slide);
+
       
         Contact RegisterContactDtoToContact(RegisterContactDto dto);
       
@@ -34,7 +35,11 @@ namespace OngProject.Core.Interfaces
       
         NewDto NewToNewDto(New newEntity);
 
-        CommentDto CommentToCommentDto(Comment comment);
+
+        NewOutDto NewToNewOUtDto(New newEntity);
+
+
+        CommentOutDto CommentToCommentOutDto(Comment comment);
 
         Activity ActivityDtoToActivity(NewActivityDto activityDto);
 
