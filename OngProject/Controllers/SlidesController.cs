@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -52,11 +53,12 @@ namespace OngProject.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Create([FromBody] Slide slide)
+        public async Task<IActionResult> Create([FromForm] AddSlideDTO add)
         {
             try
             {
-                return Ok("Succes");
+                var result = await _slidesBusiness.Add(add);
+                return StatusCode(200, result);
             }
             catch (System.Exception e)
             {

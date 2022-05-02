@@ -18,11 +18,19 @@ namespace OngProject.Core.Interfaces
 
         CategoriesNameDTO CategoriesNameDTO(Category category);
 
+        Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO);
+
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 
         User RegisterDtoToUser(RegisterDto registerDto);
         PublicSlideDTO PublicSlideDTO(Slide slide);
         DetailSlideDTO DetailSlideDTO(Slide slide);
+
+
+        Activity ActivityDtoToActivity(NewActivityDto activityDto);
+
+        Slide Slide(AddSlideDTO add);
+
 
         Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);
     }
