@@ -35,10 +35,24 @@ namespace OngProject.Core.Business
             return organizationDTOList;
         }
 
-        public Task<Organization> GetOrganization(int id)
+
+        
+        async Task<OrganizationDTO> IOrganizationsBusiness.GetOrganization(int id)
         {
-            throw new NotImplementedException();
+           try
+            {
+                var organization = await _unitOfWork.OrganizationsRepository.GetById(id);
+
+                return _entityMapper.OrganizationToOrganizationDTO(organization);
+
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
+
 
         public Task<Organization> InsertOrganization(Organization entity)
         {

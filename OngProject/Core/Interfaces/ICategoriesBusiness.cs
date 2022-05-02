@@ -11,14 +11,10 @@ namespace OngProject.Core.Interfaces
         Task<IEnumerable<Category>> GetCategories(bool listEntity);
         Task<Category> GetCategory(int id);
 
-        Task<Category> InsertCategory(Category entity);
+        Task<Response<NewCategoryDTO>> InsertCategory(NewCategoryDTO entity);
         Task UpdateCategory(int id, Category entity);       
         Task<Response<string>> DeleteCategory(int id);
-
-        Task<Response<NewCategoryDTO>> InsertCategory(NewCategoryDTO categoriesNewsDTO);
-        Task UpdateCategory(int id, Category entity);
-        Task DeleteCategory(int id);
-
+                       
         Task<IEnumerable<CategoriesNameDTO>> GetNameList();
     }
 }

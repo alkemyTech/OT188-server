@@ -31,5 +31,10 @@ namespace OngProject.Core.Interfaces
 
         Slide Slide(AddSlideDTO add);
 
+
+        NewDTO NewToNewDTO(New newEntity);
+        New NewDTOToNew(NewDTO newEntity);
+
+
     }
 }

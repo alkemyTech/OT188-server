@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
     {
         
         Task<IEnumerable<OrganizationDTO>> GetOrganizations(bool listEntity);
-        Task<Organization> GetOrganization(int id);
+        Task<OrganizationDTO> GetOrganization(int id);
         Task<Organization> InsertOrganization(Organization entity);
         Task UpdateOrganization(int id, Organization entity);
         Task DeleteOrganization(int id);
