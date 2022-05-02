@@ -56,7 +56,6 @@ namespace OngProject.Controllers
                     return BadRequest();
                 }
                 var response = await _business.InsertTestimonial(newEntity);
-
                 return Ok(response);
             }
             catch (Exception e)
