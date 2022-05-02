@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -43,9 +44,12 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert()
+        public async Task<IActionResult> Insert(NewMemberDTO newMemberDTO)
         {
-            return Ok();
+            {
+                var response = await _membersBusiness.InsertMember(newMemberDTO);
+                return response.Errors == null ? Ok(response) : StatusCode(500, response);
+            }
         }
 
         [Route("{id}")]
