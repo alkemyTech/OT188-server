@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -15,6 +18,12 @@ namespace OngProject.Core.Business
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
 
+        
+        public NewsBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _entityMapper = mapper;
+
         public NewsBusiness(IUnitOfWork unitOfWork,IEntityMapper entityMapper)
         {
             _unitOfWork = unitOfWork;
@@ -26,9 +35,18 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task<New> GetNew(int id)
+        public async Task<Response<NewDto>> GetNew(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var entity = await _unitOfWork.NewRepository.GetById(id, "Comments");
+                var result = _entityMapper.NewToNewDto(entity);
+                return new Response<NewDto>(result,succeeded:true);
+            }
+            catch (NullReferenceException e)
+            {
+                return new Response<NewDto>(data: null, succeeded: false, message: "Entity not found");
+            }
         }
 
         public async Task<Response<NewDTO>> InsertNew(NewDTO entity)

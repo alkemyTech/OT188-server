@@ -130,6 +130,29 @@ namespace OngProject.Core.Mapper
             };
         }
 
+
+        public NewDto NewToNewDto(New newEntity)
+        {
+            return new NewDto()
+            {
+                Name = newEntity.Name,
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId,
+                Comments = newEntity.Comments.Select(x => this.CommentToCommentDto(x)).ToList()
+            };
+        }
+
+        public CommentDto CommentToCommentDto(Comment comment)
+        {
+            return new CommentDto
+            {
+                Body = comment.Body,
+                IdUser = comment.IdUser
+            };
+        }
+        
+
         public NewDTO NewToNewDTO(New newEntity)
         {
             var _newDTO = new NewDTO
@@ -154,6 +177,7 @@ namespace OngProject.Core.Mapper
             };
             return _new;
         }
+
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)
         {
             var activity = new Activity

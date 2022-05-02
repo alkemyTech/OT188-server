@@ -53,7 +53,7 @@ namespace OngProject.Repositories
                 .Include(include)
                 .SingleOrDefaultAsync(x => x.Id == id);
 
-            return entity.IsDeleted == false ? entity : null;
+            return entity?.IsDeleted == false ? entity : null;
         }
 
         public async Task<T> Add(T entity)
