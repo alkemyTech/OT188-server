@@ -46,10 +46,22 @@ namespace OngProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(NewMemberDTO newMemberDTO)
         {
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
                 var response = await _membersBusiness.InsertMember(newMemberDTO);
-                return response.Errors == null ? Ok(response) : StatusCode(500, response);
+                return Ok(response);
             }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+                
+            }
+
+            
         }
 
         [Route("{id}")]
