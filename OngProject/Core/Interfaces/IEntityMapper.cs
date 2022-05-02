@@ -28,9 +28,9 @@ namespace OngProject.Core.Interfaces
       
         DetailSlideDTO DetailSlideDTO(Slide slide);
 
-        NewDto NewToNewDto(New newEntity);
+        NewOutDto NewToNewOUtDto(New newEntity);
 
-        CommentDto CommentToCommentDto(Comment comment);
+        CommentOutDto CommentToCommentOutDto(Comment comment);
 
         Activity ActivityDtoToActivity(NewActivityDto activityDto);
 
