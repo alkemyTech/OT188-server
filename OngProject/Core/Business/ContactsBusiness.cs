@@ -5,6 +5,7 @@ using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -46,5 +47,37 @@ namespace OngProject.Core.Business
                 throw;
             }
         }
-    }
+
+        public async Task<Response<RegisterContactDto>> InsertAsync(RegisterContactDto dto)
+        {
+            var response = new Response<RegisterContactDto>();
+            
+            try
+            {
+                var contact = _mapper.RegisterContactDtoToContact(dto);
+
+                contact.ModifiedAt = DateTime.Now;
+
+                await _unitOfWork.ContactRepository.AddAsync(contact);                
+
+                await _unitOfWork.SaveChangesAsync();
+
+                response.Data = dto;
+
+                response.Succeeded = true;
+
+                response.Message = "Operación realizada con éxito";
+            }
+            catch (Exception ex)
+            {
+                var listErrors = new string[] { ex.Message, ex.StackTrace };
+
+                response.Errors = listErrors;
+
+                response.Message = "Ha ocurrido un error al intentar realizar la operación";
+            }
+
+            return response;
+        }
+    }    
 }

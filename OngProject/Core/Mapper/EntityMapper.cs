@@ -39,7 +39,6 @@ namespace OngProject.Core.Mapper
             };
 
             return contactDtoItem;
-
         }
 
         public UserDto UserToUserDto(User user)
@@ -55,6 +54,7 @@ namespace OngProject.Core.Mapper
 
             return userDto;
         }
+        
         public AuthUserDto UserToAuthUserDto(User user, string token)
         {
             var _authUserDto = new AuthUserDto
@@ -66,8 +66,8 @@ namespace OngProject.Core.Mapper
             };
 
             return _authUserDto;
-
         }
+        
         public User RegisterDtoToUser(RegisterDto registerDto)
         {
             var user = new User
@@ -79,6 +79,7 @@ namespace OngProject.Core.Mapper
             };
             return user;
         }
+        
         public Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO)
         {
             var category = new Category
@@ -97,6 +98,7 @@ namespace OngProject.Core.Mapper
                 Name = category.Name
             };
         }
+        
         public OrganizationDTO OrganizationToOrganizationDTO(Organization organization)
         {
             var organizationDTO = new OrganizationDTO
@@ -109,6 +111,7 @@ namespace OngProject.Core.Mapper
             };
             return organizationDTO;
         }
+        
         public PublicSlideDTO PublicSlideDTO(Slide slide)
         {
             return new PublicSlideDTO
@@ -118,6 +121,7 @@ namespace OngProject.Core.Mapper
                 Order = slide.Order
             };
         }
+        
         public DetailSlideDTO DetailSlideDTO(Slide slide)
         {
             return new DetailSlideDTO
@@ -130,6 +134,25 @@ namespace OngProject.Core.Mapper
             };
         }
 
+        public Contact RegisterContactDtoToContact(RegisterContactDto dto)
+        {
+            return new Contact
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                Message = dto.Message
+            };
+        }
+
+        public RegisterContactDto ContactToRegisterContactDto(Contact contact)
+        {
+            return new RegisterContactDto
+            {
+                Name = contact.Name,
+                Email = contact.Email,
+                Message = contact.Message
+            };            
+        }
 
         public NewOutDto NewToNewOUtDto(New newEntity)
         {
@@ -150,8 +173,7 @@ namespace OngProject.Core.Mapper
                 Body = comment.Body,
                 IdUser = comment.IdUser
             };
-        }
-        
+        }        
 
         public NewDTO NewToNewDTO(New newEntity)
         {
@@ -164,7 +186,6 @@ namespace OngProject.Core.Mapper
             };
             return _newDTO;
         }
-
 
         public New NewDTOToNew(NewDTO newEntity)
         {
@@ -201,7 +222,6 @@ namespace OngProject.Core.Mapper
                 OrganizationId = add.OrganizationId
             };
         }
-
 
         public Member NewMemberDtoToMember(NewMemberDTO newMemberDTO)
         {
