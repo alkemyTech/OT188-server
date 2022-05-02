@@ -37,21 +37,21 @@ namespace OngProject.Core.Business
 
         public async Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto newEntity)
         {
-            var response = new Response<NewTestimonyDto>();
+            var result = new Response<NewTestimonyDto>();
             try
             {
                 var testimony = _entityMapper.NewTestimonyDtoToTestimonyDto(newEntity);
                 await _unitOfWork.TestimonyRepository.AddAsync(testimony);
                 await _unitOfWork.SaveChangesAsync();
-                response.Data = newEntity;
-                response.Succeeded = true;
-                response.Message = "The Testimony has been created";
+                result.Data = newEntity;
+                result.Succeeded = true;
+                result.Message = "The Testimony has been created";
             }
             catch (Exception e)
             {
                 throw;
             }
-            return response;
+            return result;
         }
 
         Task ITestimonialsBusiness.UpdateTestimonial(int id, Testimony entity)
