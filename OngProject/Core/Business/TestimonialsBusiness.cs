@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Repositories.Interfaces;
 using OngProject.Core.Models;
+
 using OngProject.Core.Models.DTOs;
+
 using System;
 
 namespace OngProject.Core.Business
@@ -20,9 +22,18 @@ namespace OngProject.Core.Business
             _entityMapper = entityMapper;
         }
         
-        Task ITestimonialsBusiness.DeleteTestimonial(int id)
+        public async Task<Response<string>> DeleteTestimonial(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                await _unitOfWork.TestimonyRepository.Delete(id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return new Response<string>("Error", succeeded: false, message: e.Message);
+            }
+            _unitOfWork.SaveChanges();
+            return new Response<string>("Success", message: "Entity Deleted");
         }
 
         Task<Testimony> ITestimonialsBusiness.GetTestimonial(int id)
