@@ -15,10 +15,12 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public CommentsBusiness(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        private readonly IEntityMapper _entityMapper;
+        public CommentsBusiness(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork,IEntityMapper entityMapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
+            _entityMapper = entityMapper;   
         }
         public async Task<Response<string>> DeleteComments(int id)
         {
@@ -63,7 +65,11 @@ namespace OngProject.Core.Business
             var result = new Response<NewCommentDto>();
             try
             {
-                var comment = _entityMapper.NewCommentDtoToComment(entity);
+                
+                var idUser = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+               
+
+                var comment = _entityMapper.NewCommentDtoToComment(entity,idUser);
                 await _unitOfWork.CommentRepository.AddAsync(comment);
                 await _unitOfWork.SaveChangesAsync();
                 result.Data = entity;

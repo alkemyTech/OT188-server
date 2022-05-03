@@ -23,7 +23,7 @@ namespace OngProject.Controllers
             _commentsBusiness = commentsBusiness;
         }
         [HttpDelete("{Id}"), Authorize]
-        public async  Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             try
             {
@@ -38,13 +38,13 @@ namespace OngProject.Controllers
             {
                 var response = new Response<string>()
                 {
-                    Data="Error - 404",
+                    Data = "Error - 404",
                     Message = ex.Message,
                     Succeeded = false
                 };
-                return StatusCode(404,response);
+                return StatusCode(404, response);
             }
-
+        }
             [HttpPost]
             public async Task<IActionResult> Insert(NewCommentDto newCommentDto)
             {
@@ -66,11 +66,11 @@ namespace OngProject.Controllers
 
             }
 
-        }
-
-
-
-
-
     }
+
+
+
+
+
+    
 }

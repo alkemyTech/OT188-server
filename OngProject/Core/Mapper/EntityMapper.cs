@@ -260,14 +260,15 @@ namespace OngProject.Core.Mapper
             return testimony;
         }
 
-        public Comment NewCommentDtoToComment(NewCommentDto newCommentDto)
+        public Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id)
         {
+
             var comment = new Comment
             {
                 Body = newCommentDto.Body,
+                IdUser = id,
                 
-                IdUser = newCommentDto.IdUser,
-                
+                NewId = newCommentDto.NewId,
                 
                 
                 ModifiedAt = DateTime.Now
