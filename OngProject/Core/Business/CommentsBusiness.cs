@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -14,10 +15,12 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public CommentsBusiness(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        private readonly IEntityMapper _entityMapper;
+        public CommentsBusiness(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork,IEntityMapper entityMapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
+            _entityMapper = entityMapper;   
         }
         public async Task<Response<string>> DeleteComments(int id)
         {
@@ -47,7 +50,6 @@ namespace OngProject.Core.Business
                 return response;
             }
         }
-
         public Task<Comment> GetTestimonial(int id)
         {
             throw new System.NotImplementedException();
@@ -56,6 +58,38 @@ namespace OngProject.Core.Business
         public Task<IEnumerable<Comment>> GetTestimonials(bool listEntity)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<Response<NewCommentDto>> InsertComment(NewCommentDto entity)
+        {
+            var result = new Response<NewCommentDto>();
+            try
+            {
+                
+                var idUser = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+               
+
+                var comment = _entityMapper.NewCommentDtoToComment(entity,idUser);
+                await _unitOfWork.CommentRepository.AddAsync(comment);
+                await _unitOfWork.SaveChangesAsync();
+                result.Data = entity;
+                result.Succeeded = true;
+                result.Message = "The comment has been created";
+            }
+            catch (Exception e)
+            {
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace.ToString();
+                return new Response<NewCommentDto>
+                {
+                    Data = null,
+                    Message = "Error",
+                    Succeeded = false,
+                    Errors = listErrors
+                };
+            }
+            return result;
         }
 
         public Task<Comment> InsertTestimonial(Comment entity)

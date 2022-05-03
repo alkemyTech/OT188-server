@@ -259,5 +259,22 @@ namespace OngProject.Core.Mapper
             };
             return testimony;
         }
+
+        public Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id)
+        {
+
+            var comment = new Comment
+            {
+                Body = newCommentDto.Body,
+                IdUser = id,
+                
+                NewId = newCommentDto.NewId,
+                
+                
+                ModifiedAt = DateTime.Now
+
+            };
+            return comment;
+        }
     }
 }

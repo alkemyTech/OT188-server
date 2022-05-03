@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
+
+
     [Route("comments")]
     [ApiController]
     public class CommentsController : ControllerBase
@@ -20,7 +23,7 @@ namespace OngProject.Controllers
             _commentsBusiness = commentsBusiness;
         }
         [HttpDelete("{Id}"), Authorize]
-        public async  Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             try
             {
@@ -35,12 +38,39 @@ namespace OngProject.Controllers
             {
                 var response = new Response<string>()
                 {
-                    Data="Error - 404",
+                    Data = "Error - 404",
                     Message = ex.Message,
                     Succeeded = false
                 };
-                return StatusCode(404,response);
+                return StatusCode(404, response);
             }
         }
+            [HttpPost]
+            public async Task<IActionResult> Insert(NewCommentDto newCommentDto)
+            {
+                try
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest();
+                    }
+                    var response = await _commentsBusiness.InsertComment(newCommentDto);
+                    return Ok(response);
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+
+                }
+
+
+            }
+
     }
+
+
+
+
+
+    
 }

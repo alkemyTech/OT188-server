@@ -51,5 +51,7 @@ namespace OngProject.Core.Interfaces
         New NewDTOToNew(NewDTO newEntity);
 
         Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newEntity);
+
+        Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id);
     }
 }
