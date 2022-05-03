@@ -13,7 +13,7 @@ namespace OngProject.Core.Interfaces
         Task<Comment> GetTestimonial(int id);
         Task<Response<NewCommentDto>> InsertComment(NewCommentDto entity);
         Task UpdateTestimonial(int id, Comment entity);
-        Task DeleteTestimonial(int id);
+        Task<Response<string>> DeleteComments(int id);
 
     }
 }

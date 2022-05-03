@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,24 @@ namespace OngProject.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("me")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var response = await _usersBusiness.GetMe();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace.ToString();
+                return BadRequest(new Response<UserOutDTO>(null, succeeded: false, listErrors, message: "User not logger"));
             }
         }
     }

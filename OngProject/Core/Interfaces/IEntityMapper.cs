@@ -14,6 +14,8 @@ namespace OngProject.Core.Interfaces
 
         UserDto UserToUserDto(User user);
 
+        UserOutDTO UserToUserOutDTO(User user);
+
         AuthUserDto UserToAuthUserDto(User user, string token);
 
         CategoriesNameDTO CategoriesNameDTO(Category category);
@@ -47,6 +49,8 @@ namespace OngProject.Core.Interfaces
         NewDTO NewToNewDTO(New newEntity);
       
         New NewDTOToNew(NewDTO newEntity);
+
+        Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newEntity);
 
         Comment NewCommentDtoToComment(NewCommentDto newCommentDto);
     }

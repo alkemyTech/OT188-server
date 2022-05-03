@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace OngProject.Controllers
 {
 
@@ -21,25 +22,49 @@ namespace OngProject.Controllers
         {
             _commentsBusiness = commentsBusiness;
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Insert(NewCommentDto newCommentDto)
+        [HttpDelete("{Id}"), Authorize]
+        public async  Task<IActionResult> Delete(int Id)
         {
             try
             {
-                if (!ModelState.IsValid)
+                var result = await _commentsBusiness.DeleteComments(Id);
+                if (result.Succeeded == false)
                 {
-                    return BadRequest();
+                    return StatusCode(403, result);
                 }
-                var response = await _commentsBusiness.InsertComment(newCommentDto);
-                return Ok(response);
+                return Ok(result);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
-
+                var response = new Response<string>()
+                {
+                    Data="Error - 404",
+                    Message = ex.Message,
+                    Succeeded = false
+                };
+                return StatusCode(404,response);
             }
 
+            [HttpPost]
+            public async Task<IActionResult> Insert(NewCommentDto newCommentDto)
+            {
+                try
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest();
+                    }
+                    var response = await _commentsBusiness.InsertComment(newCommentDto);
+                    return Ok(response);
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+
+                }
+
+
+            }
 
         }
 

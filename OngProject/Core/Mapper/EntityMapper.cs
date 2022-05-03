@@ -54,7 +54,18 @@ namespace OngProject.Core.Mapper
 
             return userDto;
         }
-        
+
+        public UserOutDTO UserToUserOutDTO(User user)
+        {
+            return new UserOutDTO()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Photo = user.Photo,
+            };
+        }
+
         public AuthUserDto UserToAuthUserDto(User user, string token)
         {
             var _authUserDto = new AuthUserDto
@@ -236,6 +247,17 @@ namespace OngProject.Core.Mapper
                 ModifiedAt = DateTime.Now
             };
             return member;
+        }
+        public Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newTestimonyDto)
+        {
+            var testimony = new Testimony
+            {
+                Name = newTestimonyDto.Name,
+                Image = newTestimonyDto.Image,
+                Description = newTestimonyDto.Description,
+                ModifiedAt = DateTime.Now
+            };
+            return testimony;
         }
 
         public Comment NewCommentDtoToComment(NewCommentDto newCommentDto)
