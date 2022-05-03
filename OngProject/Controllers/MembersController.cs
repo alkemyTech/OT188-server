@@ -38,13 +38,6 @@ namespace OngProject.Controllers
             
         }
 
-        [Route("{id}")]
-        [HttpGet]
-        public IActionResult Get(int id)
-        {
-            return Ok();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Insert(NewMemberDTO newMemberDTO)
         {
@@ -80,14 +73,6 @@ namespace OngProject.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-        }
-    
-
-        [Route("{id}")]
-        [HttpPatch]
-        public async Task<IActionResult> Update()
-        {
-            return NoContent();
         }
     }
 }

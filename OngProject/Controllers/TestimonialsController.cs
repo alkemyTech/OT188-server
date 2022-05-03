@@ -21,34 +21,7 @@ namespace OngProject.Controllers
         {
             _business = business;
         }
-        
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
-            
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
-        }
-
+       
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromForm] NewTestimonyDto newEntity)
@@ -68,19 +41,6 @@ namespace OngProject.Controllers
                 listErrors[0] = e.Message;
                 listErrors[1] = e.StackTrace;
                 return StatusCode(500, new Response<NewTestimonyDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
-            }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromForm] Organization entity, int id)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
             }
         }
 

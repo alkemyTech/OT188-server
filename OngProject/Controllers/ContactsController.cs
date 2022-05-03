@@ -40,13 +40,6 @@ namespace OngProject.Controllers
             }
         }
 
-        [Route("{id}")]
-        [HttpGet]
-        public IActionResult Get(int id)
-        {
-            return Ok();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] RegisterContactDto dto)
         {
@@ -65,20 +58,6 @@ namespace OngProject.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-        }
-
-        [Route("{id}")]
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            return NoContent();
-        }
-
-        [Route("{id}")]
-        [HttpPatch]
-        public async Task<IActionResult> Update()
-        {
-            return NoContent();
         }
     }
 }

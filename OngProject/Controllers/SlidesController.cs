@@ -65,18 +65,6 @@ namespace OngProject.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Slide slide)
-        {
-            try
-            {
-                return Ok("Succes");
-            }
-            catch (System.Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
-        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

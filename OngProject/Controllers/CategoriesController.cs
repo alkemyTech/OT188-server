@@ -65,19 +65,6 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromForm] Category entity, int id)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
-        }
-
         [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
