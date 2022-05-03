@@ -13,5 +13,6 @@ namespace OngProject.Core.Interfaces
         Task<string> InsertUser(RegisterDto registerDto);
         Task UpdateUser(int id, User entity);
         Task<Response<string>> DeleteUser(int id);
+        Task<Response<UserOutDTO>> GetMe();
     }
 }
