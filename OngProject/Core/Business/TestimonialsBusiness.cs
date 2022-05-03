@@ -28,7 +28,7 @@ namespace OngProject.Core.Business
                 return new Response<string>("Error", succeeded: false, message: e.Message);
             }
             _unitOfWork.SaveChanges();
-            return new Response<string>("Succes", message: "Entity Deleted");
+            return new Response<string>("Success", message: "Entity Deleted");
         }
 
         Task<Testimony> ITestimonialsBusiness.GetTestimonial(int id)
