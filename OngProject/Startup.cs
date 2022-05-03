@@ -127,7 +127,7 @@ namespace OngProject
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1"));
-            }
+            }          
 
             app.UseHttpsRedirection();
 
@@ -137,16 +137,14 @@ namespace OngProject
 
             app.UseAuthorization();
 
+            app.UseMiddleware<OwnershipMiddleware>();
+
             app.UseMiddleware<AdminMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-           
-           
-
+            });                
         }
     }
 }
