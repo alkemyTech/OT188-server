@@ -40,7 +40,7 @@ namespace OngProject.Core.Business
             var result = new Response<NewTestimonyDto>();
             try
             {
-                var testimony = _entityMapper.NewTestimonyDtoToTestimonyDto(newEntity);
+                var testimony = _entityMapper.NewTestimonyDtoToTestimony(newEntity);
                 await _unitOfWork.TestimonyRepository.AddAsync(testimony);
                 await _unitOfWork.SaveChangesAsync();
                 result.Data = newEntity;
