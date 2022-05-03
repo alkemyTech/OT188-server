@@ -9,6 +9,8 @@ namespace OngProject.Core.Interfaces
     {
         Task<IEnumerable<MemberDTO>> GetMembers(bool listEntity);
 
-        Task<Response<NewMemberDTO>>InsertMember(NewMemberDTO entity);
+        Task<Response<NewMemberDTO>> InsertMember(NewMemberDTO entity);
+
+        Task<Response<string>> DeleteMember(int id);
     }
 }
