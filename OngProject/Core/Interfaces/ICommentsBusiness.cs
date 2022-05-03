@@ -1,4 +1,6 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         Task<IEnumerable<Comment>> GetTestimonials(bool listEntity);
         Task<Comment> GetTestimonial(int id);
-        Task<Comment> InsertTestimonial(Comment entity);
+        Task<Response<NewCommentDto>> InsertComment(NewCommentDto entity);
         Task UpdateTestimonial(int id, Comment entity);
         Task DeleteTestimonial(int id);
 

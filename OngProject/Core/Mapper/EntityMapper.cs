@@ -237,5 +237,21 @@ namespace OngProject.Core.Mapper
             };
             return member;
         }
+
+        public Comment NewCommentDtoToComment(NewCommentDto newCommentDto)
+        {
+            var comment = new Comment
+            {
+                Body = newCommentDto.Body,
+                
+                IdUser = newCommentDto.IdUser,
+                
+                
+                
+                ModifiedAt = DateTime.Now
+
+            };
+            return comment;
+        }
     }
 }
