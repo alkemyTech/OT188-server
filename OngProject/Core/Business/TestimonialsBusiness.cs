@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Repositories.Interfaces;
 using OngProject.Core.Models;
+using System;
 
 namespace OngProject.Core.Business
 {
@@ -18,7 +19,16 @@ namespace OngProject.Core.Business
         
         public async Task<Response<string>> DeleteTestimonial(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                await _unitOfWork.TestimonyRepository.Delete(id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return new Response<string>("Error", succeeded: false, message: e.Message);
+            }
+            _unitOfWork.SaveChanges();
+            return new Response<string>("Succes", message: "Entity Deleted");
         }
 
         Task<Testimony> ITestimonialsBusiness.GetTestimonial(int id)
