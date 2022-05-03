@@ -28,7 +28,10 @@ namespace OngProject.Core.Business
             }
             catch (InvalidOperationException e)
             {
-                return new Response<string>("Error", succeeded: false, message: e.Message);
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace.ToString();
+                return new Response<string>("Error", succeeded: false,listErrors, message: e.Message);
             }
             await _unitOfWork.SaveChangesAsync();
             return new Response<string>("Succes", message: "Entity Deleted");

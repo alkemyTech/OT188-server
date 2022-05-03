@@ -74,7 +74,7 @@ namespace OngProject.Controllers
             {
                 var response = await _membersBusiness.DeleteMember(id);
 
-                return response.Succeeded == false ? StatusCode(403, response) : Ok(response);
+                return Ok(response);
             }
             catch (Exception e)
             {
