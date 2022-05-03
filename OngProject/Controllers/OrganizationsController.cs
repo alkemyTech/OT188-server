@@ -59,46 +59,5 @@ namespace OngProject.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
-        [HttpPost]
-        public async Task<ActionResult> Post([FromForm] Organization entity)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromForm] Organization entity, int id)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NoContent();
-            }
-        }
-        
-
     }
 }

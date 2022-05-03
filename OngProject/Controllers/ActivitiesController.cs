@@ -20,19 +20,6 @@ namespace OngProject.Controllers
             _activitiesService = activitiesService;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok();
-        }
-
-        [Route("{id}")]
-        [HttpGet]
-        public IActionResult Get(int id)
-        {
-            return Ok();
-        }
-
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Insert(NewActivityDto activityDto)
@@ -53,20 +40,6 @@ namespace OngProject.Controllers
                 listErrors[1] = e.StackTrace;
                 return StatusCode(500, new Response<NewActivityDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
-        }
-
-        [Route("{id}")]
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            return NoContent();
-        }
-
-        [Route("{id}")]
-        [HttpPatch]
-        public async Task<IActionResult> Update()
-        {
-            return NoContent();
         }
     }
 }
