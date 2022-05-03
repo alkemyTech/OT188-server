@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -14,11 +15,15 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _mapper;
+        private readonly IEmailServices _emailService;
+        private readonly IConfiguration _configuration;
 
-        public ContactsBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper)
+        public ContactsBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper, IEmailServices emailServices, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailService = emailServices;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<ContactDto>> GetContacts(bool listEntity)
@@ -61,6 +66,12 @@ namespace OngProject.Core.Business
                 await _unitOfWork.ContactRepository.AddAsync(contact);                
 
                 await _unitOfWork.SaveChangesAsync();
+
+                var subject = "Recibimos su mensaje.";
+
+                var body = $"{dto.Name}: Gracias por contactarnos, le responderemos a la brevedad.";
+
+                await _emailService.Send(dto.Email, _configuration.GetSection("emailContacto").Value, subject, body);
 
                 response.Data = dto;
 

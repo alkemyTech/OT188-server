@@ -45,6 +45,7 @@ namespace OngProject
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IEntityMapper, EntityMapper>();
+            services.AddHttpContextAccessor();
 
             //Business
             services.AddScoped<IActivitiesBusiness, ActivitiesBusiness>();
@@ -64,14 +65,36 @@ namespace OngProject
 
             //Email
             services.AddTransient<IEmailServices, SendgridEmailServices>();
-
-
+            //HttpContextAccessor
+            services.AddHttpContextAccessor();
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
             });
 
             services.AddAuthentication(options =>
@@ -115,6 +138,8 @@ namespace OngProject
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<AdminMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
