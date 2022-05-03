@@ -79,7 +79,7 @@ namespace OngProject.Controllers
                 var result = await _business.DeleteTestimonial(id);
 
                 if (result.Succeeded == false)
-                    return StatusCode(403, result);
+                    return StatusCode(400, result);
 
                 return Ok(result);
             }
