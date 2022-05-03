@@ -3,6 +3,7 @@ using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Models;
 
 namespace OngProject.Core.Business
 {
@@ -15,7 +16,7 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
         
-        Task ITestimonialsBusiness.DeleteTestimonial(int id)
+        public async Task<Response<string>> DeleteTestimonial(int id)
         {
             throw new System.NotImplementedException();
         }

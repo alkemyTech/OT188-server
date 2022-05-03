@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models;
+using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace OngProject.Core.Interfaces
         Task<Testimony> GetTestimonial(int id);
         Task<Testimony> InsertTestimonial(Testimony entity);
         Task UpdateTestimonial(int id, Testimony entity);
-        Task DeleteTestimonial(int id);
+        Task<Response<string>> DeleteTestimonial(int id);
 
     }
 }
