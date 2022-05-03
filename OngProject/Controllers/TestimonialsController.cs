@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
+
+using OngProject.Core.Models.DTOs;
+
 using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("testimonials")]
     [ApiController]
     public class TestimonialsController : ControllerBase
     {
@@ -47,15 +50,24 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] Organization entity)
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Post([FromForm] NewTestimonyDto newEntity)
         {
             try
             {
-                return Ok();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+                var response = await _business.InsertTestimonial(newEntity);
+                return Ok(response);
             }
             catch (Exception e)
             {
-                return NoContent();
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace;
+                return StatusCode(500, new Response<NewTestimonyDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
 

@@ -237,5 +237,16 @@ namespace OngProject.Core.Mapper
             };
             return member;
         }
+        public Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newTestimonyDto)
+        {
+            var testimony = new Testimony
+            {
+                Name = newTestimonyDto.Name,
+                Image = newTestimonyDto.Image,
+                Description = newTestimonyDto.Description,
+                ModifiedAt = DateTime.Now
+            };
+            return testimony;
+        }
     }
 }
