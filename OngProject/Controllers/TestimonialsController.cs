@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
@@ -8,7 +9,7 @@ using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("testimonials")]
     [ApiController]
     public class TestimonialsController : ControllerBase
     {
@@ -47,6 +48,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromForm] NewTestimonyDto newEntity)
         {
             try
