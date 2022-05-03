@@ -52,9 +52,14 @@ namespace OngProject.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
                 var response = await _contactsBusiness.InsertAsync(dto);
 
-                return response.Succeeded ? Ok(response) : BadRequest();
+                return Ok(response);
             }
             catch (Exception ex)
             {
