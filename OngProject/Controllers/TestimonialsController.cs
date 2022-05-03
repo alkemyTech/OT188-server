@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -75,11 +76,19 @@ namespace OngProject.Controllers
         {
             try
             {
-                return Ok();
+                var result = await _business.DeleteTestimonial(id);
+
+                if (result.Succeeded == false)
+                    return StatusCode(403, result);
+
+                return Ok(result);
             }
             catch (Exception e)
             {
-                return NoContent();
+                var listErrors = new string[2];
+                listErrors[0] = e.Message;
+                listErrors[1] = e.StackTrace;
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
     }
