@@ -6,7 +6,7 @@
         {
 
         }
-        public Response(T data, bool succeeded = true, string[] errors = null, string message = "Succes")
+        public Response(T data, bool succeeded = true, string[] errors = null, string message = "Success")
         {
             Data = data;
             Succeeded = succeeded;

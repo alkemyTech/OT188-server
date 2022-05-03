@@ -25,13 +25,27 @@ namespace OngProject.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] LoginDto login)
         {
+
             try
             {
-                return Ok(_authBusiness.LoginUser(login));
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+                var userLogged = _authBusiness.LoginUser(login);
+                if (!(userLogged.Succeeded))
+                {
+                    return NotFound(userLogged);
+                }
+                return Ok(userLogged);
             }
             catch (Exception ex)
             {
-                return BadRequest("Ok:False - " + ex.Message);
+                var listError = new string[]
+                {
+                    ex.Message
+                };
+                return StatusCode(500, new Response<String>(data: null, succeeded: false, errors: listError));
             }
         }
 
@@ -41,7 +55,16 @@ namespace OngProject.Controllers
         {
             try
             {
-                return Ok(await _usersBusiness.InsertUser(registerDto));
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+                var userRegisteredResult = await _usersBusiness.InsertUser(registerDto);
+                if (!(userRegisteredResult.Succeeded))
+                {
+                    return BadRequest(userRegisteredResult);
+                }
+                return Ok(userRegisteredResult);
             }
             catch (Exception ex)
             {
@@ -60,10 +83,12 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace.ToString();
-                return BadRequest(new Response<UserOutDTO>(null, succeeded: false, listErrors, message: "User not logger"));
+                var listErrors = new string[] 
+                { 
+                    e.Message
+                };
+                
+                return BadRequest(new Response<UserOutDTO>(null, succeeded: false, listErrors, message: "User not logged"));
             }
         }
     }

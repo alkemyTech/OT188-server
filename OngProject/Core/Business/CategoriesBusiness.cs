@@ -26,15 +26,30 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task<Category> GetCategory(int id)
+        public async Task<Response<NewCategoryDTO>> GetCategory(int id)
         {
-            var category = new Category();
-            category = (Category)await _unitOfWork.CategoryRepository.GetById(id);
-            if(category != null)
+            var response = new Response<NewCategoryDTO>();
+            try
             {
-                return category;
+                var category = await _unitOfWork.CategoryRepository.GetById(id);
+                if (category != null && category.IsDeleted == false )
+                {
+                    var categoryDto = _entityMapper.CategoryNewsDTOtoCategory(category);
+                    response.Data = categoryDto;
+                    response.Succeeded = true;
+                    response.Message = "Success.";
+                }
+                else
+                {
+                    response.Succeeded = false;
+                    response.Message = "Category is deleted or not exist.";
+                }
             }
-            throw new Exception();
+            catch (Exception)
+            {
+                throw;
+            }
+            return response;
         }
 
         public async Task<Response<NewCategoryDTO>> InsertCategory(NewCategoryDTO categoriesNewsDTO)
