@@ -54,7 +54,18 @@ namespace OngProject.Core.Mapper
 
             return userDto;
         }
-        
+
+        public UserOutDTO UserToUserOutDTO(User user)
+        {
+            return new UserOutDTO()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Photo = user.Photo,
+            };
+        }
+
         public AuthUserDto UserToAuthUserDto(User user, string token)
         {
             var _authUserDto = new AuthUserDto

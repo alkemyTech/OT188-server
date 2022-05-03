@@ -14,6 +14,8 @@ namespace OngProject.Core.Interfaces
 
         UserDto UserToUserDto(User user);
 
+        UserOutDTO UserToUserOutDTO(User user);
+
         AuthUserDto UserToAuthUserDto(User user, string token);
 
         CategoriesNameDTO CategoriesNameDTO(Category category);

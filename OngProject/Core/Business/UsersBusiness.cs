@@ -12,6 +12,8 @@ using OngProject.Repositories;
 using Microsoft.Extensions.Configuration;
 using OngProject.Core.Models;
 using Swashbuckle.Swagger;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace OngProject.Core.Business
 {
@@ -22,14 +24,21 @@ namespace OngProject.Core.Business
         private readonly IEmailServices _emailService;
         private readonly IConfiguration _configuration;
         private readonly IJwtTokenProvider _jwtToken;
+        private readonly IHttpContextAccessor _accessor;
 
-        public UsersBusiness(IUnitOfWork unitOfWork, IEntityMapper mapper, IEmailServices emailService, IConfiguration configuration, IJwtTokenProvider jwtToken)
+        public UsersBusiness(IUnitOfWork unitOfWork,
+                            IEntityMapper mapper, 
+                            IEmailServices emailService, 
+                            IConfiguration configuration, 
+                            IJwtTokenProvider jwtToken,
+                            IHttpContextAccessor accessor)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _emailService = emailService;
             _configuration = configuration;            
             _jwtToken = jwtToken;
+            _accessor = accessor;
         }
 
 
@@ -129,6 +138,23 @@ namespace OngProject.Core.Business
             }
 
             return false;
+        }
+
+        public async Task<Response<UserOutDTO>> GetMe()
+        {
+
+            if (_accessor.HttpContext != null)
+            {
+                var id = int.Parse(_accessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                var entity = await _unitOfWork.UserRepository.GetById(id);
+
+                var entityDto = _mapper.UserToUserOutDTO(entity);
+
+                return new Response<UserOutDTO>(entityDto);
+            }
+
+            return null;
         }
     }
 }
