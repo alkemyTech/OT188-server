@@ -16,6 +16,7 @@ using OngProject.Core.Interfaces;
 using Amazon.S3;
 using OngProject.Core.Helper;
 using OngProject.Core.Mapper;
+using OngProject.Middleware;
 
 namespace OngProject
 {
@@ -135,6 +136,8 @@ namespace OngProject
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<AdminMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
