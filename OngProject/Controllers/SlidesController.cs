@@ -61,6 +61,10 @@ namespace OngProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] AddSlideDTO add)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 var result = await _slidesBusiness.Add(add);
@@ -75,9 +79,14 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<string>(e.Message, false, null, "Error"));
             }
         }
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 var result = await _slidesBusiness.Delete(id);
