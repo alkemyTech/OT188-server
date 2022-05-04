@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
@@ -31,6 +32,28 @@ namespace OngProject.Controllers
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("{id}/comments")]
+        public async Task<IActionResult> GetNewComments(int id)
+        {
+            try
+            {
+                var response = await _business.GetNewComments(id);
+
+                if (!response.Succeeded)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var listErrors = new[] { ex.Message };
+
+                return StatusCode(500, new Response<NewWithCommentsDto>(null, false, listErrors, "Internal Server Error"));
             }
         }
 
