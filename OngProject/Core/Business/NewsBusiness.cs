@@ -43,6 +43,38 @@ namespace OngProject.Core.Business
             }
         }
 
+        public async Task<Response<NewWithCommentsDto>> GetNewComments(int id)
+        {
+            var response = new Response<NewWithCommentsDto>();
+            try
+            {
+                var entity = await _unitOfWork.NewRepository.GetById(id, "Comments");
+
+                if (entity != null)
+                {
+                    var newWithCommentsDto = _entityMapper.NewToNewWithCommentsDto(entity);
+
+                    response.Data = newWithCommentsDto;
+
+                    response.Succeeded = true;
+                }
+                else
+                {
+                    response.Data = null;
+
+                    response.Succeeded = false;
+
+                    response.Message = "Entity not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return response;
+        }
+
         public async Task<Response<NewDTO>> InsertNew(NewDTO entity)
         {
             var response = new Response<NewDTO>();
