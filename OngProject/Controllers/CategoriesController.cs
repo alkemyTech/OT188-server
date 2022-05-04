@@ -66,7 +66,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var response = await _business.InsertCategory(categoriesNewsDTO);
+              
+                   if (!ModelState.IsValid)
+                    {
+                        return BadRequest();
+                    }
+                    var response = await _business.InsertCategory(categoriesNewsDTO);
                 return Ok(response);
             }
             catch (Exception ex)

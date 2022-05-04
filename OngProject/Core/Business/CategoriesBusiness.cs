@@ -74,7 +74,7 @@ namespace OngProject.Core.Business
             }
             catch (Exception e)
             {
-                var listErrors = new string[] {e.Message, e.StackTrace};
+                var listErrors = new string[] {e.Message};
                 response.Errors = listErrors;
             }
             return response;

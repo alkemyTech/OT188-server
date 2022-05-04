@@ -48,6 +48,10 @@ namespace OngProject.Controllers
                     return BadRequest();
                 }
                 var response = await _membersBusiness.InsertMember(newMemberDTO);
+                if (response.Succeeded == false)
+                {
+                    return BadRequest(response);               
+                }
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -66,7 +70,10 @@ namespace OngProject.Controllers
             try
             {
                 var response = await _membersBusiness.DeleteMember(id);
-
+                if (response.Succeeded == false)
+                {
+                    return BadRequest(response);
+                }
                 return Ok(response);
             }
             catch (Exception e)
