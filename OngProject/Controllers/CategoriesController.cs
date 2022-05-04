@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
@@ -43,11 +44,20 @@ namespace OngProject.Controllers
         {
             try
             {
-                return Ok(await _business.GetCategory(id));
+                var result = await _business.GetCategory(id);
+                if (result.Succeeded == false)
+                {
+                    return NotFound(result);
+                }
+                return Ok(result);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(404, "Not Found");
+                var listError = new string[]
+                {
+                    ex.Message
+                };
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError));
             }
         }
 
@@ -56,7 +66,12 @@ namespace OngProject.Controllers
         {
             try
             {
-                var response = await _business.InsertCategory(categoriesNewsDTO);
+              
+                   if (!ModelState.IsValid)
+                    {
+                        return BadRequest();
+                    }
+                    var response = await _business.InsertCategory(categoriesNewsDTO);
                 return Ok(response);
             }
             catch (Exception ex)

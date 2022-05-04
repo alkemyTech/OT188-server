@@ -68,48 +68,66 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<string> InsertUser(RegisterDto registerDto)
+        public async Task<Response<string>> InsertUser(RegisterDto registerDto)
         {
-            var ListUsers = _unitOfWork.UserRepository.GetAll(true).Result;
-            if(ListUsers != null)
+            var response = new Response<string>();
+            try
             {
-                if (!Exist(ListUsers, registerDto.Email))
+                var ListUsers = _unitOfWork.UserRepository.GetAll(true).Result;
+                if (ListUsers != null)
                 {
-                    var registeredUser = _mapper.RegisterDtoToUser(registerDto);
-
-                    registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
-
-                    registeredUser.RolesId = RoleTypes.Regular;
-                    
-                    try
+                    if (!Exist(ListUsers, registerDto.Email))
                     {
-                        var entity = await _unitOfWork.UserRepository.AddAsync(registeredUser);
+                        var registeredUser = _mapper.RegisterDtoToUser(registerDto);
 
-                        await _unitOfWork.SaveChangesAsync();
+                        registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
 
-                        var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
+                        registeredUser.RolesId = RoleTypes.Regular;
 
-                        var subject = "Confirmación de registro";
+                        try
+                        {
+                            var entity = await _unitOfWork.UserRepository.AddAsync(registeredUser);
 
-                        var body = $"Bienvenido {user.FirstName} {user.LastName}";
-                        
-                        await _emailService.Send(user.Email, _configuration.GetSection("emailContacto").Value, subject, body);
-                        
-                        var token = _jwtToken.CreateJwtToken(user);
-                        
-                        return await Task.FromResult(token.Result);
+                            await _unitOfWork.SaveChangesAsync();
+
+                            var user = await _unitOfWork.UserRepository.GetById(entity.Id, "Roles");
+
+                            var subject = "Confirmación de registro";
+
+                            var body = $"Bienvenido {user.FirstName} {user.LastName}";
+
+                            await _emailService.Send(user.Email, _configuration.GetSection("emailContacto").Value, subject, body);
+
+                            var token = _jwtToken.CreateJwtToken(user);
+                            //await Task.FromResult(token.Result);
+                            response.Data = token.Result;
+                            response.Message = "token return";
+                            response.Succeeded = true;
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
                     }
-                    catch (Exception e)
+                    else
                     {
-
-                        throw;
+                        response.Message = "Ya existe un usuario con ese email.";
+                        response.Succeeded = false;
                     }
                 }
-
-                throw new Exception("Ya existe un usuario con ese email.");
+                else
+                {
+                    response.Message = "El campo email no puede quedar vacio.";
+                    response.Succeeded = false;
+                }
             }
-
-            throw new Exception("El campo email no puede quedar vacio.");
+            catch (Exception)
+            {
+                throw;
+            }
+            
+            return response;
         }
                
         public Task UpdateUser(int id, User entity)

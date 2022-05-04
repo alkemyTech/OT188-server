@@ -38,9 +38,18 @@ namespace OngProject.Controllers
         public async Task<ActionResult> Post([FromForm] NewDTO entity)
         {
             try
-            {              
+            {
+                if (!ModelState.IsValid) 
+                {
+                    return BadRequest();
+                }
                 var response = await _business.InsertNew(entity);
+                if (response.Succeeded == false)
+                {
+                    return BadRequest(response);
+                }
                 return Ok(response);
+
             }            
             catch (Exception ex)
             {

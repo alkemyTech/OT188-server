@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface IAuthBusiness
     {
-        AuthUserDto LoginUser(LoginDto login);
+        Response <AuthUserDto> LoginUser(LoginDto login);
     }
 }
