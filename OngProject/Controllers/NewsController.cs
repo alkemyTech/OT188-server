@@ -38,6 +38,28 @@ namespace OngProject.Controllers
             }
         }
 
+        [HttpGet("{id}/comments")]
+        public async Task<IActionResult> GetNewComments(int id)
+        {
+            try
+            {
+                var response = await _business.GetNewComments(id);
+
+                if (!response.Succeeded)
+                {
+                    return NotFound(response);
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var listErrors = new[] { ex.Message };
+
+                return StatusCode(500, new Response<NewWithCommentsDto>(null, false, listErrors, "Internal Server Error"));
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] NewDTO entity)
         {

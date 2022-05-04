@@ -194,7 +194,16 @@ namespace OngProject.Core.Mapper
                 Body = comment.Body,
                 IdUser = comment.IdUser
             };
-        }        
+        }
+
+        public Comment CommentOutDtoToComment(CommentOutDto comment)
+        {
+            return new Comment()
+            {
+                Body = comment.Body,
+                IdUser = comment.IdUser
+            };
+        }
 
         public NewDTO NewToNewDTO(New newEntity)
         {
@@ -285,6 +294,26 @@ namespace OngProject.Core.Mapper
 
             };
             return comment;
+        }
+
+        public New NewWithCommentsDtoToNew(NewWithCommentsDto dto)
+        {
+            var _new = new New
+            {
+                Comments = dto.Comments.Select(x => this.CommentOutDtoToComment(x)).ToList()
+            };
+
+            return _new;
+        }
+
+        public NewWithCommentsDto NewToNewWithCommentsDto(New newEntity)
+        {
+            var _new = new NewWithCommentsDto
+            {
+                Comments = newEntity.Comments.Select(x => this.CommentToCommentOutDto(x)).ToList()
+            };
+
+            return _new;
         }
     }
 }
