@@ -83,10 +83,6 @@ namespace OngProject.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
                 var result = await _slidesBusiness.Delete(id);
