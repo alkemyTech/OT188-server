@@ -23,7 +23,7 @@ namespace OngProject.Core.Business
             _amazonS3Helper = amazonS3Helper;
         }
 
-        public async Task<IEnumerable<SlideDTO>> GetSlides(bool listEntity)
+        public async Task<Response<IEnumerable<SlideDTO>>> GetSlides(bool listEntity)
         {
             try
             {
@@ -34,23 +34,23 @@ namespace OngProject.Core.Business
                     slideDTOs.Add(_entityMapper.SlidetoSlideDTO(slide));
                 }
 
-                return slideDTOs;
+                return new Response<IEnumerable<SlideDTO>>(slideDTOs);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-
-                throw;
+                var listErrors = new string[] { e.Message };
+                return new Response<IEnumerable<SlideDTO>>(null, false, listErrors, "Error");
             }
             
         }
-        public async Task<DetailSlideDTO> GetDetailSlide(int id)
+        public async Task<Response<DetailSlideDTO>> GetDetailSlide(int id)
         {
             var slide = await _unitOfWork.SlideRepository.GetById(id);
-            if(slide == null)
+            if(slide == null || slide.IsDeleted == true)
             {
-                return null;
+                return new Response<DetailSlideDTO>(null, false, null, "Not Found");
             }
-            return _entityMapper.DetailSlideDTO(slide);
+            return new Response<DetailSlideDTO>(_entityMapper.DetailSlideDTO(slide));
         }
         public async Task<Response<string>> Delete(int id)
         {
