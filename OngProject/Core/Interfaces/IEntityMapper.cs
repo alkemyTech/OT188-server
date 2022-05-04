@@ -39,6 +39,7 @@ namespace OngProject.Core.Interfaces
         NewOutDto NewToNewOUtDto(New newEntity);
         
         CommentOutDto CommentToCommentOutDto(Comment comment);
+        Comment CommentOutDtoToComment(CommentOutDto comment);
 
         Activity ActivityDtoToActivity(NewActivityDto activityDto);
 
@@ -53,5 +54,7 @@ namespace OngProject.Core.Interfaces
         Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newEntity);
 
         Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id);
+        New NewWithCommentsDtoToNew(NewWithCommentsDto dto);
+        NewWithCommentsDto NewToNewWithCommentsDto(New newEntity);
     }
 }
