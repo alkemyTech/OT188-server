@@ -61,7 +61,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] NewDTO entity)
+        public async Task<ActionResult> Post([FromForm] CreateNewDto entity)
         {
             try
             {
