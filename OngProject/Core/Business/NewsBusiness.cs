@@ -63,10 +63,16 @@ namespace OngProject.Core.Business
                     response.Message = "New creada correctamente";               
                 }
                 catch (Exception e)
+                {
+                    var listErrors = new string[] { e.Message };
+                    return new Response<NewDTO>
                     {
-                        var listErrors = new string[] { e.Message, e.StackTrace };
-                        response.Errors = listErrors;
-                    }
+                        Data = null,
+                        Message = "Error",
+                        Succeeded = false,
+                        Errors = listErrors
+                    };
+                }
             }
             else
             {
