@@ -15,7 +15,19 @@ namespace OngProject.Repositories
         }
         public async Task<int> GetLastOrder()
         {
-           return await _entities.MaxAsync(sl => sl.Order);
+            try
+            {
+                return await _entities.MaxAsync(sl => sl.Order);
+            }
+            catch (System.Exception e)
+            {
+                if (e.Message == "Sequence contains no elements.")
+                {
+                    return 0;
+                }
+                throw;
+            }
+           
         }
     }
 }

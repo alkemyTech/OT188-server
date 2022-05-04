@@ -101,6 +101,16 @@ namespace OngProject.Core.Mapper
             };
             return category;
         }
+        public NewCategoryDTO CategoryNewsDTOtoCategory(Category categories)
+        {
+            var category = new NewCategoryDTO
+            {
+                Name = categories.Name,
+                Description = categories.Description,
+                Image = categories.Image
+            };
+            return category;
+        }
 
         public CategoriesNameDTO CategoriesNameDTO(Category category)
         {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
@@ -26,12 +27,16 @@ namespace OngProject.Controllers
         {
             try
             {
-                var listSlides = await _slidesBusiness.GetSlides(true);
-                return Ok(listSlides);
+                var result = await _slidesBusiness.GetSlides(true);
+                if (result.Succeeded == false)
+                {
+                    return StatusCode(400, result);
+                }
+                return Ok(result);
             }
             catch (System.Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new Response<string>(e.Message, false, null, "Error"));
             }
         }
         [Authorize(Roles = "Administrator")]
@@ -40,31 +45,41 @@ namespace OngProject.Controllers
         {
             try
             {
-                var detailSlide = await _slidesBusiness.GetDetailSlide(id);
-                if(detailSlide == null)
+                var result = await _slidesBusiness.GetDetailSlide(id);
+                if(result.Succeeded == false)
                 {
-                    return NotFound();
+                    return StatusCode(400, result);
                 }
-                return Ok(detailSlide);
+                return Ok(result);
             }
             catch (System.Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new Response<string>(e.Message, false, null, "Error"));
             }
         }
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] AddSlideDTO add)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 var result = await _slidesBusiness.Add(add);
-                return StatusCode(200, result);
+                if (result.Succeeded == false)
+                {
+                    return StatusCode(400, result);
+                }
+                return Ok(result);
             }
             catch (System.Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new Response<string>(e.Message, false, null, "Error"));
             }
         }
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -73,13 +88,14 @@ namespace OngProject.Controllers
                 var result = await _slidesBusiness.Delete(id);
 
                 if (result.Succeeded == false)
-                    return StatusCode(403, result);
-
+                {
+                    return StatusCode(400, result);
+                }
                 return Ok(result);
             }
             catch (System.Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new Response<string>(e.Message, false, null, "Error"));
             }
         }
     }

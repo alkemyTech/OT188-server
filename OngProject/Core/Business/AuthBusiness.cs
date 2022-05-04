@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -20,20 +21,39 @@ namespace OngProject.Core.Business
             _jwtTokenProvider = jwtTokenProvider;
             _entityMapper = entityMapper;
         }
-        public AuthUserDto LoginUser(LoginDto login)
+        public Response<AuthUserDto> LoginUser(LoginDto login)
         {
-            var user = _unitOfWork.RepositoryAuth.GetUserByEmailOrDefault(login);
-            if (user.Result != null)
+            var response = new Response<AuthUserDto>();
+            try
             {
-                if (EncryptSha256.SamePasswords(user.Result.Password, login.Password))
+                var user = _unitOfWork.RepositoryAuth.GetUserByEmailOrDefault(login);
+                if (user.Result != null)
                 {
-                    string token = _jwtTokenProvider.CreateJwtToken(user.Result).Result;
+                    if (EncryptSha256.SamePasswords(user.Result.Password, login.Password))
+                    {
+                        string token = _jwtTokenProvider.CreateJwtToken(user.Result).Result;
 
-                    return _entityMapper.UserToAuthUserDto(user.Result, token);
+                        response.Data = _entityMapper.UserToAuthUserDto(user.Result, token);
+                        response.Succeeded = true;
+                    }
+                    else
+                    {
+                        response.Succeeded = false;
+                        response.Message = "Email o Contraseña incorrecta.";
+                    }
                 }
-                throw new Exception("Email o Contraseña incorrecta.");
+                else
+                {
+                    response.Succeeded = false;
+                    response.Message = "El email ingresado no existe.";
+                }
+                
             }
-            throw new Exception("El email ingresado no existe.");
+            catch (Exception)
+            {
+                throw;
+            }
+            return response;
         }     
     }
 }

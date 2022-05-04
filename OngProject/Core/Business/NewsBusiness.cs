@@ -31,16 +31,28 @@ namespace OngProject.Core.Business
 
         public async Task<Response<NewOutDto>> GetNew(int id)
         {
+            var response = new Response<NewOutDto>();
             try
             {
                 var entity = await _unitOfWork.NewRepository.GetById(id, "Comments");
-                var result = _entityMapper.NewToNewOUtDto(entity);
-                return new Response<NewOutDto>(result,succeeded:true);
+
+                if (entity != null && entity.IsDeleted != true)
+                {
+                    response.Data = _entityMapper.NewToNewOUtDto(entity);
+                    response.Succeeded = true;
+                    response.Message = "Success.";
+                }
+                else
+                {
+                    response.Succeeded = false;
+                    response.Message = "New is deleted or not exist.";
+                }
             }
-            catch (NullReferenceException e)
+            catch (Exception)
             {
-                return new Response<NewOutDto>(data: null, succeeded: false, message: "Entity not found");
+                throw;
             }
+            return response;
         }
 
         public async Task<Response<NewDTO>> InsertNew(NewDTO entity)
@@ -63,10 +75,16 @@ namespace OngProject.Core.Business
                     response.Message = "New creada correctamente";               
                 }
                 catch (Exception e)
+                {
+                    var listErrors = new string[] { e.Message };
+                    return new Response<NewDTO>
                     {
-                        var listErrors = new string[] { e.Message, e.StackTrace };
-                        response.Errors = listErrors;
-                    }
+                        Data = null,
+                        Message = "Error",
+                        Succeeded = false,
+                        Errors = listErrors
+                    };
+                }
             }
             else
             {

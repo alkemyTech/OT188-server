@@ -28,9 +28,7 @@ namespace OngProject.Core.Business
             }
             catch (InvalidOperationException e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace.ToString();
+                var listErrors = new string[] {e.Message};
                 return new Response<string>("Error", succeeded: false,listErrors, message: e.Message);
             }
             await _unitOfWork.SaveChangesAsync();
@@ -72,9 +70,7 @@ namespace OngProject.Core.Business
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace.ToString();
+                var listErrors = new string[] { e.Message };
                 return new Response<NewMemberDTO> { 
                     Data = null, 
                     Message = "Error",

@@ -22,6 +22,8 @@ namespace OngProject.Core.Interfaces
 
         Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO);
 
+        NewCategoryDTO CategoryNewsDTOtoCategory(Category categories);
+
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 
         User RegisterDtoToUser(RegisterDto registerDto);
