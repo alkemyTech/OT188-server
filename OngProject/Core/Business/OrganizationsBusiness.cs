@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -21,52 +22,32 @@ namespace OngProject.Core.Business
         }
 
 
-        public async Task<IEnumerable<OrganizationDTO>> GetOrganizations(bool listEntity)
+        public async Task<Response<IEnumerable<OrganizationDTO>>> GetOrganizations(bool listEntity)
         {
             var organizationsList = await _unitOfWork.OrganizationsRepository.GetAll(org => org.IsDeleted == false, org => org.Slides.OrderBy(sl => sl.Order));
 
             if (organizationsList == null)
             {
-                return null;
+                return new Response<IEnumerable<OrganizationDTO>>(null, false,null,"Not Found");
             }
             var organizationDTOList = new List<OrganizationDTO>();
             organizationDTOList.Add(_entityMapper.OrganizationToOrganizationDTO(organizationsList.SingleOrDefault()));
 
-            return organizationDTOList;
+            return new Response<IEnumerable<OrganizationDTO>>(organizationDTOList);
         }
 
 
         
-        async Task<OrganizationDTO> IOrganizationsBusiness.GetOrganization(int id)
+        async Task<Response<OrganizationDTO>> IOrganizationsBusiness.GetOrganization(int id)
         {
-           try
+            var organization = await _unitOfWork.OrganizationsRepository.GetById(id);
+            if (organization == null || organization.IsDeleted == true)
             {
-                var organization = await _unitOfWork.OrganizationsRepository.GetById(id);
-
-                return _entityMapper.OrganizationToOrganizationDTO(organization);
-
+                return new Response<OrganizationDTO>(null, false, message: "Not Found");
             }
-            catch (System.Exception)
-            {
+            var orgDto = _entityMapper.OrganizationToOrganizationDTO(organization);
 
-                throw;
-            }
-        }
-
-
-        public Task<Organization> InsertOrganization(Organization entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateOrganization(int id, Organization entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteOrganization(int id)
-        {
-            throw new NotImplementedException();
+            return new Response<OrganizationDTO>(orgDto);
         }
     }
 }

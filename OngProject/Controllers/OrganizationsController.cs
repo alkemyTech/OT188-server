@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
@@ -13,7 +14,6 @@ namespace OngProject.Controllers
     
     public class OrganizationsController : ControllerBase
     {
-        private readonly IOrganizationsBusiness _business;
         private readonly IOrganizationsBusiness _organizationsBusiness;
 
         public OrganizationsController(IOrganizationsBusiness organizationsBusiness)
@@ -27,17 +27,17 @@ namespace OngProject.Controllers
         {
             try
             {
-                var result = await _business.GetOrganizations(true);
-                if (result == null)
+                var result = await _organizationsBusiness.GetOrganizations(true);
+                if (result.Succeeded == false)
                 {
-                    return NotFound();
+                    return StatusCode(400, result);
                 }
                 return Ok(result);
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
-            }            
+                return StatusCode(500, new Response<string>(e.Message, false, message: "Server Error"));
+            }
         }
 
         [HttpGet("{id}")]
@@ -45,18 +45,17 @@ namespace OngProject.Controllers
         {
             try
             {                
-                var organization = await _organizationsBusiness.GetOrganization(id);
+                var result = await _organizationsBusiness.GetOrganization(id);
 
-                if (organization == null)
+                if (result.Succeeded == false)
                 {
-                    return NotFound(organization);
+                    return StatusCode(400, result);
                 }
-
-                return Ok(organization);
+                return Ok(result);
             }           
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new Response<string>(e.Message, false, message: "Server Error"));
             }
         }
     }
