@@ -9,6 +9,12 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper : IEntityMapper
     {
+        private readonly IAmazonS3Helper _imageService;
+        public EntityMapper(IAmazonS3Helper imageService)
+        {
+            _imageService = imageService;
+        }
+
         public SlideDTO SlidetoSlideDTO(Slide slide)
         {
             var slideDTO = new SlideDTO()
@@ -205,29 +211,41 @@ namespace OngProject.Core.Mapper
             };
         }
 
-        public NewDTO NewToNewDTO(New newEntity)
+        public New CreateNewDtoToNew(CreateNewDto newEntity)
         {
-            var _newDTO = new NewDTO
+            var _newDTO = new New
             {
                 Content = newEntity.Content,
-                Image = newEntity.Image,
+                Image = _imageService.UploadFileAsync(newEntity.Image).Result,
                 CategoryId = newEntity.CategoryId,
                 Name = newEntity.Name,
             };
             return _newDTO;
         }
 
-        public New NewDTOToNew(NewDTO newEntity)
+        public CreateNewOutDto NewToCreateNewOutDto(New entity)
         {
-            var _new = new New
+            var outNew = new CreateNewOutDto
             {
-                Content = newEntity.Content,
-                Image = newEntity.Image,
-                CategoryId = newEntity.CategoryId,
-                Name = newEntity.Name,
+                Name = entity.Name,
+                Content = entity.Content,
+                Image = entity.Image                
             };
-            return _new;
+
+            return outNew;
         }
+
+        //public New NewDTOToNew(CreateNewDto dto)
+        //{
+        //    var _new = new New
+        //    {
+        //        Content = dto.Content,
+        //        Image = _imageService.UploadFileAsync(dto.Image).Result,
+        //        CategoryId = dto.CategoryId,
+        //        Name = dto.Name,
+        //    };
+        //    return _new;
+        //}
 
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)
         {

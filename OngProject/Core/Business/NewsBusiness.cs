@@ -17,13 +17,13 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
-        
-        public NewsBusiness(IUnitOfWork unitOfWork,IEntityMapper entityMapper)
+
+        public NewsBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
         {
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;
         }
-        
+
         public Task<IEnumerable<New>> GetNews(bool listEntity)
         {
             throw new System.NotImplementedException();
@@ -87,42 +87,41 @@ namespace OngProject.Core.Business
             return response;
         }
 
-        public async Task<Response<NewDTO>> InsertNew(NewDTO entity)
+        public async Task<Response<CreateNewOutDto>> InsertNew(CreateNewDto dto)
         {
-            var response = new Response<NewDTO>();
+            
+            var response = new Response<CreateNewOutDto>();            
 
-            if ((entity.Name is String) == true)
+            try
+            {               
+                var newEntity = _entityMapper.CreateNewDtoToNew(dto);  
+
+                newEntity.ModifiedAt = DateTime.Now;
+
+                var newEntityResult = await _unitOfWork.NewRepository.AddAsync(newEntity);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                var entityDto = _entityMapper.NewToCreateNewOutDto(newEntity);
+
+                response.Data = entityDto;
+
+                response.Succeeded = true;
+
+                response.Message = "Novedad creada correctamente";               
+            }
+            catch (Exception e)
             {
-                try
-                 {               
-                    var newEntity = _entityMapper.NewDTOToNew(entity);                    
-                    newEntity.Comments = null;
-                    newEntity.IsDeleted = false;
-                    newEntity.ModifiedAt= DateTime.UtcNow;
-                    
-                    var newEntityResult = await _unitOfWork.NewRepository.AddAsync(newEntity);
-                    await _unitOfWork.SaveChangesAsync();
-                    response.Data = entity;
-                    response.Succeeded = true;
-                    response.Message = "New creada correctamente";               
-                }
-                catch (Exception e)
+                var listErrors = new string[] { e.Message };
+                return new Response<CreateNewOutDto>
                 {
-                    var listErrors = new string[] { e.Message };
-                    return new Response<NewDTO>
-                    {
-                        Data = null,
-                        Message = "Error",
-                        Succeeded = false,
-                        Errors = listErrors
-                    };
-                }
-            }
-            else
-            {
-                response.Succeeded = false;
-                response.Message = "Datos incorrectos";
-            }
+                    Data = null,
+                    Message = "Error",
+                    Succeeded = false,
+                    Errors = listErrors
+                };
+            }           
+            
             return response;           
         }
 
