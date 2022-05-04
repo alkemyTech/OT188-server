@@ -8,11 +8,12 @@ namespace OngProject.Core.Models.DTOs
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
-
+        [Required]
         public string Content { get; set; }
-
+        [Required]
         public string Image { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         public List<CommentDTO> Comments { get; set; }
