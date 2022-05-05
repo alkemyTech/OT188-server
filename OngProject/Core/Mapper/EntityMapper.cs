@@ -100,19 +100,20 @@ namespace OngProject.Core.Mapper
             return user;
         }
         
-        public Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO)
+        public Category CategoryNewDTOToCategory(NewCategoryDTO categoriesNewsDTO)
         {
             var category = new Category
             {
                 Name = categoriesNewsDTO.Name,
                 Description = categoriesNewsDTO.Description,
-                Image = categoriesNewsDTO.Image
+                Image = categoriesNewsDTO.Image != null ? _amazonS3.UploadFileAsync(categoriesNewsDTO.Image).Result : "sin imagen",
+                ModifiedAt = DateTime.Now
             };
             return category;
         }
-        public NewCategoryDTO CategoryNewsDTOtoCategory(Category categories)
+        public CategoryOutDTO CategoryToCategoryOutDTO(Category categories)
         {
-            var category = new NewCategoryDTO
+            var category = new CategoryOutDTO()
             {
                 Name = categories.Name,
                 Description = categories.Description,

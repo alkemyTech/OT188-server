@@ -35,6 +35,7 @@ namespace OngProject.Core.Business
 
                         response.Data = _entityMapper.UserToAuthUserDto(user.Result, token);
                         response.Succeeded = true;
+                        response.Message = "Success";
                     }
                     else
                     {

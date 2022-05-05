@@ -53,7 +53,7 @@ namespace OngProject.Controllers
             }
             catch (Exception ex)
             {
-                var listError = new string[]
+                var listError = new[]
                 {
                     ex.Message
                 };
@@ -62,7 +62,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm]NewCategoryDTO categoriesNewsDTO)
+        public async Task<ActionResult> Post([FromForm] NewCategoryDTO categoriesNewsDTO)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace OngProject.Controllers
 
                 return Ok(result);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
