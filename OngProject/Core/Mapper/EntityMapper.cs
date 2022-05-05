@@ -9,6 +9,13 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper : IEntityMapper
     {
+
+        private readonly IAmazonS3Helper _amazonS3;
+
+        public EntityMapper(IAmazonS3Helper amazonS3)
+        {
+            _amazonS3 = amazonS3;
+        }
         public SlideDTO SlidetoSlideDTO(Slide slide)
         {
             var slideDTO = new SlideDTO()
@@ -235,11 +242,22 @@ namespace OngProject.Core.Mapper
             {
                 Name = activityDto.Name,
                 Content = activityDto.Content,
-                Image = activityDto.Image,
+                Image = activityDto.Image != null ? _amazonS3.UploadFileAsync(activityDto.Image).Result : "sin imagen",
                 ModifiedAt = DateTime.Now
             };
             return activity;
-        } 
+        }
+
+        public ActivityOutDTO ActivityToActivityOutDto(Activity activity)
+        {
+            var activityDto = new ActivityOutDTO
+            {
+                Name = activity.Name,
+                Content = activity.Content,
+                Image = activity.Image
+            };
+            return activityDto;
+        }
 
 
         public Slide Slide(AddSlideDTO add)

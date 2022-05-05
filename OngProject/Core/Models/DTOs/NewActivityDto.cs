@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -10,7 +11,6 @@ namespace OngProject.Core.Models.DTOs
         [Required(ErrorMessage = "Content field is required")]
         [MaxLength(65535)]
         public string Content { get; set; }
-        [MaxLength(255)]
-        public string? Image { get; set; }
+        public IFormFile Image { get; set; }
     }
 }
