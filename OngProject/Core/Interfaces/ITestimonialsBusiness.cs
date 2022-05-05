@@ -13,9 +13,10 @@ namespace OngProject.Core.Interfaces
 
         Task<IEnumerable<Testimony>> GetTestimonials(bool listEntity);
         Task<Testimony> GetTestimonial(int id);
-        Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto entity);
+        Task<Response<TestimonyOutDto>> InsertTestimonial(NewTestimonyDto entity);
         Task UpdateTestimonial(int id, Testimony entity);
         Task<Response<string>> DeleteTestimonial(int id);
+
 
     }
 }

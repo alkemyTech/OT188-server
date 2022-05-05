@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -8,8 +9,8 @@ namespace OngProject.Core.Models.DTOs
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [MaxLength(255)]
-        public string Image { get; set; }
+        
+        public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Description field is required")]
         [MaxLength(255)]
