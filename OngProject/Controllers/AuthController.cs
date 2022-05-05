@@ -51,7 +51,7 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Post(RegisterDto registerDto)
+        public async Task<IActionResult> Post([FromForm] RegisterDto registerDto)
         {
             try
             {
