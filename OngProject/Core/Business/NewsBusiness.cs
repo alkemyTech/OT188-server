@@ -95,10 +95,9 @@ namespace OngProject.Core.Business
             try
             {
                 var nameCollection = await _unitOfWork.NewRepository.FindByAsync(n => n.Name == dto.Name);
-                var contentCollection = await _unitOfWork.NewRepository.FindByAsync(n => n.Content == dto.Content);
                 var categoryCollection = await _unitOfWork.NewRepository.FindByAsync(n => n.CategoryId == dto.CategoryId);
 
-                if (nameCollection.Count == 0 && contentCollection.Count == 0)
+                if (nameCollection.Count == 0)
                 {
                     if (categoryCollection.Count == 0)
                     {
@@ -128,7 +127,7 @@ namespace OngProject.Core.Business
                 {
                     response.Succeeded = false;
 
-                    response.Message = "Ya existe una novedad con nombre o contenido similar en nuestros registros.";
+                    response.Message = "Ya existe una novedad con nombre similar en nuestros registros.";
                 }                              
             }
             catch (Exception e)
