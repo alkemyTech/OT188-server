@@ -23,18 +23,19 @@ namespace OngProject.Core.Business
 
         public Task<IEnumerable<Category>> GetCategories(bool listEntity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<Response<NewCategoryDTO>> GetCategory(int id)
+        public async Task<Response<CategoryOutDTO>> GetCategory(int id)
         {
-            var response = new Response<NewCategoryDTO>();
+            var response = new Response<CategoryOutDTO>();
             try
             {
                 var category = await _unitOfWork.CategoryRepository.GetById(id);
+                
                 if (category != null && category.IsDeleted == false )
                 {
-                    var categoryDto = _entityMapper.CategoryNewsDTOtoCategory(category);
+                    var categoryDto = _entityMapper.CategoryToCategoryOutDTO(category);
                     response.Data = categoryDto;
                     response.Succeeded = true;
                     response.Message = "Success.";
@@ -52,29 +53,43 @@ namespace OngProject.Core.Business
             return response;
         }
 
-        public async Task<Response<NewCategoryDTO>> InsertCategory(NewCategoryDTO categoriesNewsDTO)
+        public async Task<Response<CategoryOutDTO>> InsertCategory(NewCategoryDTO categoriesNewsDTO)
         {
-            var response = new Response<NewCategoryDTO>();
+            var response = new Response<CategoryOutDTO>();
             try
-            {   
-                if((categoriesNewsDTO.Name is String) == true) 
+            {
+                var listCategories = await _unitOfWork.CategoryRepository.GetAll(x => x.Name == categoriesNewsDTO.Name);
+                if (!listCategories.Any())
                 {
-                    var categoriesNews = _entityMapper.CategoryToCategoryNewsDTO(categoriesNewsDTO);
-                    var category = await _unitOfWork.CategoryRepository.AddAsync(categoriesNews);
-                    await _unitOfWork.SaveChangesAsync();
-                    response.Data = categoriesNewsDTO;
-                    response.Succeeded = true;
-                    response.Message = "Categoria creada correctamente";
+                    if(categoriesNewsDTO.Name != null) 
+                    {
+                        var categoriesNews = _entityMapper.CategoryNewDTOToCategory(categoriesNewsDTO);
+                        await _unitOfWork.CategoryRepository.AddAsync(categoriesNews);
+                        await _unitOfWork.SaveChangesAsync();
+                        var categoryDto = _entityMapper.CategoryToCategoryOutDTO(categoriesNews);
+                        response.Data = categoryDto;
+                        response.Succeeded = true;
+                        response.Message = "Categoria creada correctamente";
+                    }
+                    else
+                    {
+                        response.Succeeded = false;
+                        response.Message = "Datos incorrectos";
+                    }
                 }
                 else
                 {
                     response.Succeeded = false;
-                response.Message = "Datos incorrectos";
+                    response.Message = "Ya existe una categoria con el mismo nombre";
                 }
+
+                
+                
+               
             }
             catch (Exception e)
             {
-                var listErrors = new string[] {e.Message};
+                var listErrors = new[] {e.Message};
                 response.Errors = listErrors;
             }
             return response;
@@ -82,7 +97,7 @@ namespace OngProject.Core.Business
 
         public Task UpdateCategory(int id, Category entity)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
        
@@ -100,7 +115,7 @@ namespace OngProject.Core.Business
             {
                 await _unitOfWork.CategoryRepository.Delete(id);
             }
-            catch (System.InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 return new Response<string>("Error", succeeded: false, message: e.Message);
             }

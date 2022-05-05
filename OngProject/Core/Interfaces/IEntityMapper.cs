@@ -20,9 +20,9 @@ namespace OngProject.Core.Interfaces
 
         CategoriesNameDTO CategoriesNameDTO(Category category);
 
-        Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO);
+        Category CategoryNewDTOToCategory(NewCategoryDTO categoriesNewsDTO);
 
-        NewCategoryDTO CategoryNewsDTOtoCategory(Category categories);
+        CategoryOutDTO CategoryToCategoryOutDTO(Category categories);
 
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 

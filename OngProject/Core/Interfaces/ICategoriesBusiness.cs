@@ -9,9 +9,9 @@ namespace OngProject.Core.Interfaces
     public interface ICategoriesBusiness
     {
         Task<IEnumerable<Category>> GetCategories(bool listEntity);
-        Task<Response<NewCategoryDTO>> GetCategory(int id);
+        Task<Response<CategoryOutDTO>> GetCategory(int id);
 
-        Task<Response<NewCategoryDTO>> InsertCategory(NewCategoryDTO entity);
+        Task<Response<CategoryOutDTO>> InsertCategory(NewCategoryDTO entity);
         Task UpdateCategory(int id, Category entity);       
         Task<Response<string>> DeleteCategory(int id);
                        
