@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
 {
-    public class NewDTO
+    public class CreateNewDto
     {
         [Required]
         [StringLength(255)]
@@ -11,11 +12,11 @@ namespace OngProject.Core.Models.DTOs
         [Required]
         public string Content { get; set; }
         [Required]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
 
-        public List<CommentDTO> Comments { get; set; }
+        //public List<CommentDTO> Comments { get; set; }
     }
 }

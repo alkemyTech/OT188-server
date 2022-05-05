@@ -215,28 +215,28 @@ namespace OngProject.Core.Mapper
             };
         }
 
-        public NewDTO NewToNewDTO(New newEntity)
+        public New CreateNewDtoToNew(CreateNewDto newEntity)
         {
-            var _newDTO = new NewDTO
+            var _newDTO = new New
             {
                 Content = newEntity.Content,
-                Image = newEntity.Image,
+                Image = _amazonS3.UploadFileAsync(newEntity.Image).Result,
                 CategoryId = newEntity.CategoryId,
                 Name = newEntity.Name,
             };
             return _newDTO;
         }
 
-        public New NewDTOToNew(NewDTO newEntity)
+        public CreateNewOutDto NewToCreateNewOutDto(New entity)
         {
-            var _new = new New
+            var outNew = new CreateNewOutDto
             {
-                Content = newEntity.Content,
-                Image = newEntity.Image,
-                CategoryId = newEntity.CategoryId,
-                Name = newEntity.Name,
+                Name = entity.Name,
+                Content = entity.Content,
+                Image = entity.Image                
             };
-            return _new;
+
+            return outNew;
         }
 
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)

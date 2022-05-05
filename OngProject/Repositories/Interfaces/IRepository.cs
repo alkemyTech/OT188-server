@@ -25,5 +25,6 @@ namespace OngProject.Repositories.Interfaces
         Task Update(T entity);
         
         Task Delete(int id);
+        Task<ICollection<T>> FindByAsync(Expression<Func<T, bool>> expression);
     }
 }

@@ -61,7 +61,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] NewDTO entity)
+        public async Task<ActionResult> Post([FromForm] CreateNewDto entity)
         {
             try
             {
@@ -69,17 +69,20 @@ namespace OngProject.Controllers
                 {
                     return BadRequest();
                 }
+
                 var response = await _business.InsertNew(entity);
+                
                 if (response.Succeeded == false)
                 {
                     return BadRequest(response);
                 }
-                return Ok(response);
 
+                return Ok(response);
             }            
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
+                var listErrors = new string[] { ex.Message };
+                return StatusCode(500, new Response<NewActivityDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
     }

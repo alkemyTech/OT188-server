@@ -49,17 +49,21 @@ namespace OngProject.Core.Interfaces
 
         Slide Slide(AddSlideDTO add);
 
-        Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);
-
+        Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);        
+      
         NewDTO NewToNewDTO(New newEntity);
       
         New NewDTOToNew(NewDTO newEntity);
 
         TestimonyOutDto TestimonyToTestimonyOutDto(Testimony testimony);
+      
         Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newEntity);
 
         Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id);
         New NewWithCommentsDtoToNew(NewWithCommentsDto dto);
         NewWithCommentsDto NewToNewWithCommentsDto(New newEntity);
+
+        New CreateNewDtoToNew(CreateNewDto newEntity);
+        CreateNewOutDto NewToCreateNewOutDto(New entity);
     }
 }
