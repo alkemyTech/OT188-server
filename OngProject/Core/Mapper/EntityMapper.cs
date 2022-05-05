@@ -292,11 +292,24 @@ namespace OngProject.Core.Mapper
             var testimony = new Testimony
             {
                 Name = newTestimonyDto.Name,
-                Image = newTestimonyDto.Image,
+                Image = newTestimonyDto.Image != null ? _amazonS3.UploadFileAsync(newTestimonyDto.Image).Result : "sin imagen",
                 Description = newTestimonyDto.Description,
                 ModifiedAt = DateTime.Now
             };
             return testimony;
+        }
+
+        public TestimonyOutDto TestimonyToTestimonyOutDto(Testimony testimony)
+        {
+            var testimonyDto = new TestimonyOutDto
+            {
+                Name = testimony.Name,
+                Image = testimony.Image,
+                Description = testimony.Description,
+
+
+            };
+            return testimonyDto;
         }
 
         public Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id)

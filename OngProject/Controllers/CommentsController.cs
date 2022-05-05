@@ -57,9 +57,10 @@ namespace OngProject.Controllers
                     var response = await _commentsBusiness.InsertComment(newCommentDto);
                     return Ok(response);
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    return StatusCode(500, ex.Message);
+                    var listError = new string[] { ex.Message };
+                    return StatusCode(500, new Response<NewCommentDto>(data: null, succeeded: false, errors: listError, message: "Error"));
 
                 }
 
