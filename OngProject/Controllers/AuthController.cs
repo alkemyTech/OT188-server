@@ -41,11 +41,8 @@ namespace OngProject.Controllers
             }
             catch (Exception ex)
             {
-                var listError = new string[]
-                {
-                    ex.Message
-                };
-                return StatusCode(500, new Response<String>(data: null, succeeded: false, errors: listError));
+                var listError = new string[]{ ex.Message };
+                return StatusCode(500, new Response<String>(data: null, succeeded: false, errors: listError,message: "Error"));
             }
         }
 
@@ -68,7 +65,8 @@ namespace OngProject.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                var listError = new string[] { ex.Message };
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError, message: "Error"));
             }
         }
 
