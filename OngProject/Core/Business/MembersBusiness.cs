@@ -70,12 +70,7 @@ namespace OngProject.Core.Business
             }
             catch (Exception e)
             {
-                var listErrors = new string[] { e.Message };
-                return new Response<NewMemberDTO> { 
-                    Data = null, 
-                    Message = "Error",
-                    Succeeded = false, 
-                    Errors = listErrors };
+                throw;
             }
             return result;
         }
