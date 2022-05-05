@@ -17,8 +17,7 @@ namespace OngProject.Core.Models.DTOs
         [StringLength(500)]
         public string Message { get; set; }
 
-        [Phone]
-        [MaxLength(20)]
+        [RegularExpression(@"^([0-9]{0,20})$", ErrorMessage = "Número de teléfono incorrecto.")]
         public int? Phone { get; set; }
     }
 }

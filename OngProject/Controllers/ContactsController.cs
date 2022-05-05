@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using System;
 using System.Threading.Tasks;
@@ -29,14 +30,15 @@ namespace OngProject.Controllers
 
                 if (contactsList == null)
                 {
-                    return NotFound();
+                    return NotFound(new Response<string>(data: null, succeeded: false, errors: null, message: "Not Found"));
                 }
 
                 return Ok(contactsList);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                var listError = new string[] { ex.Message };
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError, message: "Ha ocurrido un error al intentar realizar la operación"));
             }
         }
 
@@ -56,7 +58,8 @@ namespace OngProject.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                var listError = new string[] { ex.Message };
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError, message: "Ha ocurrido un error al intentar realizar la operación"));
             }
         }
     }
