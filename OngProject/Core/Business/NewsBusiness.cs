@@ -93,22 +93,43 @@ namespace OngProject.Core.Business
             var response = new Response<CreateNewOutDto>();            
 
             try
-            {               
-                var newEntity = _entityMapper.CreateNewDtoToNew(dto);  
+            {
+                var nameCollection = await _unitOfWork.NewRepository.FindByAsync(n => n.Name == dto.Name);
+                var contentCollection = await _unitOfWork.NewRepository.FindByAsync(n => n.Content == dto.Content);
+                var categoryCollection = await _unitOfWork.NewRepository.FindByAsync(n => n.CategoryId == dto.CategoryId);
 
-                newEntity.ModifiedAt = DateTime.Now;
+                if (nameCollection.Count == 0 && contentCollection.Count == 0)
+                {
+                    if (categoryCollection.Count == 0)
+                    {
+                        response.Succeeded = false;
+                        response.Message = "No existe una categoria con ese ID.";
+                    }
+                    else
+                    {
+                        var newEntity = _entityMapper.CreateNewDtoToNew(dto);
 
-                var newEntityResult = await _unitOfWork.NewRepository.AddAsync(newEntity);
+                        newEntity.ModifiedAt = DateTime.Now;
 
-                await _unitOfWork.SaveChangesAsync();
+                        var newEntityResult = await _unitOfWork.NewRepository.AddAsync(newEntity);
 
-                var entityDto = _entityMapper.NewToCreateNewOutDto(newEntity);
+                        await _unitOfWork.SaveChangesAsync();
 
-                response.Data = entityDto;
+                        var entityDto = _entityMapper.NewToCreateNewOutDto(newEntity);
 
-                response.Succeeded = true;
+                        response.Data = entityDto;
 
-                response.Message = "Novedad creada correctamente";               
+                        response.Succeeded = true;
+
+                        response.Message = "Novedad creada correctamente.";
+                    }                    
+                }
+                else
+                {
+                    response.Succeeded = false;
+
+                    response.Message = "Ya existe una novedad con nombre o contenido similar en nuestros registros.";
+                }                              
             }
             catch (Exception e)
             {
