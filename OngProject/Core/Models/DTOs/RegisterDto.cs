@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -16,5 +17,7 @@ namespace OngProject.Core.Models.DTOs
         [StringLength(20, ErrorMessage = "Alcanzo la maxima cantidad de caracteres.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public IFormFile Photo { get; set; }
     }
 }

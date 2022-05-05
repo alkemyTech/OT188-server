@@ -93,7 +93,9 @@ namespace OngProject.Core.Mapper
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 Email = registerDto.Email,
-                Password = registerDto.Password
+                Password = registerDto.Password,
+                Photo = registerDto.Photo != null ? _amazonS3.UploadFileAsync(registerDto.Photo).Result : null,
+                ModifiedAt = DateTime.Now
             };
             return user;
         }
