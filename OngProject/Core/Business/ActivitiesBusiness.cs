@@ -20,21 +20,22 @@ namespace OngProject.Core.Business
             _entityMapper = entityMapper;
         }
 
-        public async Task<Response<NewActivityDto>> InsertActivity(NewActivityDto entity)
+        public async Task<Response<ActivityOutDTO>> InsertActivity(NewActivityDto entity)
         {
-            var result = new Response<NewActivityDto>();
+            var result = new Response<ActivityOutDTO>();
             try
-            {                
+            {
                 var activity = _entityMapper.ActivityDtoToActivity(entity);
                 await _unitOfWork.ActivityRepository.AddAsync(activity);
                 await _unitOfWork.SaveChangesAsync();
-                result.Data = entity;
+                var activityOut = _entityMapper.ActivityToActivityOutDto(activity);
+                result.Data = activityOut;
                 result.Succeeded = true;
                 result.Message = $"The activity has been created";
             }
             catch (Exception e)
             {                 
-                throw;
+                throw ;
             }
             return result;
         }

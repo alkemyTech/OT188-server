@@ -22,7 +22,7 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Insert(NewActivityDto activityDto)
+        public async Task<IActionResult> Insert([FromForm] NewActivityDto activityDto)
         {
             try
             {
@@ -35,9 +35,7 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace;
+                var listErrors = new string[]{ e.Message};
                 return StatusCode(500, new Response<NewActivityDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }

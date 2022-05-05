@@ -9,12 +9,13 @@ namespace OngProject.Core.Mapper
 {
     public class EntityMapper : IEntityMapper
     {
-        private readonly IAmazonS3Helper _imageService;
-        public EntityMapper(IAmazonS3Helper imageService)
-        {
-            _imageService = imageService;
-        }
 
+        private readonly IAmazonS3Helper _amazonS3;
+
+        public EntityMapper(IAmazonS3Helper amazonS3)
+        {
+            _amazonS3 = amazonS3;
+        }
         public SlideDTO SlidetoSlideDTO(Slide slide)
         {
             var slideDTO = new SlideDTO()
@@ -92,7 +93,9 @@ namespace OngProject.Core.Mapper
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
                 Email = registerDto.Email,
-                Password = registerDto.Password
+                Password = registerDto.Password,
+                Photo = registerDto.Photo != null ? _amazonS3.UploadFileAsync(registerDto.Photo).Result : null,
+                ModifiedAt = DateTime.Now
             };
             return user;
         }
@@ -216,7 +219,7 @@ namespace OngProject.Core.Mapper
             var _newDTO = new New
             {
                 Content = newEntity.Content,
-                Image = _imageService.UploadFileAsync(newEntity.Image).Result,
+                Image = _amazonS3.UploadFileAsync(newEntity.Image).Result,
                 CategoryId = newEntity.CategoryId,
                 Name = newEntity.Name,
             };
@@ -235,29 +238,28 @@ namespace OngProject.Core.Mapper
             return outNew;
         }
 
-        //public New NewDTOToNew(CreateNewDto dto)
-        //{
-        //    var _new = new New
-        //    {
-        //        Content = dto.Content,
-        //        Image = _imageService.UploadFileAsync(dto.Image).Result,
-        //        CategoryId = dto.CategoryId,
-        //        Name = dto.Name,
-        //    };
-        //    return _new;
-        //}
-
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)
         {
             var activity = new Activity
             {
                 Name = activityDto.Name,
                 Content = activityDto.Content,
-                Image = activityDto.Image,
+                Image = activityDto.Image != null ? _amazonS3.UploadFileAsync(activityDto.Image).Result : "sin imagen",
                 ModifiedAt = DateTime.Now
             };
             return activity;
-        } 
+        }
+
+        public ActivityOutDTO ActivityToActivityOutDto(Activity activity)
+        {
+            var activityDto = new ActivityOutDTO
+            {
+                Name = activity.Name,
+                Content = activity.Content,
+                Image = activity.Image
+            };
+            return activityDto;
+        }
 
 
         public Slide Slide(AddSlideDTO add)

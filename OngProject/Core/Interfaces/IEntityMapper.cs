@@ -45,6 +45,8 @@ namespace OngProject.Core.Interfaces
 
         Activity ActivityDtoToActivity(NewActivityDto activityDto);
 
+        ActivityOutDTO ActivityToActivityOutDto(Activity activity);
+
         Slide Slide(AddSlideDTO add);
 
         Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);        
