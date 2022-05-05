@@ -132,14 +132,15 @@ namespace OngProject.Core.Business
             }
             catch (Exception e)
             {
-                var listErrors = new string[] { e.Message };
-                return new Response<CreateNewOutDto>
-                {
-                    Data = null,
-                    Message = "Error",
-                    Succeeded = false,
-                    Errors = listErrors
-                };
+                //var listErrors = new string[] { e.Message };
+                //return new Response<CreateNewOutDto>
+                //{
+                //    Data = null,
+                //    Message = "Error",
+                //    Succeeded = false,
+                //    Errors = listErrors
+                //};
+                throw;
             }           
             
             return response;           
