@@ -39,5 +39,24 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<NewActivityDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
+        [HttpPut("{id}")]
+        [Authorize(Roles ="Administrator")]
+        public async Task<IActionResult> Update([FromForm] UpdateActivityDTO data, int id)
+        {
+            try
+            {
+                if (data.Name == null && data.Content == null && data.Image == null)
+                {
+                    return BadRequest("Ingrese por lo menos un campo a modificar");
+                }
+                var result = await _activitiesService.UpdateActivity(data, id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                var error = new Response<string>(e.Message, false, null, "Server Internal Error");
+                return StatusCode(500, error);
+            }
+        }
     }
 }

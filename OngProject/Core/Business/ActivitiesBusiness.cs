@@ -39,5 +39,20 @@ namespace OngProject.Core.Business
             }
             return result;
         }
+
+        public async Task<Response<ActivityOutDTO>> UpdateActivity(UpdateActivityDTO data, int id)
+        {
+            var activity = await _unitOfWork.ActivityRepository.GetById(id);
+            if (activity == null || activity.IsDeleted == true)
+            {
+                return new Response<ActivityOutDTO>(null, false, null, "NotFound");
+            }
+            activity = _entityMapper.UpdateActivity(activity, data);
+            await _unitOfWork.ActivityRepository.Update(activity);
+            _unitOfWork.SaveChanges();
+            var result = _entityMapper.ActivityToActivityOutDto(activity);
+
+            return new Response<ActivityOutDTO>(result);
+        }
     }
 }
