@@ -30,10 +30,10 @@ namespace OngProject.Controllers
                 var listMembers = await _membersBusiness.GetMembers(true);
                 return Ok(listMembers);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-
-                throw;
+                var listError = new string[] { e.Message };
+                return StatusCode(500, new Response<string>(null, false, listError , "Error"));
             }
             
         }
@@ -54,10 +54,10 @@ namespace OngProject.Controllers
                 }
                 return Ok(response);
             }
-            catch (System.Exception ex)
+            catch (Exception e)
             {
-                return StatusCode(500, ex.Message);
-                
+                var listErrors = new string[] { e.Message };
+                return StatusCode(500, new Response<string>(null, false, listErrors, "Error"));
             }
 
             
@@ -78,7 +78,8 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                var listError = new string[] { e.Message };
+                return StatusCode(500, new Response<string>(null, false, listError, "Error"));
             }
         }
     }

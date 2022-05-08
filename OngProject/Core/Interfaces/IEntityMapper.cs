@@ -6,6 +6,8 @@ namespace OngProject.Core.Interfaces
 {
     public interface IEntityMapper
     {
+        Slide UpdateSlide(Slide slide, UpdateSlideDTO changes);
+
         SlideDTO SlidetoSlideDTO(Slide slide);
 
         MemberDTO MemberToMemberDTO(Member member);
@@ -20,24 +22,26 @@ namespace OngProject.Core.Interfaces
 
         CategoriesNameDTO CategoriesNameDTO(Category category);
 
-        Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO);
+        Category CategoryNewDTOToCategory(NewCategoryDTO categoriesNewsDTO);
 
-        NewCategoryDTO CategoryNewsDTOtoCategory(Category categories);
+        CategoryOutDTO CategoryToCategoryOutDTO(Category categories);
 
         OrganizationDTO OrganizationToOrganizationDTO(Organization organization);
 
         User RegisterDtoToUser(RegisterDto registerDto);
-      
+
         PublicSlideDTO PublicSlideDTO(Slide slide);
-      
+
         DetailSlideDTO DetailSlideDTO(Slide slide);
-      
+
         Contact RegisterContactDtoToContact(RegisterContactDto dto);
-      
+
+
         RegisterContactDto ContactToRegisterContactDto(Contact contact);
 
+
         NewOutDto NewToNewOUtDto(New newEntity);
-        
+
         CommentOutDto CommentToCommentOutDto(Comment comment);
 
         Comment CommentOutDtoToComment(CommentOutDto comment);
@@ -50,9 +54,7 @@ namespace OngProject.Core.Interfaces
 
         Member NewMemberDtoToMember(NewMemberDTO newMemberDTO);
 
-        NewDTO NewToNewDTO(New newEntity);
-      
-        New NewDTOToNew(NewDTO newEntity);
+        TestimonyOutDto TestimonyToTestimonyOutDto(Testimony testimony);
 
         Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newEntity);
 
@@ -62,6 +64,14 @@ namespace OngProject.Core.Interfaces
 
         NewWithCommentsDto NewToNewWithCommentsDto(New newEntity);
 
+
         Organization OrganizationToUpdateOrganizationDTO(UpdateOrganizationDTO updateOrganizationDTO);
+
+        New CreateNewDtoToNew(CreateNewDto newEntity);
+
+        CreateNewOutDto NewToCreateNewOutDto(New entity);
+
+        Activity UpdateActivity(Activity activity, UpdateActivityDTO changes);
+
     }
 }

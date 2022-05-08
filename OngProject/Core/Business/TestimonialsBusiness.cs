@@ -46,15 +46,16 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task<Response<NewTestimonyDto>> InsertTestimonial(NewTestimonyDto newEntity)
+        public async Task<Response<TestimonyOutDto>> InsertTestimonial(NewTestimonyDto newEntity)
         {
-            var result = new Response<NewTestimonyDto>();
+            var result = new Response<TestimonyOutDto>();
             try
             {
                 var testimony = _entityMapper.NewTestimonyDtoToTestimony(newEntity);
                 await _unitOfWork.TestimonyRepository.AddAsync(testimony);
                 await _unitOfWork.SaveChangesAsync();
-                result.Data = newEntity;
+                var testimonyDto = _entityMapper.TestimonyToTestimonyOutDto(testimony);
+                result.Data = testimonyDto;
                 result.Succeeded = true;
                 result.Message = "The Testimony has been created";
             }

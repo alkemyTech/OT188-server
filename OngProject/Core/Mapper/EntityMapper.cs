@@ -99,19 +99,20 @@ namespace OngProject.Core.Mapper
             return user;
         }
         
-        public Category CategoryToCategoryNewsDTO(NewCategoryDTO categoriesNewsDTO)
+        public Category CategoryNewDTOToCategory(NewCategoryDTO categoriesNewsDTO)
         {
             var category = new Category
             {
                 Name = categoriesNewsDTO.Name,
                 Description = categoriesNewsDTO.Description,
-                Image = categoriesNewsDTO.Image
+                Image = categoriesNewsDTO.Image != null ? _amazonS3.UploadFileAsync(categoriesNewsDTO.Image).Result : "sin imagen",
+                ModifiedAt = DateTime.Now
             };
             return category;
         }
-        public NewCategoryDTO CategoryNewsDTOtoCategory(Category categories)
+        public CategoryOutDTO CategoryToCategoryOutDTO(Category categories)
         {
-            var category = new NewCategoryDTO
+            var category = new CategoryOutDTO()
             {
                 Name = categories.Name,
                 Description = categories.Description,
@@ -231,28 +232,28 @@ namespace OngProject.Core.Mapper
             };
         }
 
-        public NewDTO NewToNewDTO(New newEntity)
+        public New CreateNewDtoToNew(CreateNewDto newEntity)
         {
-            var _newDTO = new NewDTO
+            var _newDTO = new New
             {
                 Content = newEntity.Content,
-                Image = newEntity.Image,
+                Image = _amazonS3.UploadFileAsync(newEntity.Image).Result,
                 CategoryId = newEntity.CategoryId,
                 Name = newEntity.Name,
             };
             return _newDTO;
         }
 
-        public New NewDTOToNew(NewDTO newEntity)
+        public CreateNewOutDto NewToCreateNewOutDto(New entity)
         {
-            var _new = new New
+            var outNew = new CreateNewOutDto
             {
-                Content = newEntity.Content,
-                Image = newEntity.Image,
-                CategoryId = newEntity.CategoryId,
-                Name = newEntity.Name,
+                Name = entity.Name,
+                Content = entity.Content,
+                Image = entity.Image                
             };
-            return _new;
+
+            return outNew;
         }
 
         public Activity ActivityDtoToActivity(NewActivityDto activityDto)
@@ -309,11 +310,24 @@ namespace OngProject.Core.Mapper
             var testimony = new Testimony
             {
                 Name = newTestimonyDto.Name,
-                Image = newTestimonyDto.Image,
+                Image = newTestimonyDto.Image != null ? _amazonS3.UploadFileAsync(newTestimonyDto.Image).Result : "sin imagen",
                 Description = newTestimonyDto.Description,
                 ModifiedAt = DateTime.Now
             };
             return testimony;
+        }
+
+        public TestimonyOutDto TestimonyToTestimonyOutDto(Testimony testimony)
+        {
+            var testimonyDto = new TestimonyOutDto
+            {
+                Name = testimony.Name,
+                Image = testimony.Image,
+                Description = testimony.Description,
+
+
+            };
+            return testimonyDto;
         }
 
         public Comment NewCommentDtoToComment(NewCommentDto newCommentDto, int id)
@@ -351,6 +365,25 @@ namespace OngProject.Core.Mapper
             };
 
             return _new;
+        }
+
+
+        public Slide UpdateSlide(Slide slide, UpdateSlideDTO changes)
+        {
+            slide.Text = changes.Text == null ? slide.Text : changes.Text;
+            slide.Order = changes.Order == null ? slide.Order : (int)changes.Order;
+            slide.OrganizationId = changes.OrganizationId == null ? slide.OrganizationId : (int)changes.OrganizationId;
+            slide.ImageUrl = changes.Image == null ? slide.ImageUrl : _amazonS3.UploadFileAsync(changes.Image).Result;
+            return slide;
+
+        public Activity UpdateActivity(Activity activity, UpdateActivityDTO changes)
+        {
+            activity.Name = changes.Name != null ? changes.Name : activity.Name;
+            activity.Content = changes.Content != null? changes.Content : activity.Content;
+            activity.Image = changes.Image != null ? _amazonS3.UploadFileAsync(changes.Image).Result : activity.Image;
+            activity.ModifiedAt = DateTime.Now;
+            return activity;
+
         }
     }
 }

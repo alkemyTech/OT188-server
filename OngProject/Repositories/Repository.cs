@@ -85,5 +85,12 @@ namespace OngProject.Repositories
             entity.IsDeleted = true;
             _entities.Update(entity);
         }
+
+        public async Task<ICollection<T>> FindByAsync(Expression<Func<T, bool>> expression)
+        {
+            var collection = await _entities.Where(expression).ToListAsync();
+
+            return collection;
+        }
     }
 }

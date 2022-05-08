@@ -32,7 +32,7 @@ namespace OngProject.Core.Business
             {
                 var contactsList = await _unitOfWork.ContactRepository.GetAll(listEntity);
 
-                if (contactsList == null)
+                if (contactsList.Count() == 0)
                 {
                     return null;
                 }
@@ -80,12 +80,8 @@ namespace OngProject.Core.Business
                 response.Message = "Operación realizada con éxito";
             }
             catch (Exception ex)
-            {
-                var listErrors = new string[] { ex.Message };
-
-                response.Errors = listErrors;
-
-                response.Message = "Ha ocurrido un error al intentar realizar la operación";
+            {                
+                throw;
             }
 
             return response;

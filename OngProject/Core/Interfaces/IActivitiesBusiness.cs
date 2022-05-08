@@ -9,5 +9,6 @@ namespace OngProject.Core.Interfaces
     public interface IActivitiesBusiness
     {
         Task<Response<ActivityOutDTO>> InsertActivity(NewActivityDto entity);
+        Task<Response<ActivityOutDTO>> UpdateActivity(UpdateActivityDTO entity, int id);
     }
 }

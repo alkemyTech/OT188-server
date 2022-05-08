@@ -9,6 +9,6 @@ namespace OngProject.Core.Models.DTOs
         public UserDto User { get; set; }
 
         public int NewId { get; set; }
-        public NewDTO New { get; set; }
+        public CreateNewDto New { get; set; }
     }
 }
