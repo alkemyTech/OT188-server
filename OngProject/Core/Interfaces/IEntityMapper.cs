@@ -6,6 +6,8 @@ namespace OngProject.Core.Interfaces
 {
     public interface IEntityMapper
     {
+        Slide UpdateSlide(Slide slide, UpdateSlideDTO changes);
+
         SlideDTO SlidetoSlideDTO(Slide slide);
 
         MemberDTO MemberToMemberDTO(Member member);

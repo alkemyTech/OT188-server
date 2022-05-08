@@ -10,6 +10,7 @@ namespace OngProject.Core.Interfaces
         Task<Response<IEnumerable<SlideDTO>>> GetSlides(bool listEntity);
         Task<Response<DetailSlideDTO>> GetDetailSlide(int id);
         Task<Response<string>> Delete(int id);
-        Task<Response<string>> Add(AddSlideDTO addSlideDTO); 
+        Task<Response<string>> Add(AddSlideDTO addSlideDTO);
+        Task<Response<DetailSlideDTO>> Update(UpdateSlideDTO updateSlideDTO, int id);
     }
 }

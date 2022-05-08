@@ -350,6 +350,15 @@ namespace OngProject.Core.Mapper
             return _new;
         }
 
+
+        public Slide UpdateSlide(Slide slide, UpdateSlideDTO changes)
+        {
+            slide.Text = changes.Text == null ? slide.Text : changes.Text;
+            slide.Order = changes.Order == null ? slide.Order : (int)changes.Order;
+            slide.OrganizationId = changes.OrganizationId == null ? slide.OrganizationId : (int)changes.OrganizationId;
+            slide.ImageUrl = changes.Image == null ? slide.ImageUrl : _amazonS3.UploadFileAsync(changes.Image).Result;
+            return slide;
+
         public Activity UpdateActivity(Activity activity, UpdateActivityDTO changes)
         {
             activity.Name = changes.Name != null ? changes.Name : activity.Name;
@@ -357,6 +366,7 @@ namespace OngProject.Core.Mapper
             activity.Image = changes.Image != null ? _amazonS3.UploadFileAsync(changes.Image).Result : activity.Image;
             activity.ModifiedAt = DateTime.Now;
             return activity;
+
         }
     }
 }
