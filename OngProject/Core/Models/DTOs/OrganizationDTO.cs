@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using OngProject.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs

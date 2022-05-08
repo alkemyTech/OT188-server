@@ -22,7 +22,7 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;   
         }
-        public async Task<Response<string>> DeleteComments(int id)
+         public async Task<Response<string>> DeleteComments(int id)
         {
             var response = new Response<string>();
             var comments = await _unitOfWork.CommentRepository.GetById(id);
@@ -48,7 +48,7 @@ namespace OngProject.Core.Business
                 response.Succeeded = false;
                 response.Message = "You do not have permission to modify it.";
                 return response;
-            }
+           }
         }
         public Task<Comment> GetTestimonial(int id)
         {

@@ -136,12 +136,30 @@ namespace OngProject.Core.Mapper
                 Name = organization.Name,
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
-                Address = organization.Address,
+                Address = organization.Address
                // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
         }
-        
+
+        public  Organization OrganizationToUpdateOrganizationDTO(UpdateOrganizationDTO updateOrganizationDTO)
+        {
+            var organization = new Organization
+            {
+                Name = updateOrganizationDTO.Name,
+                Image = updateOrganizationDTO.Image,
+                Address = updateOrganizationDTO.Address,
+                Phone = updateOrganizationDTO.Phone,
+                Email = updateOrganizationDTO.Email,
+                WelcomeText = updateOrganizationDTO.WelcomeText,
+                AboutUsText = updateOrganizationDTO.AboutUsText,
+                FacebookUrl = updateOrganizationDTO.FacebookUrl,
+                InstagramUrl = updateOrganizationDTO.InstagramUrl,
+                LinkedinUrl = updateOrganizationDTO.LinkedinUrl               
+            };
+            return organization;
+        }
+
         public PublicSlideDTO PublicSlideDTO(Slide slide)
         {
             return new PublicSlideDTO

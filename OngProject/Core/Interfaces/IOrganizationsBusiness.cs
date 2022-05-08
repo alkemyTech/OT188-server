@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         Task<Response<IEnumerable<OrganizationDTO>>> GetOrganizations(bool listEntity);
         Task<Response<OrganizationDTO>> GetOrganization(int id);
-        
+        Task<Response<UpdateOrganizationDTO>> UpdateOrganizations(UpdateOrganizationDTO entity);
     }
     
 }
