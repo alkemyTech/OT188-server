@@ -350,11 +350,11 @@ namespace OngProject.Core.Mapper
             return _new;
         }
 
-        public Activity UpdateActivity(Activity activity, Activity changes)
+        public Activity UpdateActivity(Activity activity, UpdateActivityDTO changes)
         {
-            activity.Name = changes.Name;
-            activity.Content = changes.Content;
-            activity.Image = changes.Image;
+            activity.Name = changes.Name != null ? changes.Name : activity.Name;
+            activity.Content = changes.Content != null? changes.Content : activity.Content;
+            activity.Image = changes.Image != null ? _amazonS3.UploadFileAsync(changes.Image).Result : activity.Image;
             activity.ModifiedAt = DateTime.Now;
             return activity;
         }

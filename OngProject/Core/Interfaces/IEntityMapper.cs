@@ -64,6 +64,6 @@ namespace OngProject.Core.Interfaces
 
         CreateNewOutDto NewToCreateNewOutDto(New entity);
 
-        Activity UpdateActivity(Activity activity, Activity changes);
+        Activity UpdateActivity(Activity activity, UpdateActivityDTO changes);
     }
 }

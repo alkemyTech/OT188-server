@@ -41,7 +41,7 @@ namespace OngProject.Controllers
         }
         [HttpPut("{id}")]
         [Authorize(Roles ="Administrator")]
-        public async Task<IActionResult> Update([FromForm] NewActivityDto data, int id)
+        public async Task<IActionResult> Update([FromForm] UpdateActivityDTO data, int id)
         {
             try
             {
