@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
-using OngProject.Entities;
 
 namespace OngProject.Controllers
 {
@@ -61,7 +60,7 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Route("public")]
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromForm] UpdateOrganizationDTO upOrg)
         {
             try
