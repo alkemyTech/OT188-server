@@ -36,7 +36,9 @@ namespace OngProject.Core.Interfaces
 
         Contact RegisterContactDtoToContact(RegisterContactDto dto);
 
+
         RegisterContactDto ContactToRegisterContactDto(Contact contact);
+
 
         NewOutDto NewToNewOUtDto(New newEntity);
 
@@ -62,10 +64,14 @@ namespace OngProject.Core.Interfaces
 
         NewWithCommentsDto NewToNewWithCommentsDto(New newEntity);
 
+
+        Organization OrganizationToUpdateOrganizationDTO(UpdateOrganizationDTO updateOrganizationDTO);
+
         New CreateNewDtoToNew(CreateNewDto newEntity);
 
         CreateNewOutDto NewToCreateNewOutDto(New entity);
 
         Activity UpdateActivity(Activity activity, UpdateActivityDTO changes);
+
     }
 }
