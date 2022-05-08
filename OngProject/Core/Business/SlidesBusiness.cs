@@ -83,5 +83,19 @@ namespace OngProject.Core.Business
             //succes
             return new Response<string>("Succes", message:"Slide Agregado");
         }
+
+        public async Task<Response<DetailSlideDTO>> Update(UpdateSlideDTO data, int id)
+        {
+            var slide = await _unitOfWork.SlideRepository.GetById(id);
+            if(slide == null || slide.IsDeleted == true)
+            {
+                return new Response<DetailSlideDTO>(null, false, null, "Not Found");
+            }
+            slide = _entityMapper.UpdateSlide(slide, data);
+            await _unitOfWork.SlideRepository.Update(slide);
+            await _unitOfWork.SaveChangesAsync();
+            var result = _entityMapper.DetailSlideDTO(slide);
+            return new Response<DetailSlideDTO>(result);
+        }
     }
 }

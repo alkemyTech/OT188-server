@@ -80,6 +80,28 @@ namespace OngProject.Controllers
             }
         }
         [Authorize(Roles = "Administrator")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromForm] UpdateSlideDTO data, int id)
+        {
+            try
+            {
+                if (data.Image == null &&
+                    data.Order == null &&
+                    data.OrganizationId == null &&
+                    data.Text == null)
+                {
+                    return BadRequest("Indique por lo menos un campo a modificar");
+                }
+                var result = _slidesBusiness.Update(data, id);
+                return Ok(result);
+            }
+            catch (System.Exception e)
+            {
+                var error = new Response<string>(e.Message, false, null, "Server Error");
+                return StatusCode(500, error);
+            }
+        }
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

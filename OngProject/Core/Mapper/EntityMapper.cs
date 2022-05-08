@@ -349,5 +349,14 @@ namespace OngProject.Core.Mapper
 
             return _new;
         }
+
+        public Slide UpdateSlide(Slide slide, UpdateSlideDTO changes)
+        {
+            slide.Text = changes.Text == null ? slide.Text : changes.Text;
+            slide.Order = changes.Order == null ? slide.Order : (int)changes.Order;
+            slide.OrganizationId = changes == null ? slide.OrganizationId : (int)changes.OrganizationId;
+            slide.ImageUrl = changes.Image == null ? slide.ImageUrl : _amazonS3.UploadFileAsync(changes.Image).Result;
+            return slide;
+        }
     }
 }
