@@ -92,7 +92,7 @@ namespace OngProject.Controllers
                 {
                     return BadRequest("Indique por lo menos un campo a modificar");
                 }
-                var result = _slidesBusiness.Update(data, id);
+                var result = await _slidesBusiness.Update(data, id);
                 return Ok(result);
             }
             catch (System.Exception e)
