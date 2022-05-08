@@ -375,6 +375,7 @@ namespace OngProject.Core.Mapper
             slide.OrganizationId = changes.OrganizationId == null ? slide.OrganizationId : (int)changes.OrganizationId;
             slide.ImageUrl = changes.Image == null ? slide.ImageUrl : _amazonS3.UploadFileAsync(changes.Image).Result;
             return slide;
+        }
 
         public Activity UpdateActivity(Activity activity, UpdateActivityDTO changes)
         {
