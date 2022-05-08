@@ -349,5 +349,14 @@ namespace OngProject.Core.Mapper
 
             return _new;
         }
+
+        public Activity UpdateActivity(Activity activity, Activity changes)
+        {
+            activity.Name = changes.Name;
+            activity.Content = changes.Content;
+            activity.Image = changes.Image;
+            activity.ModifiedAt = DateTime.Now;
+            return activity;
+        }
     }
 }
