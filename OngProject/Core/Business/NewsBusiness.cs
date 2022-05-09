@@ -151,9 +151,27 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task DeleteNew(int id)
+        public async Task<Response<string>> DeleteNew(int id)
         {
-            throw new System.NotImplementedException();
+            var response = new Response<string>();
+            try
+            {
+                await _unitOfWork.NewRepository.Delete(id);
+                await _unitOfWork.SaveChangesAsync();
+                response.Data = null;
+                response.Errors = null;
+                response.Succeeded = true;
+                response.Message = "Success! Entity deleted";
+                return response;
+            }
+            catch (InvalidOperationException e)
+            {
+                response.Data = null;
+                response.Errors = new string[] { e.Message };
+                response.Succeeded = false;
+                response.Message = "Error! Entity not found";
+                return response;
+            }
         }
     }
 }
