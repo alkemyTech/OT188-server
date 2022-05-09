@@ -6,7 +6,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 
 using OngProject.Core.Models.DTOs;
-
+using OngProject.Core.Models.Pagination;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -21,7 +21,29 @@ namespace OngProject.Controllers
         {
             _business = business;
         }
-       
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] PagedListParams pagedParams)
+        {
+            try
+            {
+                var response = await _business.GetAll(pagedParams);
+                
+                if (!response.Succeeded)
+                {
+                    return BadRequest(response);
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var listError = new string[] { ex.Message };
+
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError));
+            }
+        }
+
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> Post([FromForm] NewTestimonyDto newEntity)
