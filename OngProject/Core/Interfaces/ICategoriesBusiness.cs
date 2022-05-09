@@ -12,7 +12,7 @@ namespace OngProject.Core.Interfaces
         Task<Response<CategoryOutDTO>> GetCategory(int id);
 
         Task<Response<CategoryOutDTO>> InsertCategory(NewCategoryDTO entity);
-        Task UpdateCategory(int id, Category entity);       
+        Task<Response<string>> UpdateCategory(int id, NewCategoryDTO entity);       
         Task<Response<string>> DeleteCategory(int id);
                        
         Task<IEnumerable<CategoriesNameDTO>> GetNameList();
