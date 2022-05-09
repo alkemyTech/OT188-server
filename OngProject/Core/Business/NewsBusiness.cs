@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
+using OngProject.Core.Models.Pagination;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using Swashbuckle.Swagger;
 
 namespace OngProject.Core.Business
 {
@@ -17,11 +21,61 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public NewsBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
+        public NewsBusiness(IUnitOfWork unitOfWork, 
+            IEntityMapper entityMapper,
+            IHttpContextAccessor httpContext)
         {
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;
+            _httpContext = httpContext;
+        }
+        //Paged List
+        public async Task<Response<PagedListResponse<NewDTO>>> GetAll(PagedListParams pagedParams)
+        {
+            var response = new Response<PagedListResponse<NewDTO>>();
+            try
+            {
+                var news = await _unitOfWork.NewRepository.FindAllAsync(null, null, null, pagedParams.PageNumber, pagedParams.PageSize);
+                var totalCount = await _unitOfWork.NewRepository.Count();
+
+                if (totalCount == 0)
+                {
+                    response.Message = "There is no news to show";
+                    response.Data = null;
+                    response.Succeeded = true;
+                }
+                   
+                if (news.Count == 0)
+                {
+                    response.Message = "There are no results with the parameters given";
+                    response.Data = null;
+                    response.Succeeded = false;
+                }
+                else
+                {
+                    var NewDTO = news
+                    .Select(newEntity => _entityMapper.NewtoNewDto(newEntity));
+
+                    var paged = PagedList<NewDTO>.Create(NewDTO.ToList(), totalCount,
+                                                                    pagedParams.PageNumber,
+                                                                   pagedParams.PageSize);
+
+                    var url = $"{this._httpContext.HttpContext.Request.Scheme}://{this._httpContext.HttpContext.Request.Host}" +
+                        $"{this._httpContext.HttpContext.Request.Path}";
+                    var pagedResponse = new PagedListResponse<NewDTO>(paged, url);
+                    response.Data = pagedResponse;
+                    response.Succeeded = true;
+                }
+                    
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return response; 
         }
 
         public Task<IEnumerable<New>> GetNews(bool listEntity)
@@ -154,6 +208,6 @@ namespace OngProject.Core.Business
         public Task DeleteNew(int id)
         {
             throw new System.NotImplementedException();
-        }
+        }      
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
-using OngProject.Entities;
+using OngProject.Core.Models.Pagination;
 
 namespace OngProject.Controllers
 {
@@ -20,10 +20,30 @@ namespace OngProject.Controllers
             _business = business;
         }
 
+        [HttpGet]
+        //[Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetAll([FromQuery] PagedListParams pagedParams)
+        {
+            try 
+            {
+                var response = await _business.GetAll(pagedParams);
+                if (!response.Succeeded  )
+                {
+                    return BadRequest(response);
+                }
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                var listError = new string[] { ex.Message };
+
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError));
+            }          
+        }
+
         [HttpGet("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Get(int id)
         {
-  
             try
             {
                 var response = await _business.GetNew(id);
@@ -39,7 +59,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}/comments")]
-        public async Task<IActionResult> GetNewComments(int id)
+        public async Task<IActionResult> GetNewComments(int id) 
         {
             try
             {

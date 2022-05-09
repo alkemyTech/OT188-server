@@ -24,10 +24,18 @@ namespace OngProject.Repositories.Interfaces
 
         Task Delete(int id);
 
-
         Task<T> Update(T entity);
 
         Task<ICollection<T>> FindByAsync(Expression<Func<T, bool>> expression);
+
+        Task<int> Count();
+
+        Task<ICollection<T>> FindAllAsync(
+             Expression<Func<T, bool>> filter = null,
+             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+             IList<Expression<Func<T, object>>> includes = null,
+             int? page = null,
+             int? pageSize = null);
 
     }
 }
