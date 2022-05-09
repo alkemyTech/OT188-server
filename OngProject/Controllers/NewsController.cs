@@ -105,5 +105,19 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<NewActivityDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _business.DeleteNew(id);
+                return result.Succeeded == true ? Ok(result) : NotFound(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Response<string>(null, false, new string[] { e.Message }, "Error! Entity not found"));
+            }
+        }
     }
 }
