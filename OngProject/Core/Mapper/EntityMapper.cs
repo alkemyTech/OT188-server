@@ -386,5 +386,17 @@ namespace OngProject.Core.Mapper
             return activity;
 
         }
+
+        public NewDTO NewtoNewDto(New newEntity)
+        {
+            NewDTO newDtoEntity = new()
+            {
+                Name = newEntity.Name,
+                Content = newEntity.Content,
+                Image = newEntity.Image,
+                CategoryId = newEntity.CategoryId
+            };
+            return newDtoEntity;
+        }
     }
 }

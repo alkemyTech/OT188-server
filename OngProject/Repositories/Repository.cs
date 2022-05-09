@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Helper;
-using OngProject.Core.Models.DTOs;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -40,6 +39,7 @@ namespace OngProject.Repositories
                 return await _entities.IncludeMultiple(include).ToListAsync();
             }
             return await _entities.Where(predicate).IncludeMultiple(include).ToListAsync();
+
         }
 
         public async Task<T> GetById(int id)
@@ -91,6 +91,36 @@ namespace OngProject.Repositories
             var collection = await _entities.Where(expression).ToListAsync();
 
             return collection;
+        }
+
+        public async Task<int> Count()
+        {
+            return await _entities.CountAsync();
+        }
+
+        public async Task<ICollection<T>> FindAllAsync(Expression<Func<T, bool>> filter = null, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, IList<Expression
+                <Func<T, object>>> includes = null, int? page = null, int? pageSize = null)
+        {
+            var query = this._entities.AsQueryable();
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            if (page != null && pageSize != null)
+            {
+                query = query.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value);
+            }
+            return await query.ToListAsync();
         }
     }
 }

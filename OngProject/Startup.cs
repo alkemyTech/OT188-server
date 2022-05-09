@@ -59,7 +59,6 @@ namespace OngProject
             services.AddScoped<INewsBusiness, NewsBusiness>();
             services.AddScoped<IAuthBusiness, AuthBusiness>();
             services.AddScoped<ISlidesBusiness, SlidesBusiness>();
-
             services.AddScoped<IContactsBusiness, ContactsBusiness>();
 
 
