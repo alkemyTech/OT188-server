@@ -71,5 +71,26 @@ namespace OngProject.Core.Helper
                 throw;
             }
         }
+
+        public async Task DeleteFileAsync(string fileName)
+        {
+            try
+            {
+                var fileTransferUtility = new TransferUtility(_awsS3Client);
+
+                DeleteObjectRequest request = new DeleteObjectRequest
+                {
+                    BucketName = _configuration.BucketName,
+                    Key = fileName
+                };
+
+                //var response =  await _awsS3Client.DeleteObjectAsync(request);
+                var response = await fileTransferUtility.S3Client.DeleteObjectAsync(request);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

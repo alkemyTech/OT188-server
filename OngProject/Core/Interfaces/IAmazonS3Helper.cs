@@ -9,5 +9,6 @@ namespace OngProject.Core.Interfaces
         //métodos.
         Task<List<string>> GetAllFiles();
         Task<string> UploadFileAsync(IFormFile file);
+        Task DeleteFileAsync(string fileName);
     }
 }
