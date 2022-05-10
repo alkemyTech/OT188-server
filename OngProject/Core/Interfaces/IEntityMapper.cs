@@ -73,5 +73,7 @@ namespace OngProject.Core.Interfaces
 
         Activity UpdateActivity(Activity activity, UpdateActivityDTO changes);
 
+        NewDTO NewtoNewDto(New newEntity);
+
     }
 }

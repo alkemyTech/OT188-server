@@ -12,7 +12,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoriesBusiness _business;
@@ -21,8 +21,7 @@ namespace OngProject.Controllers
         {
             _business = business;
         }
-
-        [Authorize(Roles = "Administrator")]
+        
         [HttpGet]
         public async Task<IActionResult> GetAllNames()
         {
@@ -80,6 +79,30 @@ namespace OngProject.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromForm] NewCategoryDTO categoryDto, int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid) 
+                    BadRequest();
+
+                var response = await _business.UpdateCategory(id, categoryDto);
+      
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                var listError = new[]
+                {
+                    e.Message
+                };
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError,"Error"));
+            }
+        }
+        
+        
+        
         [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

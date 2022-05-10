@@ -14,11 +14,13 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
+        private readonly IAmazonS3Helper _amazonS3;
 
-        public CategoriesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
+        public CategoriesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper, IAmazonS3Helper amazonS3)
         {
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;
+            _amazonS3 = amazonS3;
         }
 
         public Task<IEnumerable<Category>> GetCategories(bool listEntity)
@@ -95,12 +97,43 @@ namespace OngProject.Core.Business
             return response;
         }
 
-        public Task UpdateCategory(int id, Category entity)
+        public async Task<Response<string>> UpdateCategory(int id, NewCategoryDTO entity)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var category = await _unitOfWork.CategoryRepository.GetById(id);
+            
+                if (category != null && category.IsDeleted == false)
+                {
+                    /*if (!category.Image.Contains("sin imagen"))
+                    {
+                        await _amazonS3.DeleteFile(category.Image);
+                    }*/
 
-       
+                    if (category.Name == entity.Name)
+                    {
+                        return new Response<string>("Error", false,null,"Categoria ya existente");
+                    }
+                    
+                    category.Name = entity.Name;
+                    category.Description = entity.Description;
+                    category.Image = entity.Image != null ? await _amazonS3.UploadFileAsync(entity.Image) : "sin imagen";
+                    category.ModifiedAt = DateTime.Now;
+
+                    await _unitOfWork.CategoryRepository.Update(category);
+                    await _unitOfWork.SaveChangesAsync();
+                
+                    return new Response<string>("Success", true, null, "Categoria Actualizada");
+                
+                }
+                return new Response<string>("Error", false,null,"Categoria no existente");
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+           
+        }
 
         public async Task<IEnumerable<CategoriesNameDTO>> GetNameList()
         {
@@ -119,7 +152,7 @@ namespace OngProject.Core.Business
             {
                 return new Response<string>("Error", succeeded: false, message: e.Message);
             }
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
             return new Response<string>("Succes", message: "Entity Deleted");
         }
     }
