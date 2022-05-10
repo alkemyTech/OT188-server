@@ -130,9 +130,25 @@ namespace OngProject.Core.Business
             return response;
         }
                
-        public Task UpdateUser(int id, User entity)
+        public async Task<Response<UserOutDTO>> UpdateUserAsync(int id, RegisterDto update)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userId = await _unitOfWork.UserRepository.GetById(id);
+                if (userId == null)
+                    return new Response<UserOutDTO>(null, false, null, "Entity Not Found");
+
+                var user = _mapper.RegisterDtoToUser(update,userId);
+
+                await _unitOfWork.UserRepository.Update(user);
+                await _unitOfWork.SaveChangesAsync();
+                var userResponse = _mapper.UserToUserOutDTO(user);
+                return new Response<UserOutDTO>(userResponse, true, null, "Success!");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public async Task<Response<string>> DeleteUser(int id)
         {

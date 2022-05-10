@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 
 namespace OngProject.Controllers
 {
     [Route("api/users")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersBusiness _usersBusiness;
@@ -46,6 +47,20 @@ namespace OngProject.Controllers
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromForm] RegisterDto userUpdate)
+        {
+            try
+            {
+                var result = await _usersBusiness.UpdateUserAsync(id, userUpdate);
+                return result.Succeeded == true ? Ok(result) : NotFound(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Response<string>(null, false, new string[] { e.Message }, "Server Error"));
             }
         }
     }
