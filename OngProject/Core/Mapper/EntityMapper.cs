@@ -302,7 +302,7 @@ namespace OngProject.Core.Mapper
                 FacebookUrl = newMemberDTO.FacebookUrl,
                 InstagramUrl = newMemberDTO.InstagramUrl,
                 LinkedinUrl = newMemberDTO.LinkedinUrl,
-                Image = newMemberDTO.Image,
+                Image = newMemberDTO.Image != null ? _amazonS3.UploadFileAsync(newMemberDTO.Image).Result : "Sin imagen",
                 Description = newMemberDTO.Description,
                 ModifiedAt = DateTime.Now
             };

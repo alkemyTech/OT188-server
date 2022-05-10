@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
@@ -56,15 +57,15 @@ namespace OngProject.Core.Business
             }
         }
 
-        public async Task<Response<NewMemberDTO>> InsertMember(NewMemberDTO entity)
+        public async Task<Response<MemberDTO>> InsertMember([FromForm] NewMemberDTO entity)
         {
-            var result = new Response<NewMemberDTO>();
+            var result = new Response<MemberDTO>();
             try
             {
                 var member = _entityMapper.NewMemberDtoToMember(entity);
                 await _unitOfWork.MemberRepository.AddAsync(member);
                 await _unitOfWork.SaveChangesAsync();
-                result.Data = entity;
+                result.Data = _entityMapper.MemberToMemberDTO(member);
                 result.Succeeded = true;
                 result.Message = "The member has been created";
             }
