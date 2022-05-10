@@ -308,6 +308,17 @@ namespace OngProject.Core.Mapper
             };
             return member;
         }
+        public Member NewMemberDtoToMember(Member member, NewMemberDTO newMemberDTO)
+        {
+            member.Name = newMemberDTO.Name != null ? newMemberDTO.Name : member.Name;
+            member.FacebookUrl = newMemberDTO.FacebookUrl != null ? newMemberDTO.FacebookUrl : member.FacebookUrl;
+            member.InstagramUrl = newMemberDTO.InstagramUrl != null ? newMemberDTO.InstagramUrl : member.InstagramUrl;
+            member.LinkedinUrl = newMemberDTO.LinkedinUrl != null ? newMemberDTO.LinkedinUrl : member.LinkedinUrl;
+            member.Image = newMemberDTO.Image != null ? _amazonS3.UploadFileAsync(newMemberDTO.Image).Result : member.Image;
+            member.Description = newMemberDTO.Description != null ? newMemberDTO.Description : member.Description;
+            member.ModifiedAt = DateTime.Now;
+            return member;
+        }
         public Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newTestimonyDto)
         {
             var testimony = new Testimony
