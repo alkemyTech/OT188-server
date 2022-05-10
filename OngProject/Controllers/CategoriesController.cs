@@ -31,17 +31,24 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> GetAllNames()
+        public async Task<IActionResult> GetAllNames([FromQuery] int pagedParams)
         {
             try
             {
-                return Ok(await _business.GetNameList());
+                var response = await _business.GetNameList(pagedParams);
+                if (!response.Succeeded)
+                {
+                    return BadRequest(response);
+                }
+                return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(500, e.Message);
+                var listError = new string[] { ex.Message };
+
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError));
             }
-            
+
         }
 
         /// <summary>
