@@ -407,5 +407,17 @@ namespace OngProject.Core.Mapper
 
             return testimony;
         }
+
+        public UpdateNewOutDto NewToUpdateNewOUtDto(New entity)
+        {
+            var outNew = new UpdateNewOutDto
+            {
+                Name = entity.Name,
+                Content = entity.Content,
+                Image = entity.Image
+            };
+
+            return outNew;
+        }
     }
 }

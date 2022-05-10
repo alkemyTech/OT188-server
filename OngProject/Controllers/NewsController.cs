@@ -102,7 +102,7 @@ namespace OngProject.Controllers
             catch (Exception ex)
             {
                 var listErrors = new string[] { ex.Message };
-                return StatusCode(500, new Response<NewActivityDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
+                return StatusCode(500, new Response<CreateNewOutDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
 
@@ -117,6 +117,32 @@ namespace OngProject.Controllers
             catch (Exception e)
             {
                 return StatusCode(500, new Response<string>(null, false, new string[] { e.Message }, "Error! Entity not found"));
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromForm] UpdateNewDto dto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                var response = await _business.UpdateNew(id, dto);
+
+                if (!response.Succeeded)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var listErrors = new string[] { ex.Message };
+                return StatusCode(500, new Response<UpdateNewOutDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
     }
