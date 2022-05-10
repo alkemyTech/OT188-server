@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
+using OngProject.Core.Models.Pagination;
 using OngProject.Entities;
 
 namespace OngProject.Core.Interfaces
@@ -14,7 +15,7 @@ namespace OngProject.Core.Interfaces
         Task<Response<CategoryOutDTO>> InsertCategory(NewCategoryDTO entity);
         Task<Response<string>> UpdateCategory(int id, NewCategoryDTO entity);       
         Task<Response<string>> DeleteCategory(int id);
-                       
-        Task<IEnumerable<CategoriesNameDTO>> GetNameList();
+
+        Task<Response<PagedListResponse<CategoriesNameDTO>>> GetNameList(int pagedParams);
     }
 }
