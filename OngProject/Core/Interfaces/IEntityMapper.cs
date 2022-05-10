@@ -75,5 +75,7 @@ namespace OngProject.Core.Interfaces
 
         NewDTO NewtoNewDto(New newEntity);
 
+        Testimony TestimonyInputDtoToTestimony(Testimony testimony, TestimonyInputDto testimonyInput);
+
     }
 }

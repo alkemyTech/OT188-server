@@ -8,6 +8,10 @@ using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 
 using System;
+using Microsoft.AspNetCore.Http;
+using OngProject.Core.Models.Pagination;
+using System.Linq;
+using OngProject.Core.Helper;
 
 namespace OngProject.Core.Business
 {
@@ -15,13 +19,62 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public TestimonialsBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper)
+        public TestimonialsBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper, IHttpContextAccessor httpContext)
         {
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;
+            _httpContext = httpContext;
         }
-        
+
+        public async Task<Response<PagedListResponse<TestimonyOutDto>>> GetAll(PagedListParams pagedParams)
+        {
+            var response = new Response<PagedListResponse<TestimonyOutDto>>();
+            try
+            {
+                var testimonials = await _unitOfWork.TestimonyRepository.FindAllAsync(null, null, null, pagedParams.PageNumber, pagedParams.PageSize = 10);
+                var totalCount = await _unitOfWork.TestimonyRepository.Count();
+
+                if (totalCount == 0)
+                {
+                    response.Message = "There are no testimonials to show";
+                    response.Data = null;
+                    response.Succeeded = true;
+                }
+
+                if (testimonials.Count == 0)
+                {
+                    response.Message = "There are no testimonials with the parameters given";
+                    response.Data = null;
+                    response.Succeeded = false;
+                }
+                else
+                {
+                    var testimonyDto = testimonials
+                    .Select(testimonyItem => _entityMapper.TestimonyToTestimonyOutDto(testimonyItem));
+
+                    var paged = PagedList<TestimonyOutDto>.Create(testimonyDto.ToList(), totalCount,
+                                                                    pagedParams.PageNumber,
+                                                                   pagedParams.PageSize);
+
+                    var url = $"{this._httpContext.HttpContext.Request.Scheme}://{this._httpContext.HttpContext.Request.Host}" +
+                        $"{this._httpContext.HttpContext.Request.Path}";
+
+                    var pagedResponse = new PagedListResponse<TestimonyOutDto>(paged, url);
+                    
+                    response.Data = pagedResponse;
+                    response.Succeeded = true;
+                    response.Message = "Retrieved paginated list of testimonials successfully";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return response;
+        }
+
         public async Task<Response<string>> DeleteTestimonial(int id)
         {
             try
@@ -41,10 +94,10 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        Task<IEnumerable<Testimony>> ITestimonialsBusiness.GetTestimonials(bool listEntity)
-        {
-            throw new System.NotImplementedException();
-        }
+        //Task<IEnumerable<Testimony>> ITestimonialsBusiness.GetTestimonials(bool listEntity)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
         public async Task<Response<TestimonyOutDto>> InsertTestimonial(NewTestimonyDto newEntity)
         {
@@ -66,9 +119,25 @@ namespace OngProject.Core.Business
             return result;
         }
 
-        Task ITestimonialsBusiness.UpdateTestimonial(int id, Testimony entity)
+        public async Task<Response<TestimonyOutDto>> UpdateTestimonial(int id, TestimonyInputDto testimonyInput)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var testimony = await _unitOfWork.TestimonyRepository.GetById(id);
+                if (testimony == null)
+                    return new Response<TestimonyOutDto>(null, false, null, "Entity Not Found");
+
+                var updatedTestimony = _entityMapper.TestimonyInputDtoToTestimony(testimony, testimonyInput);
+                var responseDto = _entityMapper.TestimonyToTestimonyOutDto(updatedTestimony);
+                await _unitOfWork.TestimonyRepository.Update(updatedTestimony);
+                await _unitOfWork.SaveChangesAsync();
+
+                return new Response<TestimonyOutDto>(responseDto, true, null, "Success!");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
