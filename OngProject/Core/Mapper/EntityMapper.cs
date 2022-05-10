@@ -87,7 +87,7 @@ namespace OngProject.Core.Mapper
 
             return _authUserDto;
         }
-        
+
         public User RegisterDtoToUser(RegisterDto registerDto)
         {
             var user = new User
@@ -101,7 +101,7 @@ namespace OngProject.Core.Mapper
             };
             return user;
         }
-        
+
         public Category CategoryNewDTOToCategory(NewCategoryDTO categoriesNewsDTO)
         {
             var category = new Category
@@ -131,7 +131,7 @@ namespace OngProject.Core.Mapper
                 Name = category.Name
             };
         }
-        
+
         public OrganizationDTO OrganizationToOrganizationDTO(Organization organization)
         {
             var organizationDTO = new OrganizationDTO
@@ -139,16 +139,21 @@ namespace OngProject.Core.Mapper
                 Name = organization.Name,
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
+
+                Address = organization.Address
+                // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+
                 Address = organization.Address,
                 FacebookUrl = organization.FacebookUrl,
                 InstagramUrl = organization.InstagramUrl,
                 LinkedinUrl = organization.LinkedinUrl
                // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+
             };
             return organizationDTO;
         }
 
-        public  Organization OrganizationToUpdateOrganizationDTO(UpdateOrganizationDTO updateOrganizationDTO)
+        public Organization OrganizationToUpdateOrganizationDTO(UpdateOrganizationDTO updateOrganizationDTO)
         {
             var organization = new Organization
             {
@@ -161,7 +166,7 @@ namespace OngProject.Core.Mapper
                 AboutUsText = updateOrganizationDTO.AboutUsText,
                 FacebookUrl = updateOrganizationDTO.FacebookUrl,
                 InstagramUrl = updateOrganizationDTO.InstagramUrl,
-                LinkedinUrl = updateOrganizationDTO.LinkedinUrl               
+                LinkedinUrl = updateOrganizationDTO.LinkedinUrl
             };
             return organization;
         }
@@ -175,7 +180,7 @@ namespace OngProject.Core.Mapper
                 Order = slide.Order
             };
         }
-        
+
         public DetailSlideDTO DetailSlideDTO(Slide slide)
         {
             return new DetailSlideDTO
@@ -205,7 +210,7 @@ namespace OngProject.Core.Mapper
                 Name = contact.Name,
                 Email = contact.Email,
                 Message = contact.Message
-            };            
+            };
         }
 
         public NewOutDto NewToNewOUtDto(New newEntity)
@@ -256,7 +261,7 @@ namespace OngProject.Core.Mapper
             {
                 Name = entity.Name,
                 Content = entity.Content,
-                Image = entity.Image                
+                Image = entity.Image
             };
 
             return outNew;
@@ -354,10 +359,10 @@ namespace OngProject.Core.Mapper
             {
                 Body = newCommentDto.Body,
                 IdUser = id,
-                
+
                 NewId = newCommentDto.NewId,
-                
-                
+
+
                 ModifiedAt = DateTime.Now
 
             };
@@ -397,7 +402,7 @@ namespace OngProject.Core.Mapper
         public Activity UpdateActivity(Activity activity, UpdateActivityDTO changes)
         {
             activity.Name = changes.Name != null ? changes.Name : activity.Name;
-            activity.Content = changes.Content != null? changes.Content : activity.Content;
+            activity.Content = changes.Content != null ? changes.Content : activity.Content;
             activity.Image = changes.Image != null ? _amazonS3.UploadFileAsync(changes.Image).Result : activity.Image;
             activity.ModifiedAt = DateTime.Now;
             return activity;
@@ -418,7 +423,7 @@ namespace OngProject.Core.Mapper
         public Testimony TestimonyInputDtoToTestimony(Testimony testimony, TestimonyInputDto testimonyInput)
         {
             testimony.Name = testimonyInput.Name != null ? testimonyInput.Name : testimony.Name;
-            testimony.Image = testimonyInput.Image != null ? _amazonS3.UploadFileAsync(testimonyInput.Image).Result: "Sin imagen";
+            testimony.Image = testimonyInput.Image != null ? _amazonS3.UploadFileAsync(testimonyInput.Image).Result : "Sin imagen";
             testimony.Description = testimonyInput.Description != null ? testimonyInput.Description : testimony.Description;
             testimony.ModifiedAt = DateTime.Now;
 

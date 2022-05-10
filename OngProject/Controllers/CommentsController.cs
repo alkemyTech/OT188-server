@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-
-
     [Route("comments")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
         private readonly ICommentsBusiness _commentsBusiness;
+
         public CommentsController(ICommentsBusiness commentsBusiness)
         {
             _commentsBusiness = commentsBusiness;
         }
+
         [HttpDelete("{Id}"), Authorize]
         public async Task<IActionResult> Delete(int Id)
         {
@@ -45,33 +45,46 @@ namespace OngProject.Controllers
                 return StatusCode(404, response);
             }
         }
-            [HttpPost]
-            public async Task<IActionResult> Insert(NewCommentDto newCommentDto)
+
+        [HttpPost]
+        public async Task<IActionResult> Insert(NewCommentDto newCommentDto)
+        {
+            try
             {
-                try
+                if (!ModelState.IsValid)
                 {
-                    if (!ModelState.IsValid)
-                    {
-                        return BadRequest();
-                    }
-                    var response = await _commentsBusiness.InsertComment(newCommentDto);
-                    return Ok(response);
+                    return BadRequest();
                 }
-                catch (Exception ex)
-                {
-                    var listError = new string[] { ex.Message };
-                    return StatusCode(500, new Response<NewCommentDto>(data: null, succeeded: false, errors: listError, message: "Error"));
-
-                }
-
+                var response = await _commentsBusiness.InsertComment(newCommentDto);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var listError = new string[] { ex.Message };
+                return StatusCode(500, new Response<NewCommentDto>(data: null, succeeded: false, errors: listError, message: "Error"));
 
             }
+        }
 
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateCommentDto request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var result = await _commentsBusiness.UpdateComment(id, request);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                var error = new Response<string>(e.Message, false, null, "Server Internal Error");
+                return StatusCode(500, error);
+            }
+        }
     }
-
-
-
-
-
-    
 }
