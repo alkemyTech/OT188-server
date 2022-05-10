@@ -403,6 +403,7 @@ namespace OngProject.Core.Mapper
             testimony.Name = testimonyInput.Name;
             testimony.Image = testimonyInput.Image != null ? _amazonS3.UploadFileAsync(testimonyInput.Image).Result: "Sin imagen";
             testimony.Description = testimonyInput.Description;
+            testimony.ModifiedAt = DateTime.Now;
 
             return testimony;
         }
