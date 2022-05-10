@@ -37,9 +37,9 @@ namespace OngProject.Controllers
         ///     }
         /// 
         /// </remarks>
-        /// <response code="200">Returns a new JwtToken and a Status message</response>
+        /// <response code="200">Returns the new entity</response>
         /// <response code="400">If any field is null</response>
-        /// <response code="404">If the user is not found in database</response>
+        /// <response code="404">If the activity is not found in database</response>
         /// <response code="500">If the server fails</response>
         [HttpPost]
         [Authorize(Roles = "Administrator")]
@@ -81,8 +81,8 @@ namespace OngProject.Controllers
         ///     }
         /// 
         /// </remarks>
-        /// <response code="200">Returns a new JwtToken and a Status message</response>
-        /// <response code="400">If any field is null  or not exist entity</response>
+        /// <response code="200">Returns the updated entity</response>
+        /// <response code="400">If any field is null or not exist entity</response>
 
         /// <response code="500">If the server fails</response>
         [HttpPut("{id}")]
