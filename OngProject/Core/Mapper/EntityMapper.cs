@@ -433,5 +433,17 @@ namespace OngProject.Core.Mapper
 
             return outNew;
         }
+
+        public User RegisterDtoToUser(RegisterDto update,User user)
+        {
+            user.FirstName = update.FirstName != null ? update.FirstName : user.FirstName;
+            user.LastName = update.LastName != null ? update.LastName : user.LastName;
+            user.Email= update.Email != null ? update.Email : user.Email;
+            user.Password = update.Password != null ? update.Password : user.Password;
+            user.Photo = update.Photo != null ? _amazonS3.UploadFileAsync(update.Photo).Result : user.Photo;
+            user.ModifiedAt = DateTime.Now;
+
+            return user;
+        }
     }
 }

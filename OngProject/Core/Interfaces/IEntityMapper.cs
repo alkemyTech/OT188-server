@@ -80,5 +80,7 @@ namespace OngProject.Core.Interfaces
 
         Testimony TestimonyInputDtoToTestimony(Testimony testimony, TestimonyInputDto testimonyInput);
 
+        User RegisterDtoToUser(RegisterDto update, User user);
+
     }
 }
