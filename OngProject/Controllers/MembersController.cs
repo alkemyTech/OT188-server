@@ -82,5 +82,18 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<string>(null, false, listError, "Error"));
             }
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, NewMemberDTO memberUpdate)
+        {
+            try
+            {
+                var result = await _membersBusiness.UpdateMemberAsync(id, memberUpdate);
+                return result.Succeeded == true ? Ok(result) : NotFound(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Response<string>(null, false, new string[] { e.Message }, "Server Error"));
+            }
+        }
     }
 }
