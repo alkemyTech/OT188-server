@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using System;
 using System.Threading.Tasks;
+using OngProject.Core.Models.Pagination;
 
 namespace OngProject.Controllers
 {
@@ -23,16 +23,20 @@ namespace OngProject.Controllers
 
         [Authorize(Roles="Administrator")]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PagedListParams pagedParams)
         {
             try
             {
-                var listMembers = await _membersBusiness.GetMembers(true);
-                return Ok(listMembers);
+                var response = await _membersBusiness.GetMembers(pagedParams);
+                if (!response.Succeeded)
+                {
+                    return BadRequest(response);
+                }
+                return Ok(response);
             }
             catch (Exception e)
             {
-                var listError = new string[] { e.Message };
+                var listError = new[] { e.Message };
                 return StatusCode(500, new Response<string>(null, false, listError , "Error"));
             }
             
