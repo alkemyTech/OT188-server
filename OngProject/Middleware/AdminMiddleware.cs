@@ -33,7 +33,7 @@ namespace OngProject.Middleware
             paths.Add("/api/slides");
             paths.Add("/api/testimonials");
             paths.Add("/api/users");
-            paths.Add("/comments");
+            paths.Add("/api/comments");
             //... otras url
             string path = context.Request.Path;
             var id = (string)context.Request.RouteValues["id"];

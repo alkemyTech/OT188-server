@@ -83,14 +83,43 @@ namespace OngProject.Core.Business
             return result;
         }
 
-        public Task<Comment> InsertTestimonial(Comment entity)
+        
+
+        public async Task<Response<string>> UpdateComment(int id, UpdateCommentDto request)
         {
-            throw new System.NotImplementedException();
+            var response = new Response<string>();
+
+            var comment = await _unitOfWork.CommentRepository.GetById(id);
+
+            if (comment == null || comment.IsDeleted == true)
+            {
+                response.Data = "Error - 404";
+                response.Succeeded = false;
+                response.Message = "Comment does not exist or deleted.";
+                return response;
+            }
+
+            var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (role == "Administrator" || userId == comment.IdUser)
+            {
+                comment.Body = request.Body;
+
+                await _unitOfWork.CommentRepository.Update(comment);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                return new Response<string>("Succes", message: "Entity Updated");
+            }
+            else
+            {
+                response.Data = "Error - 403";
+                response.Succeeded = false;
+                response.Message = "You do not have permission to modify it.";
+                return response;
+            }
         }
 
-        public Task UpdateTestimonial(int id, Comment entity)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
