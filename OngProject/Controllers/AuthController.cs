@@ -28,7 +28,7 @@ namespace OngProject.Controllers
         /// </summary>
         /// <returns>Returns a JwtToken and a status Message</returns>
         /// <remarks>
-        /// Indicate email and password.
+        /// Indicate user info as described below..
         /// 
         /// Sample request:
         /// 
@@ -40,16 +40,16 @@ namespace OngProject.Controllers
         /// 
         /// </remarks>
         /// <response code="200">Returns a new JwtToken and a Status message</response>
-        /// <response code="400">Returns a Bad Request message</response>
-        /// <response code="404">Returns a Not Found with a response class message</response>
-        /// <response code="500">Returns an Internal server error with a response class</response>
+        /// <response code="400">If any field is null</response>
+        /// <response code="404">If the user is not found in database</response>
+        /// <response code="500">If the server fails</response>
         [HttpPost]
         [Route("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Login([FromBody] LoginDto login)
+        public IActionResult Login([FromForm] LoginDto login)
         {
 
             try
@@ -71,9 +71,33 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<String>(data: null, succeeded: false, errors: listError,message: "Error"));
             }
         }
-
+        /// <summary>
+        /// Creates an User.
+        /// </summary>
+        /// <returns>User created, sends email and makes login</returns>
+        /// <remarks>
+        /// Indicate new user info as described below.
+        /// 
+        /// Sample request:
+        /// 
+        ///     POST / Register
+        ///     {
+        ///         "firstName": "UserName",  *Required
+        ///         "lastName": "UserLastName",  *Required
+        ///         "email": "NewUser@email.com",  *Required
+        ///         "password": "SuperSafePassword",  *Required
+        ///         "photo": "image.png"  *Nullable
+        ///     }
+        /// 
+        /// </remarks>
+        /// <response code="200">Creates the user, sends email and makes login (returns JwtToken)</response>
+        /// <response code="400">If any required field is null or if exists an user with the same email</response>
+        /// <response code="500">If the server fails</response>
         [HttpPost]
         [Route("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromForm] RegisterDto registerDto)
         {
             try
@@ -96,8 +120,19 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Get current user info details.
+        /// </summary>
+        /// <returns>Current user info details</returns>
+        /// <remarks>
+        /// Use this endpoint when user is logged. No parameters needed.        
+        /// </remarks>
+        /// <response code="200">When logged, returns current user info details.</response>
+        /// <response code="400">If the user is not logged.</response>
         [HttpGet]
         [Route("me")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get()
         {
             try
