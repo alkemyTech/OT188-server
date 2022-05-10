@@ -83,7 +83,7 @@ namespace OngProject.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, NewMemberDTO memberUpdate)
+        public async Task<IActionResult> Put(int id, [FromForm] NewMemberDTO memberUpdate)
         {
             try
             {

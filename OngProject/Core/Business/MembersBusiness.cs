@@ -75,7 +75,7 @@ namespace OngProject.Core.Business
             }
             return result;
         }
-        public async Task<Response<MemberDTO>> UpdateMemberAsync(int id, [FromForm] NewMemberDTO memberUpdate)
+        public async Task<Response<MemberDTO>> UpdateMemberAsync(int id, NewMemberDTO memberUpdate)
         {
             try
             {
