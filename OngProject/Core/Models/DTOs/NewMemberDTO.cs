@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -13,9 +14,7 @@ namespace OngProject.Core.Models.DTOs
         public string InstagramUrl { get; set; }
         [MaxLength(255)]
         public string LinkedinUrl { get; set; }
-        
-        [MaxLength(255)]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
         [MaxLength(255)]
         public string Description { get; set; }
     }

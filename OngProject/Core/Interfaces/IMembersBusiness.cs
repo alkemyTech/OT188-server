@@ -10,8 +10,10 @@ namespace OngProject.Core.Interfaces
     {
         Task<Response<PagedListResponse<MemberDTO>>> GetMembers(PagedListParams pagedParams);
 
-        Task<Response<NewMemberDTO>> InsertMember(NewMemberDTO entity);
+        Task<Response<MemberDTO>> InsertMember(NewMemberDTO entity);
 
         Task<Response<string>> DeleteMember(int id);
+
+        Task<Response<MemberDTO>> UpdateMemberAsync(int id, NewMemberDTO memberUpdate);
     }
 }
