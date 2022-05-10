@@ -23,8 +23,15 @@ namespace OngProject.Controllers
         {
             _business = business;
         }
-
+        /// <summary>
+        /// Get all testimonials (paginated)
+        /// </summary>
+        /// <remarks>Indicate the number and size of page</remarks>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll([FromQuery] PagedListParams pagedParams)
         {
             try
@@ -100,7 +107,17 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
+        /// <summary>
+        /// Update testimony
+        /// </summary>
+        /// <remarks>To update a testimonial indicate name and description, and optional the image</remarks>
+        /// <param name="id">Numeric identifier from testimony</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Put(int id, [FromForm] TestimonyInputDto testimonyInput)
         {
@@ -113,7 +130,6 @@ namespace OngProject.Controllers
             {
                 return StatusCode(500, new Response<string>(null, false, new string[] {e.Message}, "Server Error" ));
             }
-            throw new NotImplementedException();
         }
     }
 }
