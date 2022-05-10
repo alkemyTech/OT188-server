@@ -119,9 +119,25 @@ namespace OngProject.Core.Business
             return result;
         }
 
-        Task ITestimonialsBusiness.UpdateTestimonial(int id, Testimony entity)
+        public async Task<Response<TestimonyOutDto>> UpdateTestimonial(int id, TestimonyInputDto testimonyInput)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var testimony = await _unitOfWork.TestimonyRepository.GetById(id);
+                if (testimony == null)
+                    return new Response<TestimonyOutDto>(null, false, null, "Entity Not Found");
+
+                var updatedTestimony = _entityMapper.TestimonyInputDtoToTestimony(testimony, testimonyInput);
+                var responseDto = _entityMapper.TestimonyToTestimonyOutDto(updatedTestimony);
+                await _unitOfWork.TestimonyRepository.Update(updatedTestimony);
+                await _unitOfWork.SaveChangesAsync();
+
+                return new Response<TestimonyOutDto>(responseDto, true, null, "Success!");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

@@ -59,9 +59,7 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace;
+                var listErrors = new string[] { e.Message };
                 return StatusCode(500, new Response<NewTestimonyDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
@@ -81,11 +79,24 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace;
+                var listErrors = new string[] { e.Message };
                 return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
+        }
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Put(int id, [FromForm] TestimonyInputDto testimonyInput)
+        {
+            try
+            {
+                var result = await _business.UpdateTestimonial(id, testimonyInput);
+                return result.Succeeded == true ? Ok(result) : NotFound(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Response<string>(null, false, new string[] {e.Message}, "Server Error" ));
+            }
+            throw new NotImplementedException();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace OngProject.Core.Interfaces
         Task<Response<PagedListResponse<TestimonyOutDto>>> GetAll(PagedListParams pagedParams);
         Task<Testimony> GetTestimonial(int id);
         Task<Response<TestimonyOutDto>> InsertTestimonial(NewTestimonyDto entity);
-        Task UpdateTestimonial(int id, Testimony entity);
+        Task<Response<TestimonyOutDto>> UpdateTestimonial(int id, TestimonyInputDto testimonyInput);
         Task<Response<string>> DeleteTestimonial(int id);
 
 
