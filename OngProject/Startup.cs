@@ -17,6 +17,9 @@ using Amazon.S3;
 using OngProject.Core.Helper;
 using OngProject.Core.Mapper;
 using OngProject.Middleware;
+using System.Reflection;
+using System.IO;
+using System;
 
 namespace OngProject
 {
@@ -94,6 +97,9 @@ namespace OngProject
                         new string[]{}
                     }
                 });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
             services.AddAuthentication(options =>
