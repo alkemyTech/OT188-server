@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace OngProject.Controllers
 {
@@ -18,8 +19,29 @@ namespace OngProject.Controllers
         {
             _usersBusiness = usersBusiness;
         }
-        
+
+        /// <summary>
+        /// get user list.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// returns list of active users  or corresponding errors
+        /// 
+        /// Sample request:
+        /// 
+        ///     GET / USERS
+        ///       "firstName": "nicolas",
+        ///       "lastName": "alkemy",
+        ///       "email": "email@gmail.com",
+        ///       "photo": "image profile",
+        ///       "rol": "administrador"
+        /// 
+        /// </remarks>
+        /// <response code="200">Return the list of users with some details</response>
+        /// <response code="500">If the server fails</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -31,16 +53,29 @@ namespace OngProject.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-            
-        }
 
+        }
+        /// <summary>
+        /// Delete user by id.
+        /// </summary>
+        
+        ///<param name = "id">user id to delete</param>
+        /// <response code="200">Succes, entity deleted successfully</response>
+        /// <response code="403">user not found</response>
+        /// <response code="401">unauthorised</response>
+        /// <response code="500">If the server fails</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 var response = await _usersBusiness.DeleteUser(id);
-                
+
                 return response.Succeeded == false ? StatusCode(403, response) : Ok(response);
             }
             catch (Exception e)
