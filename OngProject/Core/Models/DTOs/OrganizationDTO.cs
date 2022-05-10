@@ -16,5 +16,8 @@ namespace OngProject.Core.Models.DTOs
         public string? Phone { get; set; }
         public string? Address { get; set; }
         public IEnumerable<PublicSlideDTO> Slides { get; set; }
+        public string InstagramUrl { get; set; }
+        public string LinkedinUrl { get; set; }
+        public string FacebookUrl { get; set; }
     }
 }

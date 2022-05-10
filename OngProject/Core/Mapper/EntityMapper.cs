@@ -31,7 +31,10 @@ namespace OngProject.Core.Mapper
             {
                 Name = member.Name,
                 Image = member.Image,
-                Description = member.Description
+                Description = member.Description,
+                FacebookUrl = member.FacebookUrl,
+                InstagramUrl = member.InstagramUrl,
+                LinkedinUrl = member.LinkedinUrl
             };
             return memberDTO;
         }
@@ -136,8 +139,16 @@ namespace OngProject.Core.Mapper
                 Name = organization.Name,
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
+
                 Address = organization.Address
                 // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+
+                Address = organization.Address,
+                FacebookUrl = organization.FacebookUrl,
+                InstagramUrl = organization.InstagramUrl,
+                LinkedinUrl = organization.LinkedinUrl
+               // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
+
             };
             return organizationDTO;
         }
@@ -299,10 +310,21 @@ namespace OngProject.Core.Mapper
                 FacebookUrl = newMemberDTO.FacebookUrl,
                 InstagramUrl = newMemberDTO.InstagramUrl,
                 LinkedinUrl = newMemberDTO.LinkedinUrl,
-                Image = newMemberDTO.Image,
+                Image = newMemberDTO.Image != null ? _amazonS3.UploadFileAsync(newMemberDTO.Image).Result : "Sin imagen",
                 Description = newMemberDTO.Description,
                 ModifiedAt = DateTime.Now
             };
+            return member;
+        }
+        public Member NewMemberDtoToMember(Member member, NewMemberDTO newMemberDTO)
+        {
+            member.Name = newMemberDTO.Name != null ? newMemberDTO.Name : member.Name;
+            member.FacebookUrl = newMemberDTO.FacebookUrl != null ? newMemberDTO.FacebookUrl : member.FacebookUrl;
+            member.InstagramUrl = newMemberDTO.InstagramUrl != null ? newMemberDTO.InstagramUrl : member.InstagramUrl;
+            member.LinkedinUrl = newMemberDTO.LinkedinUrl != null ? newMemberDTO.LinkedinUrl : member.LinkedinUrl;
+            member.Image = newMemberDTO.Image != null ? _amazonS3.UploadFileAsync(newMemberDTO.Image).Result : member.Image;
+            member.Description = newMemberDTO.Description != null ? newMemberDTO.Description : member.Description;
+            member.ModifiedAt = DateTime.Now;
             return member;
         }
         public Testimony NewTestimonyDtoToTestimony(NewTestimonyDto newTestimonyDto)

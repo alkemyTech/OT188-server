@@ -43,7 +43,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(NewMemberDTO newMemberDTO)
+        public async Task<IActionResult> Insert([FromForm]NewMemberDTO newMemberDTO)
         {
             try
             {
@@ -84,6 +84,19 @@ namespace OngProject.Controllers
             {
                 var listError = new string[] { e.Message };
                 return StatusCode(500, new Response<string>(null, false, listError, "Error"));
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromForm] NewMemberDTO memberUpdate)
+        {
+            try
+            {
+                var result = await _membersBusiness.UpdateMemberAsync(id, memberUpdate);
+                return result.Succeeded == true ? Ok(result) : NotFound(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Response<string>(null, false, new string[] { e.Message }, "Server Error"));
             }
         }
     }

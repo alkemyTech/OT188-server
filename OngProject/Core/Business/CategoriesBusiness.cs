@@ -7,6 +7,9 @@ using OngProject.Repositories.Interfaces;
 using System.Linq;
 using System;
 using OngProject.Core.Models;
+using OngProject.Core.Models.Pagination;
+using OngProject.Core.Helper;
+using Microsoft.AspNetCore.Http;
 
 namespace OngProject.Core.Business
 {
@@ -15,12 +18,14 @@ namespace OngProject.Core.Business
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
         private readonly IAmazonS3Helper _amazonS3;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public CategoriesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper, IAmazonS3Helper amazonS3)
+        public CategoriesBusiness(IUnitOfWork unitOfWork, IEntityMapper entityMapper, IAmazonS3Helper amazonS3,IHttpContextAccessor contextAccessor)
         {
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;
             _amazonS3 = amazonS3;
+            _httpContext = contextAccessor;
         }
 
         public Task<IEnumerable<Category>> GetCategories(bool listEntity)
@@ -135,11 +140,49 @@ namespace OngProject.Core.Business
            
         }
 
-        public async Task<IEnumerable<CategoriesNameDTO>> GetNameList()
+        public async Task<Response<PagedListResponse<CategoriesNameDTO>>> GetNameList(int pag)
         {
-            var categories = await _unitOfWork.CategoryRepository.GetAll(true);
-            var categoriesName = categories.Select(cat => _entityMapper.CategoriesNameDTO(cat)).ToList();
-            return categoriesName;
+            var response = new Response<PagedListResponse<CategoriesNameDTO>>();
+            try
+            {
+                int pagSize = 10;
+                var cat = await _unitOfWork.CategoryRepository.FindAllAsync(null, null, null, pag, pagSize);
+                var totalCount = await _unitOfWork.CategoryRepository.Count();
+
+                if (totalCount == 0)
+                {
+                    response.Message = "There is no news to show";
+                    response.Data = null;
+                    response.Succeeded = true;
+                }
+
+                if (cat.Count == 0)
+                {
+                    response.Message = "There are no results with the parameters given";
+                    response.Data = null;
+                    response.Succeeded = false;
+                }
+                else
+                {
+                    var catDTO = cat
+                    .Select(catEntity => _entityMapper.CategoriesNameDTO(catEntity));
+
+                    var paged = PagedList<CategoriesNameDTO>.Create(catDTO.ToList(), totalCount,
+                                                                    pag,
+                                                                   pagSize);
+
+                    var url = $"{this._httpContext.HttpContext.Request.Scheme}://{this._httpContext.HttpContext.Request.Host}" +
+                        $"{this._httpContext.HttpContext.Request.Path}";
+                    var pagedResponse = new PagedListResponse<CategoriesNameDTO>(paged, url);
+                    response.Data = pagedResponse;
+                    response.Succeeded = true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return response;
         }
 
         public async Task<Response<string>> DeleteCategory(int id)

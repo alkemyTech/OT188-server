@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories.Interfaces;
@@ -89,15 +90,15 @@ namespace OngProject.Core.Business
             }
         }
 
-        public async Task<Response<NewMemberDTO>> InsertMember(NewMemberDTO entity)
+        public async Task<Response<MemberDTO>> InsertMember(NewMemberDTO entity)
         {
-            var result = new Response<NewMemberDTO>();
+            var result = new Response<MemberDTO>();
             try
             {
                 var member = _entityMapper.NewMemberDtoToMember(entity);
                 await _unitOfWork.MemberRepository.AddAsync(member);
                 await _unitOfWork.SaveChangesAsync();
-                result.Data = entity;
+                result.Data = _entityMapper.MemberToMemberDTO(member);
                 result.Succeeded = true;
                 result.Message = "The member has been created";
             }
@@ -107,12 +108,25 @@ namespace OngProject.Core.Business
             }
             return result;
         }
+        public async Task<Response<MemberDTO>> UpdateMemberAsync(int id, NewMemberDTO memberUpdate)
+        {
+            try
+            {
+                var internalMember = await _unitOfWork.MemberRepository.GetById(id) ;
+                if (internalMember == null)
+                    return new Response<MemberDTO>(null, false, null, "Entity Not Found");
 
-
-       
-       
-
-       
+                var member = _entityMapper.NewMemberDtoToMember(internalMember, memberUpdate);
+                var outputMember = _entityMapper.MemberToMemberDTO(member);  
+                await _unitOfWork.MemberRepository.Update(member);
+                await _unitOfWork.SaveChangesAsync();
+                return new Response<MemberDTO>(outputMember, true, null, "Success!");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
 

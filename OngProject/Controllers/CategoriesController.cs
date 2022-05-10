@@ -21,25 +21,47 @@ namespace OngProject.Controllers
         {
             _business = business;
         }
-        
+
+        /// <summary>
+        /// Get all categories
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllNames()
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet]
+        public async Task<IActionResult> GetAllNames([FromQuery] int pagedParams)
         {
             try
             {
-                return Ok(await _business.GetNameList());
+                var response = await _business.GetNameList(pagedParams);
+                if (!response.Succeeded)
+                {
+                    return BadRequest(response);
+                }
+                return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(500, e.Message);
+                var listError = new string[] { ex.Message };
+
+                return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError));
             }
-            
+
         }
 
+        /// <summary>
+        /// Get category by id 
+        /// <param "id" is numeric identifier from category</param>
+        /// </summary>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int id)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get([FromForm] int id)
         {
             try
             {
@@ -59,8 +81,24 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError));
             }
         }
-
+        /// <summary>
+        /// Create new Category
+        /// </summary>
+        /// <remarks>To create a new category indicate name, is required, description and image as optional</remarks>
+        /// Sample request:
+        /// 
+        ///    POST
+        ///    {
+        ///       "name": "string",
+        ///       "description": "string",
+        ///       "image": "string"
+        ///    }
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Post([FromForm] NewCategoryDTO categoriesNewsDTO)
         {
             try
@@ -79,7 +117,25 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a Category values
+        /// </summary>
+        /// <remarks>To update a category indicate name, description and image</remarks>
+        /// <param "id" is numeric identifier from category</param>
+        /// Sample request:
+        /// 
+        ///    PUT
+        ///    {
+        ///       "name": "string",
+        ///       "description": "string",
+        ///       "image": "string"
+        ///    }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update([FromForm] NewCategoryDTO categoryDto, int id)
         {
             try
@@ -100,13 +156,17 @@ namespace OngProject.Controllers
                 return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listError,"Error"));
             }
         }
-        
-        
-        
-        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+
+        /// <summary>
+        /// Delete specific category by id
+        /// </summary>
+        /// <param "id" is numeric identifier from category</param>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
             try
