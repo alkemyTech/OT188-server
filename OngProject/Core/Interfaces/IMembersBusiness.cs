@@ -13,6 +13,6 @@ namespace OngProject.Core.Interfaces
 
         Task<Response<string>> DeleteMember(int id);
 
-        
+        Task<Response<MemberDTO>> UpdateMemberAsync(int id, NewMemberDTO memberUpdate);
     }
 }

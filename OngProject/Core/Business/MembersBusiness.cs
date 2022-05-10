@@ -75,12 +75,25 @@ namespace OngProject.Core.Business
             }
             return result;
         }
+        public async Task<Response<MemberDTO>> UpdateMemberAsync(int id, NewMemberDTO memberUpdate)
+        {
+            try
+            {
+                var internalMember = await _unitOfWork.MemberRepository.GetById(id) ;
+                if (internalMember == null)
+                    return new Response<MemberDTO>(null, false, null, "Entity Not Found");
 
-
-       
-       
-
-       
+                var member = _entityMapper.NewMemberDtoToMember(internalMember, memberUpdate);
+                var outputMember = _entityMapper.MemberToMemberDTO(member);  
+                await _unitOfWork.MemberRepository.Update(member);
+                await _unitOfWork.SaveChangesAsync();
+                return new Response<MemberDTO>(outputMember, true, null, "Success!");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
 
