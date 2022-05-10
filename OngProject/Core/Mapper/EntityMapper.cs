@@ -398,5 +398,13 @@ namespace OngProject.Core.Mapper
             };
             return newDtoEntity;
         }
+        public Testimony TestimonyInputDtoToTestimony(Testimony testimony, TestimonyInputDto testimonyInput)
+        {
+            testimony.Name = testimonyInput.Name;
+            testimony.Image = testimonyInput.Image != null ? _amazonS3.UploadFileAsync(testimonyInput.Image).Result: "Sin imagen";
+            testimony.Description = testimonyInput.Description;
+
+            return testimony;
+        }
     }
 }
