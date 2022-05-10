@@ -54,7 +54,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([FromForm] int id)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Post( NewCategoryDTO categoriesNewsDTO)
+        public async Task<ActionResult> Post([FromForm] NewCategoryDTO categoriesNewsDTO)
         {
             try
             {
