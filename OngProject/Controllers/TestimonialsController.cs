@@ -63,8 +63,17 @@ namespace OngProject.Controllers
         }
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
-        public Task<IActionResult> Put()
+        public async Task<IActionResult> Put(int id, [FromForm] TestimonyInputDto testimonyInput)
         {
+            try
+            {
+                var result = await _business.UpdateTestimonial(id, testimonyInput);
+                return result.Succeeded == true ? Ok(result) : NotFound(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Response<string>(null, false, new string[] {e.Message}, "Server Error" ));
+            }
             throw new NotImplementedException();
         }
     }
