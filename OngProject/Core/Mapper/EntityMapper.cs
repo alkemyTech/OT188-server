@@ -31,7 +31,10 @@ namespace OngProject.Core.Mapper
             {
                 Name = member.Name,
                 Image = member.Image,
-                Description = member.Description
+                Description = member.Description,
+                FacebookUrl = member.FacebookUrl,
+                InstagramUrl = member.InstagramUrl,
+                LinkedinUrl = member.LinkedinUrl
             };
             return memberDTO;
         }
