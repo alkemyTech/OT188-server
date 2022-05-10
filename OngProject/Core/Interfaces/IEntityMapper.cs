@@ -41,6 +41,7 @@ namespace OngProject.Core.Interfaces
 
 
         NewOutDto NewToNewOUtDto(New newEntity);
+        UpdateNewOutDto NewToUpdateNewOUtDto(New entity);
 
         CommentOutDto CommentToCommentOutDto(Comment comment);
 

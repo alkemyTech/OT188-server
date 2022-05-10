@@ -22,14 +22,16 @@ namespace OngProject.Core.Business
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEntityMapper _entityMapper;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IAmazonS3Helper _amazonS3;
 
-        public NewsBusiness(IUnitOfWork unitOfWork, 
+        public NewsBusiness(IUnitOfWork unitOfWork,
             IEntityMapper entityMapper,
-            IHttpContextAccessor httpContext)
+            IHttpContextAccessor httpContext, IAmazonS3Helper amazonS3)
         {
             _unitOfWork = unitOfWork;
             _entityMapper = entityMapper;
             _httpContext = httpContext;
+            _amazonS3 = amazonS3;
         }
         //Paged List
         public async Task<Response<PagedListResponse<NewDTO>>> GetAll(PagedListParams pagedParams)
@@ -198,12 +200,7 @@ namespace OngProject.Core.Business
             }           
             
             return response;           
-        }
-
-        public Task UpdateNew(int id, New entity)
-        {
-            throw new System.NotImplementedException();
-        }
+        }        
 
         public async Task<Response<string>> DeleteNew(int id)
         {
@@ -226,6 +223,57 @@ namespace OngProject.Core.Business
                 response.Message = "Error! Entity not found";
                 return response;
             }
+        }
+
+        public async Task<Response<UpdateNewOutDto>> UpdateNew(int id, UpdateNewDto dto)
+        {
+            var response = new Response<UpdateNewOutDto>();
+
+            try
+            {
+                var newInDb = await _unitOfWork.NewRepository.GetById(id);
+
+                if (newInDb != null && !newInDb.IsDeleted)
+                {
+                    //if (await _amazonS3.DeleteFileAsync(newInDb.Image))
+                    //{
+                    newInDb.Name = dto.Name;
+                    newInDb.Content = dto.Content;
+                    newInDb.Image = await _amazonS3.UploadFileAsync(dto.Image);
+
+                    await _unitOfWork.NewRepository.Update(newInDb);
+
+                    await _unitOfWork.SaveChangesAsync();
+
+                    var itemDto = _entityMapper.NewToUpdateNewOUtDto(newInDb);                    
+
+                    response.Data = itemDto;
+
+                    response.Succeeded = true;
+
+                    response.Message = "Novedad actualizada correctamente.";
+                    //}
+                }
+                    //else
+                    //{
+                    //    response.Message = "Error al intentar encontrar la novedad.";
+
+                    //    response.Succeeded = false;
+                    //}                
+                else
+                {
+                    response.Succeeded = false;
+
+                    response.Message = "Novedad no encontrada.";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return response;
         }
     }
 }

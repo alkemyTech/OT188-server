@@ -15,7 +15,7 @@ namespace OngProject.Core.Interfaces
         Task<Response<NewOutDto>> GetNew(int id);
         Task<Response<NewWithCommentsDto>> GetNewComments(int id);
         Task<Response<CreateNewOutDto>> InsertNew(CreateNewDto dto);
-        Task UpdateNew(int id, New entity);
+        Task<Response<UpdateNewOutDto>> UpdateNew(int id, UpdateNewDto dto);
         Task<Response<string>> DeleteNew(int id);
     }
 }
