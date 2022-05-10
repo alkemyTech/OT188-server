@@ -90,7 +90,7 @@ namespace OngProject.Core.Business
             }
         }
 
-        public async Task<Response<MemberDTO>> InsertMember([FromForm] NewMemberDTO entity)
+        public async Task<Response<MemberDTO>> InsertMember(NewMemberDTO entity)
         {
             var result = new Response<MemberDTO>();
             try

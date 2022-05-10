@@ -43,7 +43,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(NewMemberDTO newMemberDTO)
+        public async Task<IActionResult> Insert([FromForm]NewMemberDTO newMemberDTO)
         {
             try
             {
