@@ -9,9 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
-{
+{    
     [Route("auth")]
     [ApiController]
+    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
@@ -21,8 +22,33 @@ namespace OngProject.Controllers
             _authBusiness = authBusiness;
             _usersBusiness = usersBusiness;
         }
+
+        /// <summary>
+        /// Authenticates registered users info.
+        /// </summary>
+        /// <returns>Returns a JwtToken and a status Message</returns>
+        /// <remarks>
+        /// Indicate email and password.
+        /// 
+        /// Sample request:
+        /// 
+        ///     POST / LOGIN
+        ///     {
+        ///         "email": "User@email.com",  *Required
+        ///         "password": "ExamplePassword"  *Required
+        ///     }
+        /// 
+        /// </remarks>
+        /// <response code="200">Returns a new JwtToken and a Status message</response>
+        /// <response code="400">Returns a Bad Request message</response>
+        /// <response code="404">Returns a Not Found with a response class message</response>
+        /// <response code="500">Returns an Internal server error with a response class</response>
         [HttpPost]
         [Route("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Login([FromBody] LoginDto login)
         {
 
