@@ -58,10 +58,10 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("public")]
         [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> Post([FromForm] UpdateOrganizationDTO upOrg)
+        public async Task<ActionResult> Put([FromForm] UpdateOrganizationDTO upOrg)
         {
             try
             {
