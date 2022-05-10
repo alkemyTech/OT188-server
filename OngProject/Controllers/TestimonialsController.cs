@@ -37,9 +37,7 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace;
+                var listErrors = new string[] { e.Message };
                 return StatusCode(500, new Response<NewTestimonyDto>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
         }
@@ -59,11 +57,15 @@ namespace OngProject.Controllers
             }
             catch (Exception e)
             {
-                var listErrors = new string[2];
-                listErrors[0] = e.Message;
-                listErrors[1] = e.StackTrace;
+                var listErrors = new string[] { e.Message };
                 return StatusCode(500, new Response<string>(data: null, succeeded: false, errors: listErrors, message: "Server Error"));
             }
+        }
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public Task<IActionResult> Put()
+        {
+            throw new NotImplementedException();
         }
     }
 }
