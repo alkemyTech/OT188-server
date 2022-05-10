@@ -136,7 +136,10 @@ namespace OngProject.Core.Mapper
                 Name = organization.Name,
                 ImageUrl = organization.Image,
                 Phone = organization.Phone,
-                Address = organization.Address
+                Address = organization.Address,
+                FacebookUrl = organization.FacebookUrl,
+                InstagramUrl = organization.InstagramUrl,
+                LinkedinUrl = organization.LinkedinUrl
                // Slides = organization.Slides.Select(sl => this.PublicSlideDTO(sl)).ToList()
             };
             return organizationDTO;
