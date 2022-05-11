@@ -6,6 +6,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace OngProject.Controllers
 {
@@ -83,8 +84,35 @@ namespace OngProject.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        /// <summary>
+        ///  Update user 
+        /// </summary>
+        /// <remarks>
+        /// update data of user by id user
+        /// 
+        /// Sample request:
+        /// 
+        ///     PUT/
+        ///       "firstName": "nicolas" 
+        ///       "lastName": "alkemy", 
+        ///       "email": "email@gmail.com", 
+        ///       "Password": "xxxxxxxx"     
+        ///       "photo": "image profile",
+        ///       
+        /// </remarks>
+        /// 
+        /// <param name="id">user id to update.*required</param>
+        /// <param name="userUpdate"></param>
+        /// <response code="200">Succes, entity updated with data</response>
+        /// <response code="404">not found</response>
+        /// <response code="401">unauthorised</response>
+        /// <response code="500">If the server fails</response>
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(int id, [FromForm] RegisterDto userUpdate)
         {
             try
