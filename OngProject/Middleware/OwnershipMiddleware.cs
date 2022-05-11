@@ -30,7 +30,7 @@ namespace OngProject.Middleware
                     {
                         if (currentPath.Contains(path))
                         {
-                            if (Int32.Parse(claimId) != Int32.Parse(paramId) && !role.Value.Equals("1"))
+                            if (Int32.Parse(claimId) != Int32.Parse(paramId) && !role.Value.Equals("Administrator"))
                             {
                                 context.Response.StatusCode = 403;
                                 return;

@@ -53,8 +53,8 @@ namespace OngProject.Controllers
 
         /// <summary>
         /// Get category by id 
-        /// <param "id" is numeric identifier from category</param>
         /// </summary>
+        /// <param name="id">is numeric identifier from category</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -121,7 +121,7 @@ namespace OngProject.Controllers
         /// Update a Category values
         /// </summary>
         /// <remarks>To update a category indicate name, description and image</remarks>
-        /// <param "id" is numeric identifier from category</param>
+        /// <param name="id"> is numeric identifier from category</param>
         /// Sample request:
         /// 
         ///    PUT
@@ -160,7 +160,7 @@ namespace OngProject.Controllers
         /// <summary>
         /// Delete specific category by id
         /// </summary>
-        /// <param "id" is numeric identifier from category</param>
+        /// <param name="id"> is numeric identifier from category</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrator")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
