@@ -40,7 +40,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrganizationDTO>> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {                
@@ -61,7 +61,7 @@ namespace OngProject.Controllers
         [HttpPut]
         [Route("public")]
         [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> Put([FromForm] UpdateOrganizationDTO upOrg)
+        public async Task<IActionResult> Put([FromForm] UpdateOrganizationDTO upOrg)
         {
             try
             {

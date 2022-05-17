@@ -20,7 +20,7 @@ namespace OngTests
     {
         private readonly Mock<IOrganizationsBusiness> _organizationsBusiness = new();
         private readonly OrganizationsController _organizationsController;
-        
+
         public OrganizationsControllerTest()
         {
             _organizationsController = new OrganizationsController(_organizationsBusiness.Object);
@@ -112,7 +112,7 @@ namespace OngTests
 
 
 
-
+        //-----------------GetById
         [TestMethod()]
 
         public async Task GetById_Returns_200AndOrganizationDTO()
@@ -143,35 +143,122 @@ namespace OngTests
 
             var result = await _organizationsController.Get(id);
 
-            var response = result as OkObjectResult;
-
+            var okResult = result as OkObjectResult;
 
             _organizationsBusiness.Verify(u => u.GetOrganization(id), Times.Once);
 
-            //Assert.IsNotNull(okResult);
-            //Assert.AreEqual(200, okResult.StatusCode);
-            //Assert.IsInstanceOfType(okResult.Value, typeof(Response<IEnumerable<OrganizationDTO>>));
-
-
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsInstanceOfType(okResult.Value, typeof(Response<OrganizationDTO>));
 
         }
+
+        [TestMethod()]
+
+        public async Task GetById_Returns_400AndResponse()
+        {
+            var id = 1000;
+
+            _organizationsBusiness.Setup(o => o.GetOrganization(id))
+                                 .ReturnsAsync(new Response<OrganizationDTO>(null, false, null, "Not Found"))
+                                 .Verifiable();
+
+            var result = await _organizationsController.Get(id);
+
+            var response = result as ObjectResult;
+
+            _organizationsBusiness.Verify(u => u.GetOrganization(id), Times.Once);
+
+            Assert.IsNotNull(response);
+            Assert.AreEqual(400, response.StatusCode);
+            Assert.IsInstanceOfType(response.Value, typeof(Response<OrganizationDTO>));
+
+        }
+
+        [TestMethod()]
+
+        public async Task Get_Returns_500AndResponse()
+        {
+            var id = 1;
+            _organizationsBusiness.Setup(x => x.GetOrganization(id))
+                                  .ThrowsAsync(new InvalidOperationException())
+                                  .Verifiable();
+
+
+            var result = await _organizationsController.Get(id);
+            var response = (IStatusCodeActionResult)result;
+
+            Assert.IsNotNull(response);
+            Assert.AreEqual(500, response.StatusCode);
+
+            _organizationsBusiness.Verify(u => u.GetOrganization(id), Times.Once);
+        }
+
+        [TestMethod()]
+        public async Task Update_Returns_200AndUpdateDto()
+        {
+
+            var uptdateOrgDto = new UpdateOrganizationDTO
+            {
+                Name = "nombre_org",
+                Image = "img_org",
+                Address = "direccion",
+                Phone = "1234565789",
+                Email = "org@gmail.com",
+                WelcomeText = "texto_bienvenida",
+                AboutUsText = "texto_sobre",
+                FacebookUrl = "FacebookUrl",
+                InstagramUrl = "InstagramUrl",
+                LinkedinUrl = "LinkedinUrl"
+            };
+
+
+            _organizationsBusiness.Setup(o => o.UpdateOrganizations(uptdateOrgDto))
+                                  .ReturnsAsync(new Response<UpdateOrganizationDTO>(uptdateOrgDto, true, null, "Ok"))
+                                  .Verifiable();
+
+            var result = await _organizationsController.Put(uptdateOrgDto);
+
+            var okResult = result as OkObjectResult;
+
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsInstanceOfType(okResult.Value, typeof(Response<UpdateOrganizationDTO>));
+
+            _organizationsBusiness.Verify(u => u.UpdateOrganizations(uptdateOrgDto), Times.Once);
+
+        }
+
+        //[TestMethod()]
+        //public async Task Update_Returns_BadRequest()
+        //{
+        //    var uptdateOrgDto = new UpdateOrganizationDTO
+        //    {
+                
+                
+        //        Phone = "1234565789",
+        //        Email = "org@gmail.com",
+        //        WelcomeText = "texto_bienvenida",
+        //        AboutUsText = "texto_sobre",
+        //        FacebookUrl = "FacebookUrl",
+        //        InstagramUrl = "InstagramUrl",
+        //        LinkedinUrl = "LinkedinUrl"
+        //    };
+
+
+        //    var result = await _organizationsController.Put(uptdateOrgDto);
+                                  
+
+        //    var okResult = result as OkObjectResult;
+
+        //    Assert.IsNotNull(okResult);
+        //    Assert.AreEqual(200, okResult.StatusCode);
+        //    Assert.IsInstanceOfType(okResult.Value, typeof(Response<UpdateOrganizationDTO>));
+
+        //    _organizationsBusiness.Verify(u => u.UpdateOrganizations(uptdateOrgDto), Times.Once);
+
+        //}
+
     }
-
-
 }
-//public async Task<IActionResult> GetAll()
-//{
-//    try
-//    {
-//        var result = await _organizationsBusiness.GetOrganizations(true);
-//        if (result.Succeeded == false)
-//        {
-//            return StatusCode(400, result);
-//        }
-//        return Ok(result);
-//    }
-//    catch (Exception e)
-//    {
-//        return StatusCode(500, new Response<string>(e.Message, false, message: "Server Error"));
-//    }
-//}
+
