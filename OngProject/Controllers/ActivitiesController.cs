@@ -96,9 +96,13 @@ namespace OngProject.Controllers
             {
                 if (data.Name == null && data.Content == null && data.Image == null)
                 {
-                    return BadRequest("Ingrese por lo menos un campo a modificar");
+                    return BadRequest(new Response<string>(null, false, null, "Ingrese por lo menos un campo a modificar"));
                 }
                 var result = await _activitiesService.UpdateActivity(data, id);
+                if (result.Succeeded == false)
+                {
+                    return BadRequest(result);
+                }                
                 return Ok(result);
             }
             catch (Exception e)
