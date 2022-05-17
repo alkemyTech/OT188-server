@@ -193,6 +193,26 @@ namespace OngTests
             Assert.IsNotNull(response);
             Assert.AreEqual(500, response.StatusCode);
 
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsInstanceOfType(okResult.Value, typeof(Response<OrganizationDTO>));
+
+        }
+
+        [TestMethod()]
+
+        public async Task GetById_Returns_400AndResponse()
+        {
+            var id = 1000;
+
+            _organizationsBusiness.Setup(o => o.GetOrganization(id))
+                                 .ReturnsAsync(new Response<OrganizationDTO>(null, false, null, "Not Found"))
+                                 .Verifiable();
+
+            var result = await _organizationsController.Get(id);
+
+            var response = result as ObjectResult;
+
             _organizationsBusiness.Verify(u => u.GetOrganization(id), Times.Once);
         }
 
