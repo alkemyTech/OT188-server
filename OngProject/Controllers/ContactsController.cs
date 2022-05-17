@@ -4,6 +4,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -33,7 +34,7 @@ namespace OngProject.Controllers
                     return NotFound(new Response<string>(data: null, succeeded: false, errors: null, message: "Not Found"));
                 }
 
-                return Ok(contactsList);
+                return Ok(new Response<IEnumerable<ContactDto>>(data:contactsList,succeeded:true,errors:null,message:"Success"));
             }
             catch (Exception ex)
             {

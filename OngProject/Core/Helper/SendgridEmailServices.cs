@@ -21,7 +21,7 @@ namespace OngProject.Core.Helper
 
             var client = new SendGridClient(apiKey);
 
-            var bodyFromLocal = System.IO.File.ReadAllText(@"..\OngProject\Templates\htmlpage.html");
+            var bodyFromLocal = System.IO.File.ReadAllText(@"..\..\..\..\OngProject\Templates\htmlpage.html");
 
             bodyFromLocal = bodyFromLocal.Replace("@correoContacto", fromEmail)
                                          .Replace("@bodyEmail", body)
