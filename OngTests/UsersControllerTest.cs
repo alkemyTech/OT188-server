@@ -30,6 +30,7 @@ namespace OngTests
         [TestMethod()]
         public async Task GetAll_Returns_200AndUserDtoList()
         {
+            //arrange
             var users = new List<UserDto>()
             {
                 new UserDto()
