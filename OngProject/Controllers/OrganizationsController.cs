@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
@@ -20,7 +22,17 @@ namespace OngProject.Controllers
             _organizationsBusiness = organizationsBusiness;
         }
 
+        /// GET: organization
+        /// <summary>
+        ///    Get Organizations list.
+        /// </summary>
+        /// <response code="200">OK: Returns Organization list.</response>  
+        /// <response code="400">BadRequest: Failed to retrieve Organizations list.</response>
+        /// <response code="500">Error: Internal server error</response> 
         [HttpGet]
+        [ProducesResponseType(typeof(Response<IEnumerable<OrganizationDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<IEnumerable<OrganizationDTO>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response<string>), StatusCodes.Status500InternalServerError)]
         [Route("public")]
         public async Task<IActionResult> GetAll()
         {
@@ -39,7 +51,14 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Get Organization by id (details)
+        /// </summary>
+        /// <param name="id">ID of the organization row</param>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(OrganizationDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -58,6 +77,17 @@ namespace OngProject.Controllers
             }
         }
 
+        /// PUT: organization
+        /// <summary>
+        ///     Method to update an organization.
+        /// </summary>
+        /// <remarks>
+        ///     Updates the organization register in the db.
+        /// </remarks>
+        /// <param name="upOrg">organization item with new information (dto).</param>
+        /// <response code="200">OK: Returns a response with updated info</response>        
+        /// <response code="400">BadRequest: Failed to update organization.</response>          
+        /// <response code="500">Error: Internal server error</response>  
         [HttpPut]
         [Route("public")]
         [Authorize(Roles = "Administrator")]
