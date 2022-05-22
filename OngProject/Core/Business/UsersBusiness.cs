@@ -82,7 +82,7 @@ namespace OngProject.Core.Business
 
                         registeredUser.Password = EncryptSha256.Encrypt(registeredUser.Password);
 
-                        registeredUser.RolesId = RoleTypes.Regular;
+                        registeredUser.RolesId = RoleTypes.Standard;
 
                         try
                         {
