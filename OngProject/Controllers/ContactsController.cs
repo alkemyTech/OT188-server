@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
@@ -22,6 +23,13 @@ namespace OngProject.Controllers
             _contactsBusiness = contactsBusiness;
         }
 
+        /// GET: contacts
+        /// <summary>
+        ///    Get contacts list.
+        /// </summary>
+        /// <response code="200">OK: Returns members paginated list.</response>  
+        /// <response code="401">Unauthorized: Invalid Token or not provided.</response>
+        /// <response code="500">Error: Internal server error</response> 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -43,7 +51,21 @@ namespace OngProject.Controllers
             }
         }
 
+        /// POST: contacts
+        /// <summary>
+        ///     Method to create a new Contact.
+        /// </summary>
+        /// <remarks>
+        ///     Adds a new contact row to the db.
+        /// </remarks>
+        /// <param name="dto">New Member object (dto).</param>
+        /// <response code="200">OK: Returns a response with the dto object</response>        
+        /// <response code="400">BadRequest: Failed to create member.</response>          
+        /// <response code="500">Error: Internal server error</response>  
         [HttpPost]
+        [ProducesResponseType(typeof(Response<RegisterContactDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Response<RegisterContactDto>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromForm] RegisterContactDto dto)
         {
             try
