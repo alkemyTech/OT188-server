@@ -25,7 +25,7 @@ namespace OngProject.Middleware
             List<string> paths = new List<string>();
             paths.Add("/api/activities");
             paths.Add("/api/categories");
-            paths.Add("/api/contacts");
+            //paths.Add("/api/contacts");
             paths.Add("/api/members");
             paths.Add("/api/news");
             paths.Add("/organization");

@@ -15,13 +15,13 @@ namespace OngProject.Core.Helper
             _configuration = configuration;
         }
 
-        public async Task Send(string fromEmail, string toEmail, string subject, string body)
+        public async Task Send(string toEmail, string fromEmail, string subject, string body)
         {
             var apiKey = _configuration.GetValue<string>("SENDGRID_API_KEY");
 
             var client = new SendGridClient(apiKey);
 
-            var bodyFromLocal = System.IO.File.ReadAllText(@"..\..\..\..\OngProject\Templates\htmlpage.html");
+            var bodyFromLocal = await System.IO.File.ReadAllTextAsync(@"..\OngProject\Templates\htmlpage.html");
 
             bodyFromLocal = bodyFromLocal.Replace("@correoContacto", fromEmail)
                                          .Replace("@bodyEmail", body)

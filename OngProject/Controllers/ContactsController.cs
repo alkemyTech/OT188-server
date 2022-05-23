@@ -12,7 +12,7 @@ namespace OngProject.Controllers
 {
     [Route("api/contacts")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
 
     public class ContactsController : ControllerBase
     {
